@@ -1,0 +1,14 @@
+@use 'style/color';
+
+:root {
+  @include color.create-hsl(--color-accent, 42, 84%, 52%);
+  @include color.create-hsl(--color-surface1, 42, 0%, 0%);
+  --color-surface2: #{color.lightness(--color-surface1, 10%)};
+  --color-surface3: #{color.lightness(--color-surface1, 15%)};
+  --color-surface4: #{color.lightness(--color-surface1, 30%)};
+  --color-surface5: #{color.lightness(--color-surface1, 40%)};
+  --color-surface6: #{color.lightness(--color-surface1, 50%)};
+  --color-surface7: #{color.lightness(--color-surface1, 60%)};
+  --color-surface8: #{color.lightness(--color-surface1, 70%)};
+  --color-surface9: #{color.lightness(--color-surface1, 80%)};
+}

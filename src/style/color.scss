@@ -1,0 +1,68 @@
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:color';
+@use 'style/misc';
+
+@function rainbow($brightness: 233) {
+  $r: $brightness;
+  $g: 0;
+  $text-color: 0;
+  $colors: rgb($r, $g, $text-color) 0%,;
+  @for $percent from 1 to 100 {
+    @if $percent < 20 {
+      $g: $g + math.div($brightness, 20);
+    } @else if $percent > 50 and $percent < 86 {
+      $g: $g - math.div($brightness, 36);
+    }
+    @if $percent > 18 {
+      @if $percent < 40 {
+        $r: $r - math.div($brightness, 22);
+      } @else if $percent > 64 and $percent < 84 {
+        $r: $r + math.div($brightness, 20);
+      }
+    }
+    @if $percent > 24 {
+      @if $percent < 48 {
+        $text-color: $text-color + math.div($brightness, 24);
+      } @else if $percent > 80 {
+        $text-color: $text-color - math.div($brightness, 20);
+      }
+    }
+    $color: rgb($r, $g, $text-color) percentage(math.div($percent, 100));
+    $colors: list.append($colors, $color, comma);
+  }
+  @return linear-gradient(90deg, $colors);
+}
+
+@function brightness($color) {
+  @return math.round((red($color) * 299) + (green($color) * 587) + math.div(blue($color) * 114, 1000));
+}
+
+$max-brightness: brightness(#fff);
+@function text-contrast($bg-color, $text-color: $bg-color, $strength: 90%) {
+  $bg-brightness: percentage(math.div(brightness($bg-color), $max-brightness));
+  $text-brightness: percentage(math.div(brightness($text-color), $max-brightness));
+
+  @if math.abs($bg-brightness - $text-brightness) > 70% {
+    @return $text-color;
+  }
+
+  @return color.scale($text-color, $lightness: if($bg-brightness < 50%, $strength, -$strength));
+}
+
+@mixin create-hsl($var-name, $hue, $saturation, $lightness){
+  $color: hsl($hue, $saturation, $lightness);
+  $contrast: text-contrast($color);
+  #{$var-name}-h: $hue;
+  #{$var-name}-s: $saturation;
+  #{$var-name}-l: $lightness;
+  #{$var-name}: hsl(var(#{$var-name}-h), var(#{$var-name}-s), var(#{$var-name}-l));
+  #{$var-name}-contrast: $contrast;
+}
+
+@function lightness($var-name, $lightness: 0%){
+  $h: var(#{$var-name}-h);
+  $s: var(#{$var-name}-s);
+  $l: var(#{$var-name}-l);
+  @return hsl($h, $s, $lightness);
+}

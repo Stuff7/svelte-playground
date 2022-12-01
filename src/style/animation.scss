@@ -1,0 +1,3 @@
+@mixin rotate($duration: 2s, $easing: linear) {
+  animation: rotate $duration $easing infinite;
+}

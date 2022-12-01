@@ -1,0 +1,44 @@
+@use 'sass:map';
+@use 'style/misc';
+
+$breakpoints-px: (
+  phone-s: 320,
+  phone: 480,
+  tablet: 820,
+  desktop-s: 992,
+  desktop: 1200,
+);
+
+$breakpoints-min: $breakpoints-px;
+@each $device, $px in $breakpoints-px {
+  $breakpoints-min: map.set($breakpoints-min, #{$device}, misc.em($px));
+}
+
+$breakpoints-max: $breakpoints-px;
+@each $device, $px in $breakpoints-px {
+  $breakpoints-max: map.set($breakpoints-max, #{$device}, misc.em($px - 0.02));
+}
+
+@mixin query($breakpoints, $device, $rule) {
+  $size: map.get($breakpoints, $device);
+
+  @if $size == null {
+    @error '#{device} is not a valid device';
+  }
+
+  @media (#{$rule}: $size) {
+    @content;
+  }
+}
+
+@mixin larger-than($device) {
+  @include query($breakpoints-min, $device, min-width) {
+    @content;
+  };
+}
+
+@mixin smaller-than($device) {
+  @include query($breakpoints-max, $device, max-width) {
+    @content;
+  };
+}

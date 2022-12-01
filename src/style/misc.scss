@@ -1,0 +1,165 @@
+@use 'sass:math';
+@use 'sass:string';
+
+@mixin abs-horizontal-center {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin apply-rules($styles: ()) {
+  @each $rule, $value in $styles {
+    #{$rule}: $value;
+  }
+}
+
+@mixin border-radius {
+  border-radius: var(--radius-nm-100);
+}
+
+@mixin circle($radius: 1em) {
+  flex: 0 0;
+  width: calc($radius * 2);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+}
+
+@mixin input-range-thumb($styles: ()) {
+  input[type=range]::-webkit-slider-thumb {
+    @include apply-rules($styles);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    @include apply-rules($styles);
+  }
+
+  input[type=range]::-ms-thumb {
+    @include apply-rules($styles);
+  }
+}
+
+@mixin input-range-track($styles: ()) {
+  input[type=range]::-webkit-slider-runnable-track {
+    @include apply-rules($styles);
+  }
+
+  input[type=range]::-moz-range-track {
+    @include apply-rules($styles);
+  }
+
+  input[type=range]::-ms-track {
+    @include apply-rules($styles);
+  }
+}
+
+@function unitless($name, $value, $unit) {
+  @if math.is-unitless($value) {
+    @return $value + $unit;
+  }
+  @error '#{$unit} function only takes unitless types';
+}
+
+@function em($px) {
+  @return unitless(em, math.div($px, 16), em);
+}
+
+@function rem($px) {
+  @return unitless(rem, math.div($px, 16), rem);
+}
+
+@function random-range($min, $max) {
+  @return $min + floor(random() * (($max - $min) + 1));
+}
+
+@mixin scrollbar($color) {
+  scrollbar-width: thin;
+  scrollbar-color: $color #0003;
+  &::-webkit-scrollbar-thumb {
+    background: $color;
+    border-radius: rem(20);
+  }
+  &::-webkit-scrollbar-track {
+    background: #0003;
+  }
+  &::-webkit-scrollbar {
+    width: rem(3);
+  }
+}
+
+@mixin shadow {
+  box-shadow: 0 0 rem(10) 0 #060508;
+}
+
+@mixin triangle-top($w, $h, $color) {
+  border-width: 0 $w $h $w;
+  border-color: transparent transparent $color transparent;
+}
+
+@mixin triangle-top-right($w, $h, $color) {
+  border-width: 0 $w $h 0;
+  border-color: transparent $color transparent transparent;
+}
+
+@mixin triangle-right($w, $h, $color) {
+  border-width: $w 0 $w $h;
+  border-color: transparent transparent transparent $color;
+}
+
+@mixin triangle-bottom-right($w, $h, $color) {
+  border-width: 0 0 $w $h;
+  border-color: transparent transparent $color transparent;
+}
+
+@mixin triangle-bottom($w, $h, $color) {
+  border-width: $h $w 0 $w;
+  border-color: $color transparent transparent transparent;
+}
+
+@mixin triangle-bottom-left($w, $h, $color) {
+  border-width: $w 0 0 $h;
+  border-color: transparent transparent transparent $color;
+}
+
+@mixin triangle-left($w, $h, $color) {
+  border-width: $w $h $w 0;
+  border-color: transparent $color transparent transparent;
+}
+
+@mixin triangle-top-left($w, $h, $color) {
+  border-width: $h $w 0 0;
+  border-color: $color transparent transparent transparent;
+}
+
+@mixin triangle($dir: 'top', $w: rem(10), $h: rem(10), $color: black) {
+  $half-w: calc($w / 2);
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+
+  @if $dir == 'top' {
+    @include triangle-top($half-w, $h, $color);
+  }
+  @else if $dir == 'top-right' {
+    @include triangle-top-right($half-w, $h, $color);
+  }
+  @else if $dir == 'right' {
+    @include triangle-right($half-w, $h, $color);
+  }
+  @else if $dir == 'bottom-right' {
+    @include triangle-bottom-right($half-w, $h, $color);
+  }
+  @else if $dir == 'bottom' {
+    @include triangle-bottom($half-w, $h, $color);
+  }
+  @else if $dir == 'bottom-left' {
+    @include triangle-bottom-left($half-w, $h, $color);
+  }
+  @else if $dir == 'left' {
+    @include triangle-left($half-w, $h, $color);
+  }
+  @else if $dir == 'top-left' {
+    @include triangle-top-left($half-w, $h, $color);
+  }
+}

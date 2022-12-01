@@ -1,0 +1,79 @@
+@use 'style/text';
+@use 'style/font';
+@use 'style/misc';
+
+@include font.load-single-style-font('MajorMonoDisplay', $font-family: 'Major Mono Display');
+@include font.load-font('UbuntuMono', $blacklist: (100, 200, 300, 500, 600, 800, 900), $font-family: 'Ubuntu Mono');
+
+$fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
+
+:root {
+  --h-nm-100: #{clamp(misc.rem(16), 1vw, misc.rem(28))};
+  --h-nm-200: #{clamp(misc.rem(18), 1.5vw, misc.rem(32))};
+  --h-nm-300: #{clamp(misc.rem(20), 2vw, misc.rem(36))};
+  --h-md-100: #{clamp(misc.rem(22), 2.5vw, misc.rem(38))};
+  --h-md-200: #{clamp(misc.rem(24), 3vw, misc.rem(40))};
+  --h-lg-100: #{clamp(misc.rem(28), 4vw, misc.rem(42))};
+
+  --p-sm-100: #{clamp(misc.rem(10), 0.75vw, misc.rem(14))};
+  --p-nm-100: #{clamp(misc.rem(12), 1vw, misc.rem(16))};
+  --p-nm-200: #{clamp(misc.rem(14), 1.25vw, misc.rem(18))};
+  --p-md-100: #{clamp(misc.rem(16), 1.5vw, misc.rem(20))};
+  --p-md-200: #{clamp(misc.rem(18), 1.75vw, misc.rem(22))};
+  --p-md-300: #{clamp(misc.rem(20), 2vw, misc.rem(24))};
+
+  --spacing-lg-200: #{clamp(misc.rem(32), 5vw, misc.rem(48))};
+  --spacing-lg-100: #{clamp(misc.rem(28), 4vw, misc.rem(36))};
+  --spacing-md-300: #{clamp(misc.rem(24), 3vw, misc.rem(30))};
+  --spacing-md-200: #{clamp(misc.rem(20), 2vw, misc.rem(24))};
+  --spacing-md-100: #{clamp(misc.rem(16), 1.5vw, misc.rem(20))};
+  --spacing-nm-100: #{clamp(misc.rem(12), 1vw, misc.rem(16))};
+  --spacing-sm-100: #{clamp(misc.rem(10), 0.8vw, misc.rem(14))};
+  --spacing-sm-50: #{clamp(misc.rem(6), 0.4vw, misc.rem(8))};
+
+  --radius-nm-100: #{clamp(misc.rem(5), 0.25vw, misc.rem(10))};
+  --radius-nm-200: #{clamp(misc.rem(10), 0.5vw, misc.rem(15))};
+  --radius-md-100: #{clamp(misc.rem(18), 1vw, misc.rem(28))};
+
+  --font-title: 'Major Mono Display', #{$fallback-fonts};
+  --font-body: 'Ubuntu Mono', #{$fallback-fonts};
+}
+
+h6 {
+  font-size: var(--h-nm-100);
+  font-weight: 700;
+}
+
+h5 {
+  font-size: var(--h-nm-200);
+  font-weight: 700;
+}
+
+h4 {
+  font-size: var(--h-nm-300);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--h-md-100);
+  font-weight: 700;
+}
+
+h2 {
+  font-size: var(--h-md-200);
+  font-weight: 800;
+}
+
+h1 {
+  font-size: var(--h-lg-100);
+  font-weight: 900;
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-surface4);
+  text-decoration: inherit;
+  &:hover {
+    color: var(--color-accent);
+  }
+}

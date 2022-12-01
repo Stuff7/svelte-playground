@@ -1,0 +1,1 @@
+type IconName = 'brush'|'display'|'error'|'loading'|'logo'|'money';
