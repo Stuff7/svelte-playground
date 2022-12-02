@@ -5,21 +5,29 @@
   export let formatter: ((val: V) => string) | null = null;
   export let label = '';
   export let value: V = '' as V;
-  export let type = typeof value === 'number' ? 'number' : 'text';
+  export let inputMode = typeof value === 'number' ? 'numeric' : 'text';
 
   let inputValue = (value === 0 ? '' : value).toString();
 
-  function validateInput(event: FormEventHandler<HTMLInputElement>) {
+  function validateInput(event: Event) {
     const prevValue = inputValue;
-    inputValue = event.currentTarget.value;
-    if (type === 'text') {
+
+    const target = event.currentTarget;
+    if (!(target instanceof HTMLInputElement)) {
       return;
     }
+
+    inputValue = target.value;
+    if (inputMode === 'text') {
+      return;
+    }
+
     if (NUMBER_PATTERN.test(`${inputValue}0`)) {
       const numValue = Number(inputValue);
       value = (isNaN(numValue) ? 0 : numValue) as V;
       return;
     }
+
     inputValue = prevValue;
   }
 </script>
@@ -29,10 +37,10 @@
   <div class="Input__wrapper">
     <input
       class="Input__input"
-      on:input={validateInput}
+      inputmode={inputMode}
       value={inputValue}
-      {...{ type }}
-    >
+      on:input={validateInput}
+    />
     {#if formatter}
       <span class="Input__format">
         {formatter(value)}

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import AnimatedInput from '@Playground/components/AnimatedInput.svelte';
+import { onDestroy, onMount } from 'svelte';
 
   let output = [] as string[];
   let handleEvent: (() => void) | undefined;
@@ -45,7 +46,7 @@
     if (screen.orientation) {
       screen.orientation.removeEventListener('change', handleEvent);
     } else if (typeof window.orientation === 'number') {
-        window.removeEventListener('orientationchange', handleEvent);
+      window.removeEventListener('orientationchange', handleEvent);
     }
   });
 
@@ -58,6 +59,7 @@
       <span>{msg}</span>
     {/each}
   </div>
+  <AnimatedInput />
 </section>
 
 <style lang="scss">

@@ -4,6 +4,7 @@
   import Sidebar from 'components/Sidebar.svelte';
   import Topbar from 'components/Topbar.svelte';
   import Icon from 'components/Icon.svelte';
+  import { portalIdMap } from 'utils/dom';
 
   $: CurrentPlayground = $router in routes ? (
     routes[$router as keyof typeof routes]
@@ -13,14 +14,15 @@
 <main id="playground" class="Playground">
   <Topbar />
   <Sidebar />
-    {#if CurrentPlayground}
-      <svelte:component this={CurrentPlayground} />
-    {:else}
-      <section class="Playground__default-content">
-        <Icon name="logo" />
-      </section>
-    {/if}
+  {#if CurrentPlayground}
+    <svelte:component this={CurrentPlayground} />
+  {:else}
+    <section class="Playground__default-content">
+      <Icon name="logo" />
+    </section>
+  {/if}
 </main>
+<div aria-hidden="true" data-portal-id={portalIdMap.modal} />
 
 <style lang="scss">
   @use 'style/color';
@@ -60,12 +62,19 @@
         height: $size;
       }
     }
-  
+
     @include media.larger-than(tablet) {
       grid-template:
         "a a" max-content
         "b c" 1fr
         "b c" 1fr / max-content 1fr;
     }
+  }
+
+  [data-portal-id = modal] {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
   }
 </style>

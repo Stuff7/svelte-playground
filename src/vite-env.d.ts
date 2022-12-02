@@ -11,7 +11,3 @@ declare namespace svelte.JSX {
     onhoverend?: HoverEventHandler;
   }
 }
-
-interface FormEventHandler<T extends EventTarget> extends Event {
-  currentTarget: T;
-}
