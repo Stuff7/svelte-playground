@@ -2,3 +2,29 @@
   from { transform: rotate(0); }
   to { transform: rotate(360deg); }
 }
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  } 
+  100% {
+    opacity: 1;
+    transform: translateY(var(0%));
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: translateY(var(--anim-fade-in-y-start));
+  } 
+  100% {
+    opacity: 0;
+    transform: translateY(var(--anim-fade-in-y-end));
+  }
+}

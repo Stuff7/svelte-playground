@@ -1,3 +1,11 @@
 @mixin rotate($duration: 2s, $easing: linear) {
   animation: rotate $duration $easing infinite;
 }
+
+@mixin blink($duration: 1s) {
+  animation: blink $duration steps(2, start) infinite;
+}
+
+@mixin fadeIn($duration: 0.25s) {
+  animation: fade-in $duration ease-in-out;
+}

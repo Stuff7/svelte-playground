@@ -66,3 +66,10 @@ $max-brightness: brightness(#fff);
   $l: var(#{$var-name}-l);
   @return hsl($h, $s, $lightness);
 }
+
+@function alpha($var-name, $alpha: 1) {
+  $h: var(#{$var-name}-h);
+  $s: var(#{$var-name}-s);
+  $l: var(#{$var-name}-l);
+  @return hsla($h, $s, $l, $alpha);
+}

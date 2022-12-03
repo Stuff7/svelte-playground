@@ -11,7 +11,6 @@ export function checkIfSafari() {
   );
 }
 
-export type MouseTouchEvent = MouseEvent | TouchEvent;
 export function getPagePos(e: MouseTouchEvent) {
   if (window.TouchEvent && e instanceof TouchEvent) {
     return e.touches[0];

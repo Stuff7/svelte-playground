@@ -23,6 +23,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+::selection {
+  background: color.alpha(--color-accent, 0.5)
+}
+
 *, *::before, *::after {
   @include text.font-body;
   @include misc.scrollbar(var(--color-accent));
@@ -81,4 +85,8 @@ button {
   &:focus, &:focus-visible {
     outline: misc.rem(4) auto -webkit-focus-ring-color;
   }
+}
+
+dialog {
+  border: 0;
 }
