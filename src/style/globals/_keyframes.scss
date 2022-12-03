@@ -21,10 +21,10 @@
 @keyframes fade-out {
   0% {
     opacity: 1;
-    transform: translateY(var(--anim-fade-in-y-start));
+    transform: translateY(var(0%));
   } 
   100% {
     opacity: 0;
-    transform: translateY(var(--anim-fade-in-y-end));
+    transform: translateY(-100%);
   }
 }

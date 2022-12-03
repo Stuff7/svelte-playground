@@ -21,9 +21,5 @@
     color: var(--color-surface1-contrast);
     opacity: 0.85;
     padding: var(--spacing-md-100);
-    &::backdrop {
-      background: red;
-      opacity: 0.4;
-    }
   }
 </style>
