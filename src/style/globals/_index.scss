@@ -58,7 +58,7 @@ input {
   &:focus {
     border-color: var(--color-accent);
   }
-  color: #f7f7f7;
+  color: var(--color-surface1-contrast);
   z-index: 1;
   @include media.smaller-than(phone) {
     padding: var(--spacing-sm-50) var(--spacing-sm-100);

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import AnimatedInput from '@Playground/components/AnimatedInput.svelte';
-import { onDestroy, onMount } from 'svelte';
+  import AnimatedInput from 'components/AnimatedInput.svelte';
+  import { onDestroy, onMount } from 'svelte';
 
   let output = [] as string[];
   let handleEvent: (() => void) | undefined;
