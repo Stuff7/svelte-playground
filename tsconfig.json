@@ -23,7 +23,7 @@
     "moduleResolution": "Node",
     "noEmit": true,
     "noImplicitAny": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "paths": {

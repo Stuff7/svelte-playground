@@ -69,16 +69,17 @@
   .ScreenPlayground {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     padding: var(--spacing-sm-100) var(--spacing-nm-100);
-    height: 100%;
+    max-height: 100%;
 
     &__output {
       display: flex;
       flex-direction: column;
+      flex-wrap: wrap;
       gap: var(--spacing-nm-100);
       padding: var(--spacing-nm-100);
       white-space: pre;
+      overflow: hidden auto;
     }
   }
 </style>

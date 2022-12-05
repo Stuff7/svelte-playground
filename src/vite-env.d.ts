@@ -20,4 +20,4 @@ declare namespace svelte.JSX {
   }
 }
 
-declare type Position = 'top' | 'right' | 'bottom' | 'left';
+declare type Position = 'top' | 'right' | 'bottom' | 'left' | 'none';

@@ -4,6 +4,7 @@
   import Sidebar from 'components/Sidebar.svelte';
   import Topbar from 'components/Topbar.svelte';
   import Icon from 'components/Icon.svelte';
+  import ErrorBoundary from 'components/ErrorBoundary';
   import { portalIdMap } from 'utils/dom';
 
   $: CurrentPlayground = $router in routes ? (
@@ -15,7 +16,9 @@
   <Topbar />
   <Sidebar />
   {#if CurrentPlayground}
-    <svelte:component this={CurrentPlayground} />
+    <ErrorBoundary>
+      <svelte:component this={CurrentPlayground} />
+    </ErrorBoundary>
   {:else}
     <section class="Playground__default-content">
       <Icon name="logo" />
@@ -74,7 +77,7 @@
   [data-portal-id = modal] {
     position: fixed;
     z-index: 10;
-    left: 0;
-    top: 0;
+    left: 50%;
+    top: 50%;
   }
 </style>

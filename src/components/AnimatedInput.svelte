@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { counter } from 'utils/math';
   import drag from 'actions/drag';
+  import ErrorBoundary from 'components/ErrorBoundary';
 
   export let value = '';
+
+  const idGenerator = counter();
 
   let inputElem: HTMLInputElement;
 
@@ -10,13 +14,12 @@
 
   let isSelecting = false;
   let selection: [number, number] = [0, 0];
-  let selectionDirection: HTMLInputElement['selectionDirection'] = 'none';
   let selectionParts = ['', '', ''];
 
   function insertInput(e: Event) {
     if (e instanceof InputEvent && e.data) {
-      const insertion = e.data;
-      const id = [value, insertion].join('-');
+      const insertion = e.isComposing ? e.data.slice(-1) : e.data;
+      const id = [insertion, idGenerator.next().value].join('-');
 
       insertions.push([caretPosition, caretPosition + insertion.length, id]);
       insertions.sort(([aStart], [bStart]) => aStart < bStart ? -1 : 1);
@@ -48,7 +51,6 @@
         value.slice(start, end),
         value.slice(end, value.length),
       ];
-      selectionDirection = inputElem.selectionDirection;
     }
   }
 
@@ -81,40 +83,42 @@
   }
 </script>
 
-<label class="AnimatedInput">
-  <div class="AnimatedInput__input-wrapper">
-    <input
-      class="AnimatedInput__input"
-      bind:this={inputElem}
-      bind:value
-      on:dragstart={startSelecting}
-      on:drag={isSelecting ? updateCaretPosition : undefined}
-      on:dragend={endSelecting}
-      on:input={insertInput}
-      on:keydown={updateCaretPosition}
-      on:keyup={updateCaretPosition}
-      use:drag
-    />
-    <p class="AnimatedInput__input-value">
-      <span class="AnimatedInput__selection">
-        {#each selectionParts as part, i}
+<ErrorBoundary>
+  <label class="AnimatedInput">
+    <div class="AnimatedInput__input-wrapper">
+      <input
+        class="AnimatedInput__input"
+        bind:this={inputElem}
+        bind:value
+        on:dragstart={startSelecting}
+        on:drag={isSelecting ? updateCaretPosition : undefined}
+        on:dragend={endSelecting}
+        on:input={insertInput}
+        on:keydown={updateCaretPosition}
+        on:keyup={updateCaretPosition}
+        use:drag
+      />
+      <p class="AnimatedInput__input-value">
+        <span class="AnimatedInput__selection">
+          {#each selectionParts as part, i}
+            <span
+              class:selected={i === 1 && hasSelection}
+            >{part}</span>
+          {/each}
+        </span>
+        {#each insertions as insertion, i (insertion[2])}
+          <span>{prependeds[i]}</span>
           <span
-            class:selected={i === 1 && hasSelection}
-          >{part}</span>
+            class="AnimatedInput__insertion"
+            class:selected={false}
+            on:animationend={establishInsertion}
+          >{value.slice(insertion[0], insertion[1])}</span>
         {/each}
-      </span>
-      {#each insertions as insertion, i (insertion[2])}
-        <span>{prependeds[i]}</span>
-        <span
-          class="AnimatedInput__insertion"
-          class:selected={false}
-          on:animationend={establishInsertion}
-        >{value.slice(insertion[0], insertion[1])}</span>
-      {/each}
-      <span>{staticText}</span>
-    </p>
-  </div>
-</label>
+        <span>{staticText}</span>
+      </p>
+    </div>
+  </label>
+</ErrorBoundary>
 
 <style lang="scss">
   @use 'style/text';
@@ -195,6 +199,10 @@
       width: 100%;
       &::selection {
         background: transparent;
+      }
+
+      &:not(:focus) + #{$component}__input-value #{$component}__selection {
+        display: none;
       }
     }
   }

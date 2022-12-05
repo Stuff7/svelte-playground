@@ -2,7 +2,7 @@
   import { genCssVars, getPagePos } from 'utils/dom';
   import drag from 'actions/drag';
 
-  export let position: Position = 'bottom';
+  export let position: Position = 'none';
 
   let x = 0;
   let y = 0;

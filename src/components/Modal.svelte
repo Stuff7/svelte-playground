@@ -6,12 +6,12 @@
 
   export let open = false;
   export let portal = false;
-  export let position: Position = 'bottom';
+  export let position: Position = 'none';
 </script>
 
 <ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
   <Draggable {position}>
-    <dialog class="Modal" {open}>
+    <dialog class="Modal" class:center={portal} {open}>
       <slot />
     </dialog>
   </Draggable>
@@ -20,5 +20,9 @@
 <style lang="scss">
   .Modal {
     background: transparent;
+    &.center {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
   }
 </style>

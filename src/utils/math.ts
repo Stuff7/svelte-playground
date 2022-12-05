@@ -33,3 +33,10 @@ export function inRange(n: number, lower: number, upper?: number) {
 export function clamp(min: number, n: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
+
+export function* counter() {
+  let i = 0;
+  while (true) {
+    yield i++;
+  }
+}
