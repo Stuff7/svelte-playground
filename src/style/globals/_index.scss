@@ -90,17 +90,3 @@ button {
 dialog {
   border: 0;
 }
-
-.ErrorElement {
-  position: fixed;
-  z-index: 10;
-  bottom: 0;
-  height: calc(100vh / 3);
-  width: 100vw;
-  white-space: pre-wrap;
-  overflow: auto;
-  background: var(--color-surface1);
-  color: var(--color-surface1-contrast);
-  padding: var(--spacing-lg-100);
-  font-size: var(--p-md-100);
-}
