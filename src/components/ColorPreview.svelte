@@ -25,7 +25,7 @@
     min-height: clamp(misc.rem(150), 30vw, misc.rem(300));
     flex: 1;
     background: var(--hexBackground);
-    outline: 1px solid var(--color-surface2);
+    outline: 1px solid var(--color-secondary-200);
 
     &__input {
       position: absolute;
@@ -45,9 +45,9 @@
     }
 
     &__name {
-      background: var(--color-surface3);
+      background: var(--color-secondary-300);
       padding: var(--spacing-sm-50) var(--spacing-sm-100);
-      color: var(--color-surface9);
+      color: var(--color-secondary-900);
       width: 100%;
       font-size: var(--p-nm-200);
       display: inline-block;

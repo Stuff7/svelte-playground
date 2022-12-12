@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { portalIdMap } from 'utils/dom';
   import internalLink from 'actions/internalLink';
   import Icon from 'components/Icon.svelte';
+  import Console from 'components/Console';
 </script>
 
 <nav class="Topbar">
@@ -8,6 +10,9 @@
     <Icon class="Topbar__logo" name="logo" />
     JSPlayground
   </a>
+  <section data-portal-id={portalIdMap.topbar} class="Topbar__right-section">
+    <Console />
+  </section>
 </nav>
 
 <style lang="scss">
@@ -24,8 +29,8 @@
     padding: var(--spacing-sm-100) var(--spacing-nm-100);
     gap: var(--spacing-nm-100);
     grid-area: a;
-    background: var(--color-surface3);
-    outline: 1px solid var(--color-surface4);
+    background: var(--color-secondary-300);
+    outline: 1px solid var(--color-secondary-400);
 
     &__home {
       @include text.font-title;
@@ -33,13 +38,13 @@
       display: flex;
       align-items: center;
       gap: var(--spacing-nm-100);
-      color: var(--color-accent);
+      color: var(--color-primary);
       font-weight: 800;
-      & > :global(#{$component}__logo > svg) {
-        $logo-size: var(--h-nm-200);
-        width: $logo-size;
-        height: $logo-size;
-      }
+      --icon-size: var(--h-nm-200);
+    }
+
+    &__right-section {
+      margin-left: auto;
     }
   }
 </style>

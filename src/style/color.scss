@@ -60,11 +60,22 @@ $max-brightness: brightness(#fff);
   #{$var-name}-contrast: $contrast;
 }
 
-@function lightness($var-name, $lightness: 0%){
-  $h: var(#{$var-name}-h);
-  $s: var(#{$var-name}-s);
-  $l: var(#{$var-name}-l);
-  @return hsl($h, $s, $lightness);
+@function var-hsl($var-name, $h: var(#{$var-name}-h), $s: var(#{$var-name}-s), $l: var(#{$var-name}-l), $alpha: 1) {
+  @return hsl($h, $s, $l, $alpha);
+}
+
+@mixin define-hsl($var-name, $hue, $saturation, $lightness){
+  #{$var-name}-h: $hue;
+  #{$var-name}-s: $saturation;
+  #{$var-name}-l: $lightness;
+  #{$var-name}: var-hsl($var-name);
+  #{$var-name}-contrast: text-contrast(hsl($hue, $saturation, $lightness));
+  $shade: 10;
+  @while $shade < 100 {
+    $l: if($shade == 50, 40, if($shade < 50, math.div($shade, 2), $shade + 7));
+    #{$var-name}-#{$shade}0: var-hsl(#{$var-name}, $s: 5%, $l: unquote("#{$l}%"));
+    $shade: $shade + 10;
+  }
 }
 
 @function alpha($var-name, $alpha: 1) {
@@ -72,4 +83,8 @@ $max-brightness: brightness(#fff);
   $s: var(#{$var-name}-s);
   $l: var(#{$var-name}-l);
   @return hsla($h, $s, $l, $alpha);
+}
+
+@function abs($n) {
+  @return max($n, -1 * $n);
 }

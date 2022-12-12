@@ -5,7 +5,7 @@
   
   export let data: Data;
   export let portal = false;
-  export let position: Position = 'bottom';
+  export let position: Position = portal ? 'none' : 'bottom';
 </script>
 
 <Modal {portal} {position} open>
@@ -14,11 +14,11 @@
 
 <style lang="scss">
   .DebugObject {
-    background: var(--color-surface3);
-    border: var(--spacing-nm-100) solid var(--color-surface5);
+    background: var(--color-secondary-300);
+    border: var(--spacing-sm-100) solid var(--color-secondary-300);
     font-size: var(--p-md-100);
     border-radius: var(--radius-md-100);
-    color: var(--color-surface1-contrast);
+    color: var(--color-secondary-800);
     opacity: 0.85;
     padding: var(--spacing-md-100);
   }

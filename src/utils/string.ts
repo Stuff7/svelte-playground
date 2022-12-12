@@ -9,3 +9,7 @@ export function createCurrencyFormatter(
     currency,
   })).format;
 }
+
+export function kebabCase(text: string) {
+  return text.split(/_|\s|(?=[A-Z])/).join('-').toLowerCase();
+}

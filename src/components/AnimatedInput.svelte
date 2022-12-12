@@ -1,15 +1,12 @@
 <script lang="ts">
-  import { counter } from 'utils/math';
   import drag from 'actions/drag';
   import ErrorBoundary from 'components/ErrorBoundary';
 
   export let value = '';
 
-  const idGenerator = counter();
-
   let inputElem: HTMLInputElement;
 
-  let insertions: [start: number, end: number, id: string][] = [];
+  let insertions: [start: number, end: number, id: number][] = [];
   let establishedInsertions = 0;
 
   let isSelecting = false;
@@ -19,7 +16,7 @@
   function insertInput(e: Event) {
     if (e instanceof InputEvent && e.data) {
       const insertion = e.isComposing ? e.data.slice(-1) : e.data;
-      const id = [insertion, idGenerator.next().value].join('-');
+      const id = insertions.length;
 
       insertions.push([caretPosition, caretPosition + insertion.length, id]);
       insertions.sort(([aStart], [bStart]) => aStart < bStart ? -1 : 1);
@@ -33,6 +30,7 @@
         }
       }
 
+      insertions.axaxax.asd();
       insertions = insertions;
     }
     updateCaretPosition();
@@ -106,13 +104,13 @@
             >{part}</span>
           {/each}
         </span>
-        {#each insertions as insertion, i (insertion[2])}
+        {#each insertions as [start, end, id], i (id)}
           <span>{prependeds[i]}</span>
           <span
             class="AnimatedInput__insertion"
             class:selected={false}
             on:animationend={establishInsertion}
-          >{value.slice(insertion[0], insertion[1])}</span>
+          >{value.slice(start, end)}</span>
         {/each}
         <span>{staticText}</span>
       </p>
@@ -138,15 +136,15 @@
     &__input-wrapper {
       position: relative;
       padding: var(--spacing-sm-100) var(--spacing-nm-100);
-      background: var(--color-surface2);
+      background: var(--color-secondary-200);
       transition: border-color 0.25s;
       outline: 0;
-      border: misc.rem(1) solid var(--color-surface4);
+      border: misc.rem(1) solid var(--color-secondary-400);
       @include misc.border-radius;
       &:focus {
-        border-color: var(--color-accent);
+        border-color: var(--color-primary);
       }
-      color: var(--color-surface1-contrast);
+      color: var(--color-secondary-800);
       z-index: 1;
       @include media.smaller-than(phone) {
         padding: var(--spacing-sm-50) var(--spacing-sm-100);
@@ -172,12 +170,12 @@
       }
       & :nth-child(2) {
         margin-inline: -1px;
-        border-inline: 1px solid var(--color-surface1-contrast);
+        border-inline: 1px solid var(--color-secondary-800);
         height: 100%;
         color: transparent;
 
         &.selected {
-          background: color.alpha(--color-accent, 0.5);
+          background: color.alpha(--color-primary, 0.5);
         }
 
         &:not(.selected) {

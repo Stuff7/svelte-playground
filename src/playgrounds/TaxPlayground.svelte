@@ -56,6 +56,7 @@
   @use 'style/misc';
 
   .TaxPlayground {
+    $component: &;
     display: flex;
     flex-direction: column;
     gap: max(1vw, misc.rem(10));
@@ -63,12 +64,12 @@
     align-items: center;
     height: 100%;
     padding: max(2vw, misc.rem(10));
-    background: var(--color-surface2);
+    background: var(--color-secondary-200);
 
     &__heading {
       text-align: center;
       padding-top: var(--spacing-md-100);
-      color: var(--color-accent);
+      color: var(--color-primary);
     }
 
     &__calculator {
@@ -76,8 +77,8 @@
       flex-direction: column;
       justify-content: space-between;
       border-radius: var(--radius-md-100);
-      border: 1px solid var(--color-surface4);
-      background: var(--color-surface3);
+      border: 1px solid var(--color-secondary-400);
+      background: var(--color-secondary-300);
       min-width: clamp(misc.rem(150), 65vw, misc.rem(600));
       min-height: clamp(misc.rem(200), 85vw, 80vh);
       overflow: hidden;
@@ -106,24 +107,27 @@
       gap: var(--spacing-nm-100);
       overflow: hidden;
       transition: max-height 0.75s, background 0.75s;
-      background: var(--color-accent);
-      color: var(--color-accent-contrast);
+      background: var(--color-primary);
+      color: var(--color-primary-contrast);
       max-height: 100%;
       padding: var(--spacing-md-200);
 
       &.hidden {
         max-height: calc(var(--spacing-md-200) * 3);
-        background: var(--color-surface4);
+        background: var(--color-secondary-400);
+        & #{$component}__payment-label, & #{$component}__result {
+          color: var(--color-secondary-500);
+        }
       }
     }
 
     &__payment-label {
-      color: var(--color-accent-contrast);
+      color: var(--color-primary-contrast);
       opacity: 0.8;
     }
 
     &__result {
-      color: var(--color-accent-contrast);
+      color: var(--color-primary-contrast);
     }
   }
 </style>

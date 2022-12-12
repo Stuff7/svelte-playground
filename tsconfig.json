@@ -27,10 +27,10 @@
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "paths": {
-      "@Playground/*": [
+      "*": [
         "./src/*"
       ],
-      "*": [
+      "@Playground/*": [
         "./src/*"
       ]
     },

@@ -1,6 +1,14 @@
+import { kebabCase } from 'utils/string';
+
 export function genCssVars(vars: Record<string, unknown>) {
   return Object.entries(vars).reduce((css, [key, val]) => (
     `${css}--${key}:${val};`
+  ), '');
+}
+
+export function cssCustomProps(vars: Record<string, unknown>) {
+  return Object.entries(vars).reduce((css, [key, val]) => (
+    `${css}--${kebabCase(key)}:${val};`
   ), '');
 }
 
@@ -24,6 +32,7 @@ export function getElementByPortalId<T extends HTMLElement>(id: PortalID) {
 
 export const portalIdMap = {
   modal: 'modal',
+  topbar: 'topbar',
 } as const;
 
 export type PortalID = typeof portalIdMap[keyof typeof portalIdMap];

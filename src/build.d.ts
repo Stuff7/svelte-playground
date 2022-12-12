@@ -1,1 +1,1 @@
-type IconName = 'brush'|'display'|'error'|'loading'|'logo'|'money';
+type IconName = 'brush'|'console'|'display'|'error'|'loading'|'logo'|'money'|'triangle-exclamation';

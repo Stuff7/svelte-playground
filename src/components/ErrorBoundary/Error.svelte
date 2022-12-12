@@ -49,8 +49,8 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: var(--color-accent);
-      color: var(--color-accent-contrast);
+      background: var(--color-primary);
+      color: var(--color-primary-contrast);
       padding: var(--spacing-md-200);
       gap: var(--spacing-nm-100);
       @include text.font-title;
@@ -61,8 +61,8 @@
     }
 
     &__stack {
-      color: var(--color-surface1-contrast);
-      background: var(--color-surface1);
+      color: var(--color-secondary-900);
+      background: var(--color-secondary-100);
       font-size: var(--p-md-100);
       white-space: pre-wrap;
       padding: var(--p-md-100);
@@ -70,9 +70,6 @@
       white-space: pre-wrap;
     }
 
-    & :global(#{$component}__icon svg) {
-      width: var(--spacing-lg-200);
-      height: var(--spacing-lg-200);
-    }
+    --icon-size: var(--spacing-lg-200);
   }
 </style>

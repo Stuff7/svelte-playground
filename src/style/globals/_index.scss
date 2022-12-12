@@ -13,8 +13,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--color-surface9);
-  background-color: var(--color-surface1);
+  color: var(--color-secondary-900);
+  background-color: var(--color-secondary-100);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,12 +24,12 @@
 }
 
 ::selection {
-  background: color.alpha(--color-accent, 0.5)
+  background: color.alpha(--color-primary, 0.5)
 }
 
 *, *::before, *::after {
   @include text.font-body;
-  @include misc.scrollbar(var(--color-accent));
+  @include misc.scrollbar(var(--color-primary));
   box-sizing: inherit;
   line-height: 1;
   margin: 0;
@@ -50,15 +50,15 @@ body {
 input {
   padding: var(--spacing-sm-100) var(--spacing-nm-100);
   font-size: var(--h-nm-100);
-  background: var(--color-surface2);
+  background: var(--color-secondary-200);
   transition: border-color 0.25s;
   outline: 0;
-  border: misc.rem(1) solid var(--color-surface4);
+  border: misc.rem(1) solid var(--color-secondary-400);
   @include misc.border-radius;
   &:focus {
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
   }
-  color: var(--color-surface1-contrast);
+  color: var(--color-secondary-800);
   z-index: 1;
   @include media.smaller-than(phone) {
     padding: var(--spacing-sm-50) var(--spacing-sm-100);
@@ -73,20 +73,29 @@ button {
   border-radius: misc.rem(8);
   padding: var(--spacing-sm-50) var(--spacing-sm-100);
   font-family: inherit;
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   cursor: pointer;
   transition: background 0.25s, color 0.25s, border-color 0.25s;
   &:hover {
-    background: var(--color-accent-contrast);
-    color: var(--color-accent);
-    border-color: var(--color-accent);
+    background: var(--color-primary-contrast);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
   }
   &:focus, &:focus-visible {
     outline: misc.rem(4) auto -webkit-focus-ring-color;
   }
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 dialog {
   border: 0;
+}
+
+svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
 }

@@ -39,7 +39,7 @@
     min-height: 100%;
     margin: 0 auto;
     overflow: hidden auto;
-    background-color: var(--color-surface2);
+    background-color: var(--color-secondary-200);
     gap: 1px;
     grid-template:
       "a" max-content
@@ -58,12 +58,7 @@
       align-items: center;
       height: 100%;
       opacity: 0.3;
-
-      & :global(svg) {
-        $size: min(45vw, 100vh);
-        width: $size;
-        height: $size;
-      }
+      --icon-size: min(45vw, 100vh);
     }
 
     @include media.larger-than(tablet) {

@@ -22,6 +22,8 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --p-md-200: #{clamp(misc.rem(18), 1.75vw, misc.rem(22))};
   --p-md-300: #{clamp(misc.rem(20), 2vw, misc.rem(24))};
 
+  --svg-nm-100: #{clamp(misc.rem(16), 3vw, misc.rem(24))};
+
   --spacing-lg-200: #{clamp(misc.rem(32), 5vw, misc.rem(48))};
   --spacing-lg-100: #{clamp(misc.rem(28), 4vw, misc.rem(36))};
   --spacing-md-300: #{clamp(misc.rem(24), 3vw, misc.rem(30))};
@@ -37,6 +39,8 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
 
   --font-title: 'Major Mono Display', #{$fallback-fonts};
   --font-body: 'Ubuntu Mono', #{$fallback-fonts};
+
+  --icon-size: var(--svg-nm-100);
 }
 
 h6 {
@@ -71,9 +75,9 @@ h1 {
 
 a {
   font-weight: 500;
-  color: var(--color-surface4);
+  color: var(--color-secondary-300);
   text-decoration: inherit;
   &:hover {
-    color: var(--color-accent);
+    color: var(--color-primary);
   }
 }

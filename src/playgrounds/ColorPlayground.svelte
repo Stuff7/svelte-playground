@@ -59,11 +59,11 @@
 
     &__slider-container {
       padding: var(--spacing-sm-100) var(--spacing-md-100);
-      background-color: var(--color-surface3);
+      background-color: var(--color-secondary-300);
       display: flex;
       gap: 1rem;
       flex-direction: column;
-      border-top: 1px solid var(--color-accent);
+      border-top: 1px solid var(--color-primary);
     }
   }
 </style>

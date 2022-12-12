@@ -107,22 +107,22 @@
       left: var(--stepPos);
       height: 0.5em;
       width: misc.rem(2);
-      background: var(--color-surface1);
+      background: var(--color-secondary-100);
     }
 
     &__track {
       display: flex;
       flex: 1;
       align-items: center;
-      background: var(--color-surface4);
+      background: var(--color-secondary-400);
       height: 0.75em;
-      border: 2px solid var(--color-surface2);
+      border: 2px solid var(--color-secondary-200);
       border-radius: misc.rem(5);
       pointer-events: none;
       position: relative;
       &:before {
         content: "";
-        background: var(--color-accent);
+        background: var(--color-primary);
         width: var(--rangePercentage);
         height: 100%;
       }
@@ -131,7 +131,7 @@
         position: absolute;
         @include misc.circle(var(--thumbRadius));
         @include misc.shadow;
-        background: var(--color-accent);
+        background: var(--color-primary);
         left: var(--rangePercentage);
         transform: translateX(-50%);
       }
@@ -146,13 +146,13 @@
       padding: var(--spacing-sm-50) var(--spacing-sm-100);
       @include misc.border-radius;
       @include misc.shadow;
-      background: var(--color-accent);
-      color: var(--color-accent-contrast);
+      background: var(--color-primary);
+      color: var(--color-primary-contrast);
       text-align: center;
       &::after {
         content: "";
         z-index: -1;
-        @include misc.triangle('bottom', $gap, calc($gap / 2), var(--color-accent));
+        @include misc.triangle('bottom', $gap, calc($gap / 2), var(--color-primary));
         @include misc.abs-horizontal-center;
       }
     }

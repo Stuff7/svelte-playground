@@ -78,7 +78,7 @@
 
     &__format {
       position: absolute;
-      background: var(--color-surface2);
+      background: var(--color-secondary-200);
       left: misc.rem(3);
       z-index: 1;
       font-size: var(--h-nm-100);

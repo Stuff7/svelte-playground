@@ -4,18 +4,20 @@
   import ConditionalWrapper from 'components/ConditionalWrapper.svelte';
   import { portalIdMap } from 'utils/dom';
 
-  export let open = false;
+  export let open = true;
   export let portal = false;
   export let position: Position = 'none';
 </script>
 
-<ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
-  <Draggable {position}>
-    <dialog class="Modal" class:center={portal} {open}>
-      <slot />
-    </dialog>
-  </Draggable>
-</ConditionalWrapper>
+{#if open}
+  <ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
+    <Draggable {position}>
+      <dialog class="Modal" class:center={portal} open>
+        <slot />
+      </dialog>
+    </Draggable>
+  </ConditionalWrapper>
+{/if}
 
 <style lang="scss">
   .Modal {

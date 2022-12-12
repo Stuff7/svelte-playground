@@ -1,8 +1,8 @@
 <script lang="ts">
-  import internalLink from 'actions/internalLink';
   import { routes } from '@Playground/routes';
+  import internalLink from 'actions/internalLink';
   import router from 'store/router';
-  import Icon from './Icon.svelte';
+  import Icon from 'components/Icon.svelte';
 </script>
 
 <aside class="Sidebar">
@@ -15,7 +15,7 @@
         href={route.name === $router ? '/' : route.name}
         use:internalLink
       >
-        <Icon class="Sidebar__button-icon" name={route.icon} />
+        <Icon name={route.icon} />
         <p class="Sidebar__button-text">{route.name} Playground</p>
       </a>
     {/each}
@@ -28,11 +28,11 @@
   @use 'style/misc';
   @use 'style/media';
 
-  $sidebar-color: var(--color-surface3);
-  $sidebar-outline-color: var(--color-surface4);
-  $sidebar-title-color: var(--color-surface9);
-  $button-hover-bg: var(--color-surface5);
-  $button-active-bg: var(--color-accent);
+  $sidebar-color: var(--color-secondary-300);
+  $sidebar-outline-color: var(--color-secondary-400);
+  $sidebar-title-color: var(--color-secondary-900);
+  $button-hover-bg: var(--color-secondary-500);
+  $button-active-bg: var(--color-primary);
 
   .Sidebar {
     $component: &;
@@ -71,24 +71,17 @@
       font-weight: 600;
       width: 100%;
       text-transform: capitalize;
-      color: var(--color-surface9);
+      color: var(--color-secondary-900);
       padding: var(--spacing-sm-50);
 
       &:hover {
         background: $button-hover-bg;
-        color: var(--color-surface9);
+        color: var(--color-secondary-900);
       }
       &.active {
+        --icon-accent: var(--color-secondary);
         background: $button-active-bg;
-        color: var(--color-accent-contrast);
-      }
-
-      & > :global(#{$component}__button-icon svg) {
-        width: clamp(misc.rem(16), 3vw, misc.rem(24));
-        height: clamp(misc.rem(16), 3vw, misc.rem(24));
-      }
-      &.active :global(path.brush-paint) {
-        fill: var(--color-accent-contrast);
+        color: var(--color-primary-contrast);
       }
     }
 
@@ -110,7 +103,7 @@
 
       &__section-title {
         display: block;
-        background: var(--color-surface1);
+        background: var(--color-secondary-100);
         color: $sidebar-title-color;
         padding: var(--spacing-sm-100);
         font-weight: 800;
