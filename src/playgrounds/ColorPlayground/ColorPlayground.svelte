@@ -1,9 +1,9 @@
 <script lang="ts">
   import Slider from 'components/Slider.svelte';
-  import ContrastPreview from 'components/ContrastPreview.svelte';
   import { randomColor } from 'utils/color';
   import colorPreview from 'store/color-preview';
-  import CssContrast from 'components/CSSContrast.svelte';
+  import CssContrast from './CSSContrast.svelte';
+  import ContrastPreview from './ContrastPreview.svelte';
 
   let colors = [...new Array(5)].map(randomColor);
 

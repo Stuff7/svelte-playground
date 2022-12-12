@@ -1,4 +1,4 @@
-import ColorPlayground from 'playgrounds/ColorPlayground.svelte';
+import ColorPlayground from 'playgrounds/ColorPlayground';
 import ScreenPlayground from 'playgrounds/ScreenPlayground.svelte';
 import TaxPlayground from 'playgrounds/TaxPlayground.svelte';
 

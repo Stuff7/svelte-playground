@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ColorPreview from 'components/ColorPreview.svelte';
+  import ColorPreview from './ColorPreview.svelte';
   import { contrast, hexString, hexToRgb } from 'utils/color';
   import colorPreview from 'store/color-preview';
 
