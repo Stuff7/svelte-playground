@@ -7,7 +7,7 @@
 
 <nav class="Topbar">
   <a class="Topbar__home" href="/" use:internalLink>
-    <Icon class="Topbar__logo" name="logo" />
+    <Icon name="logo" />
     JSPlayground
   </a>
   <section data-portal-id={portalIdMap.topbar} class="Topbar__right-section">

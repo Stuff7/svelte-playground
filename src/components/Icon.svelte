@@ -13,15 +13,15 @@
 </script>
 
 {#await iconPromise}
-  <span class="Icon Icon--rotate {$$props.class ?? ''}" title="Loading {quotedName} icon...">
+  <span class="Icon Icon--rotate" title="Loading {quotedName} icon...">
     {@html iconLoading}
   </span>
 {:then icon}
-  <span class="Icon {$$props.class ?? ''}">
+  <span class="Icon">
     {@html icon}
   </span>
 {:catch}
-  <span class="Icon Icon__error {$$props.class ?? ''}" title="Could not find icon {quotedName}">
+  <span class="Icon Icon__error" title="Could not find icon {quotedName}">
     {@html iconError}
   </span>
 {/await}

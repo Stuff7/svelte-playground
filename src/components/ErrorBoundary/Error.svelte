@@ -14,7 +14,7 @@
   <article class="Error">
     <section class="Error__wrapper">
       <h1 class="Error__name">
-        <Icon class="Error__icon" name="error" />
+        <Icon name="error" />
         <span>{$error?.name}</span>
         <h4 class="Error__message">{$error?.message}</h4>
       </h1>
