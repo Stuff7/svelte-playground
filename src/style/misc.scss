@@ -163,15 +163,15 @@
   }
 }
 
-$triangle-positions: (
+$positions: (
   'top': 'bottom',
   'right': 'left',
   'bottom': 'top',
   'left': 'right',
 );
 
-@mixin triangle-classes() {
-  @each $pos, $inv in $triangle-positions {
+@mixin position-classes() {
+  @each $pos, $inv in $positions {
     &.#{$pos} {
       @content($pos, $inv);
     }

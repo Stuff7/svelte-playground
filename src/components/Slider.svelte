@@ -158,7 +158,7 @@
       }
 
       $component: &;
-      @include misc.triangle-classes() using ($pos, $inv) {
+      @include misc.position-classes() using ($pos, $inv) {
         transform: translateX(0);
         @if $pos == 'top' or $pos == 'bottom' {
           #{$inv}: calc(100% + $gap);
