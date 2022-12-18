@@ -26,6 +26,6 @@
   -webkit-box-orient: vertical;
 }
 
-@mixin shadow($color) {
+@mixin shadow($color: var(--color-primary-contrast)) {
   text-shadow: $color 1px 1px 1px;
 }

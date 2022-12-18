@@ -54,6 +54,7 @@
 <style lang="scss">
   @use 'style/color';
   @use 'style/misc';
+  @use 'style/text';
 
   .TaxPlayground {
     $component: &;
@@ -70,6 +71,7 @@
       text-align: center;
       padding-top: var(--spacing-md-100);
       color: var(--color-primary);
+      @include text.shadow;
     }
 
     &__calculator {

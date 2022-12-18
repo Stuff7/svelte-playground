@@ -4,7 +4,6 @@
   @each $theme in (dark, light) {
     &[data-theme=#{$theme}] {
       $invert: $theme == light;
-      @debug $invert;
       @include color.define-hsl(--color-primary, 42, 84%, 52%, $invert);
       @include color.define-hsl(--color-secondary, 201, 97%, 70%, $invert);
       @include color.define-hsl(--color-tertiary, 154, 55%, 50%, $invert);
