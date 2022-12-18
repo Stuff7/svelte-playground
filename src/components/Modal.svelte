@@ -7,15 +7,16 @@
   export let open = true;
   export let portal = false;
   export let position: Position = 'none';
+  export let disableDrag = false;
 </script>
 
 {#if open}
   <ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
-    <Draggable {position}>
-      <dialog class="Modal" class:center={portal} open>
+    <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position}>
+      <dialog class="Modal {disableDrag ? `position-${position}` : ''}" class:center={portal} open>
         <slot />
       </dialog>
-    </Draggable>
+    </ConditionalWrapper>
   </ConditionalWrapper>
 {/if}
 
@@ -25,6 +26,30 @@
     &.center {
       position: absolute;
       transform: translate(-50%, -50%);
+    }
+    &.position {
+      position: absolute;
+      z-index: 10;
+      &-top {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 100%;
+      }
+      &-right {
+        left: -100%;
+        transform: translateX(100%);
+        top: 100%;
+      }
+      &-bottom {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 100%;
+      }
+      &-left {
+        left: 100%;
+        transform: translateX(-100%);
+        top: 100%;
+      }
     }
   }
 </style>

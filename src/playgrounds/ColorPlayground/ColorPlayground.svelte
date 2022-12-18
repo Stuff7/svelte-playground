@@ -24,7 +24,6 @@
       max={1}
       min={0.0001}
       step={0.0001}
-      width="100%"
       bind:value={$colorPreview.minimumLikeness}
     />
   </div>
@@ -35,7 +34,6 @@
       max={1}
       min={0.0001}
       step={0.0001}
-      width="100%"
       bind:value={$colorPreview.percentage}
     />
   </div>

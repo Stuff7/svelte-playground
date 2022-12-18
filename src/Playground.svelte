@@ -1,11 +1,15 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import router from 'store/router';
+  import { initPreferencesStore } from 'store/preferences';
   import routes from '@Playground/routes';
   import Sidebar from 'components/Sidebar.svelte';
   import Topbar from 'components/Topbar.svelte';
   import Icon from 'components/Icon.svelte';
   import ErrorBoundary from 'components/ErrorBoundary';
   import { portalIdMap } from 'utils/dom';
+
+  onMount(initPreferencesStore);
 
   $: CurrentPlayground = $router in routes ? (
     routes[$router as keyof typeof routes]

@@ -1,5 +1,4 @@
 export default function drag<T extends HTMLElement>(node: T) {
-
   function startDrag(event: MouseTouchEvent) {
     node.dispatchEvent(new CustomEvent('dragstart', {
       detail: { event },

@@ -3,7 +3,6 @@
 
 @mixin abs-horizontal-center {
   position: absolute;
-  top: 100%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -87,8 +86,8 @@
   }
 }
 
-@mixin shadow {
-  box-shadow: 0 0 rem(10) 0 #060508;
+@mixin shadow($color: #060508) {
+  box-shadow: 0 0 rem(10) 0 $color;
 }
 
 @mixin triangle-top($w, $h, $color) {
@@ -161,5 +160,20 @@
   }
   @else if $dir == 'top-left' {
     @include triangle-top-left($half-w, $h, $color);
+  }
+}
+
+$triangle-positions: (
+  'top': 'bottom',
+  'right': 'left',
+  'bottom': 'top',
+  'left': 'right',
+);
+
+@mixin triangle-classes() {
+  @each $pos, $inv in $triangle-positions {
+    &.#{$pos} {
+      @content($pos, $inv);
+    }
   }
 }

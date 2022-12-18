@@ -7,12 +7,12 @@
   export let min = 0;
   export let max = 100;
   export let step = 0.001;
-  export let width = '2em';
   export let value = 0;
+  export let valueLabelPosition: 'top' | 'right' | 'bottom' | 'left' = 'top';
   export let stepIndicators = false;
   export let thumbRadius = '0.5em';
   export let element: HTMLDivElement | null = null;
-  export let formatter = (val: number) => val.toString();
+  export let formatter: (val: number) => string | number = (val: number) => val;
 
   $: length = max - min;
   $: rangePercentage = (value - min) * 100 / length;
@@ -26,11 +26,10 @@
   {/if}
   <div class="Slider__wrapper">
     <div
-      class="Slider__container {$$props.class ?? ''}"
+      class="Slider__container"
       style={genCssVars({
         rangePercentage: `${rangePercentage}%`,
         thumbRadius,
-        width,
       })}
       bind:this={element}
       on:hover
@@ -54,7 +53,12 @@
             style={genCssVars({ stepPos: `${stepPos}%` })}
           />
         {/each}
-        <span class="Slider__value-label">{formatter(value)}</span>
+        <span
+          class="Slider__value-label {valueLabelPosition}"
+        >
+          {formatter(value)}
+          <span class="Slider__value-label-triangle"></span>
+        </span>
       </div>
     </div>
     <div class="Slider__values">
@@ -99,7 +103,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      width: var(--width);
+      width: var(--slider-width);
     }
 
     &__step-indicator {
@@ -114,24 +118,25 @@
       display: flex;
       flex: 1;
       align-items: center;
-      background: var(--color-secondary-400);
+      background: var(--slider-track-color);
       height: 0.75em;
       border: 2px solid var(--color-secondary-200);
-      border-radius: misc.rem(5);
+      border-radius: var(--radius-nm-100);
       pointer-events: none;
       position: relative;
       &:before {
         content: "";
-        background: var(--color-primary);
+        background: var(--slider-track-before-color);
         width: var(--rangePercentage);
         height: 100%;
+        border-radius: var(--radius-nm-100);
       }
       &:after {
         content: "";
         position: absolute;
         @include misc.circle(var(--thumbRadius));
         @include misc.shadow;
-        background: var(--color-primary);
+        background: var(--slider-thumb-color);
         left: var(--rangePercentage);
         transform: translateX(-50%);
       }
@@ -140,21 +145,43 @@
     &__value-label {
       position: absolute;
       $gap: var(--spacing-md-100);
-      bottom: calc(100% + $gap);
-      left: var(--rangePercentage);
-      transform: translateX(-50%);
       padding: var(--spacing-sm-50) var(--spacing-sm-100);
       @include misc.border-radius;
       @include misc.shadow;
-      background: var(--color-primary);
-      color: var(--color-primary-contrast);
+      background: var(--slider-value-label-color);
+      color: var(--slider-value-label-text-color);
       text-align: center;
-      &::after {
-        content: "";
+
+      &-triangle {
+        position: absolute;
         z-index: -1;
-        @include misc.triangle('bottom', $gap, calc($gap / 2), var(--color-primary));
-        @include misc.abs-horizontal-center;
       }
+
+      $component: &;
+      @include misc.triangle-classes() using ($pos, $inv) {
+        transform: translateX(0);
+        @if $pos == 'top' or $pos == 'bottom' {
+          #{$inv}: calc(100% + $gap);
+          transform: translateX(-50%);
+          left: var(--rangePercentage);
+        } @else if $pos == 'left' {
+          right: calc(100% - var(--rangePercentage) + var(--thumbRadius) * 2);
+        } @else {
+          left: calc(var(--rangePercentage) + calc(var(--thumbRadius) * 2));
+        }
+        #{$component}-triangle {
+          @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color));
+          @if $pos == 'top' or $pos == 'bottom' {
+            #{$pos}: 100%;
+            @include misc.abs-horizontal-center;
+          } @else {
+            top: 50%;
+            #{$pos}: 100%;
+            transform: translateY(-50%);
+          }
+        }
+      };
+
     }
 
     &__values {

@@ -40,3 +40,7 @@ export function* counter() {
     yield i++;
   }
 }
+
+export function toFixed(n: number, decimals = 2) {
+  return isNaN(n) ? n : Number(n.toFixed(decimals));
+}

@@ -1,22 +1,22 @@
 <script lang="ts">
-  import { contrast, hslToRgb, rgbString } from 'utils/color';
+  import { contrast, hslToRgb, toCssFn } from 'utils/color';
   import { genCssVars } from 'utils/dom';
   import Slider from 'components/Slider.svelte';
 
   let h = 29;
-  let s = 0.90;
-  let l = 0.40;
+  let s = 90;
+  let l = 40;
 
   function degrees(value: number) {
     return `${value}°`;
   }
   function percentage(value: number) {
-    return `${(value * 100).toFixed(0)}%`;
+    return `${value.toFixed(1)}%`;
   }
 
-  $: bgColor = hslToRgb(h, s, l);
+  $: bgColor = hslToRgb([h, s, l]);
   $: textColor = contrast(bgColor);
-  $: textColorString = rgbString(textColor);
+  $: textColorString = toCssFn(textColor);
 </script>
 
 <section class="CSSContrast">
@@ -26,25 +26,22 @@
     max={360}
     min={0}
     step={1}
-    width="100%"
     bind:value={h}
   />
   <Slider
     formatter={percentage}
     label="Saturation"
-    max={1}
+    max={100}
     min={0}
-    step={0.01}
-    width="100%"
+    step={0.5}
     bind:value={s}
   />
   <Slider
     formatter={percentage}
     label="Lightness"
-    max={1}
+    max={100}
     min={0}
-    step={0.01}
-    width="100%"
+    step={0.5}
     bind:value={l}
   />
   <figure

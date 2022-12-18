@@ -41,8 +41,7 @@ module.exports = {
     'no-sequences': 'warn',
     'no-undef': 'off',
     'no-var': 'error',
-    'one-var': ['warn', 'never'],
-    'prefer-const': 'warn',
+    'prefer-const': ['warn', { destructuring: 'all' }],
     'prefer-template': 'warn',
     'semi': 'warn',
 
