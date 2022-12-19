@@ -6,19 +6,13 @@
   const dispatch = createEventDispatcher();
 
   export let position: Position = 'none';
-  export let minX = NaN;
-  export let maxX = NaN;
-  export let minY = NaN;
-  export let maxY = NaN;
-  export let startingX = 0;
-  export let startingY = 0;
 
-  let startX = startingX;
-  let startY = startingY;
-  let x = startingX;
-  let y = startingY;
-  let endX = startingX;
-  let endY = startingY;
+  let startX = 0;
+  let startY = 0;
+  let x = 0;
+  let y = 0;
+  let endX = 0;
+  let endY = 0;
   let isDragging = false;
 
   function startDrag({ detail: { event: e } }: DragAction) {
@@ -34,14 +28,8 @@
       return;
     }
     const { pageX, pageY } = getPagePos(e);
-    let newX = endX + pageX - startX;
-    let newY = endY + pageY - startY;
-
-    newX = isNaN(minX) ? newX : Math.max(minX, newX);
-    newY = isNaN(minY) ? newY : Math.max(minY, newY);
-
-    x = isNaN(maxX) ? newX : Math.min(maxX, newX);
-    y = isNaN(maxY) ? newY : Math.min(maxY, newY);
+    x = endX + pageX - startX;
+    y = endY + pageY - startY;
 
     dispatch('drag', { x, y });
   }

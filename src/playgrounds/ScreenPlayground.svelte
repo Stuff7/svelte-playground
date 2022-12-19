@@ -1,6 +1,6 @@
 <script lang="ts">
   import AnimatedInput from 'components/AnimatedInput.svelte';
-  import ColorPicker from 'components/ColorPicker';
+  import ColorPicker from 'components/ColorPicker.svelte';
   import { onDestroy, onMount } from 'svelte';
 
   let output = [] as string[];

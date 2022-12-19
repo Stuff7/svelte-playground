@@ -19,3 +19,10 @@ export function stringify<T>(value: T) {
     JSON.stringify(value) :
     `${value}`;
 }
+
+export function clampNumber(n: number, max: number): `${number}+` | number {
+  if (n >= max) {
+    return `${max}+`;
+  }
+  return n;
+}

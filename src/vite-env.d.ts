@@ -6,8 +6,11 @@ declare type MouseTouchEvent = MouseEvent | TouchEvent;
 declare type DragAction = CustomEvent<{ event: MouseTouchEvent }>;
 declare type DragActionHandler = (e: DragAction) => void;
 
-declare type DraggingAction = CustomEvent<{ x: number, y: number }>;
+declare type DraggingAction = CustomEvent<Vec2>;
 declare type DraggingActionHandler = (e: DraggingAction) => void;
+
+declare type AreaDragAction = CustomEvent<Vec2 & { percentage: Vec2, isDragging: boolean }>;
+declare type AreaDragHandler = (e: AreaDragAction) => void;
 
 declare type HoverAction = CustomEvent<{ event: MouseEvent }>;
 declare type HoverActionHandler = (e: HoverAction) => void;
@@ -15,12 +18,23 @@ declare type HoverActionHandler = (e: HoverAction) => void;
 declare namespace svelte.JSX {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface DOMAttributes<T> {
+    onareadrag?: AreaDragHandler;
     ondragstart?: DragActionHandler;
     ondrag?: DragActionHandler;
     ondragend?: DragActionHandler;
     onhover?: HoverActionHandler;
     onhoverend?: HoverActionHandler;
   }
+}
+
+declare interface RectSize {
+  width: number;
+  height: number;
+}
+
+declare interface Vec2 {
+  x: number;
+  y: number;
 }
 
 declare type Position = 'top' | 'right' | 'bottom' | 'left' | 'none';

@@ -1,13 +1,13 @@
 
 export function resizeObserver<E extends HTMLElement>(
   node: E,
-  onResize: (w: number, h: number) => void,
+  onResize: (size: RectSize) => void,
 ) {
   const observer = new ResizeObserver(([element]) => {
-    onResize(
-      element.contentRect.width,
-      element.contentRect.height,
-    );
+    onResize({
+      width: element.contentRect.width,
+      height: element.contentRect.height,
+    });
   });
 
   observer.observe(node);

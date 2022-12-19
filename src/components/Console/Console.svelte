@@ -2,6 +2,7 @@
   import Icon from 'components/Icon.svelte';
   import Modal from 'components/Modal.svelte';
   import debug, { clearErrors } from 'store/debug';
+  import { clampNumber } from 'utils/string';
   import ErrorBlock from './ErrorBlock.svelte';
 
   export let open = false;
@@ -18,6 +19,7 @@
 {#if $debug.errors.length}
   <button class="ConsoleButton" on:click={toggleModal}>
     <Icon name="console" />
+    <span class="ConsoleButton__error-count">{clampNumber($debug.errors.length, 99)}</span>
   </button>
   <Modal portal {open}>
     <section class="Console">
@@ -74,6 +76,7 @@
   }
 
   .ConsoleButton {
+    position: relative;
     color: var(--color-secondary-900);
     background: transparent;
     --icon-accent: var(--color-secondary-100);
@@ -82,6 +85,20 @@
     &:hover {
       color: var(--color-secondary-100);
       --icon-accent: var(--color-secondary-900);
+    }
+
+    &__error-count {
+      @include misc.circle(var(--radius-nm-200));
+      font-size: var(--p-nm-100);
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+      background: var(--color-error);
+      color: var(--color-error-contrast);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 </style>

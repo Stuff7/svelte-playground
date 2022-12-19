@@ -4,7 +4,7 @@
   import internalLink from 'actions/internalLink';
   import Icon from 'components/Icon.svelte';
   import Console from 'components/Console';
-  import ColorPicker from 'components/ColorPicker';
+  import ColorPicker from 'components/ColorPicker.svelte';
   import Modal from 'components/Modal.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
 
