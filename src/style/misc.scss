@@ -24,6 +24,22 @@
   aspect-ratio: 1 / 1;
 }
 
+@function starts-with($string, $find) {
+  @return str-slice($string, 0, str-len($find)) == $find;
+}
+
+@function ends-with($string, $find) {
+  @return str-slice($string, (str-length($string) - str-length($find) + 1)) == $find;
+}
+
+@function contains($string, $find) {
+  @if (str-index($string, $find)) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
+
 @mixin input-range-thumb($styles: ()) {
   input[type=range]::-webkit-slider-thumb {
     @include apply-rules($styles);
@@ -170,8 +186,15 @@ $positions: (
   'left': 'right',
 );
 
-@mixin position-classes() {
-  @each $pos, $inv in $positions {
+$mixed-positions: map-merge($positions, (
+  'top-right': 'bottom',
+  'bottom-right': 'top',
+  'bottom-left': 'top',
+  'top-left': 'bottom',
+));
+
+@mixin position-classes($mixed: false) {
+  @each $pos, $inv in if($mixed, $mixed-positions, $positions) {
     &.#{$pos} {
       @content($pos, $inv);
     }

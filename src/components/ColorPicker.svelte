@@ -19,8 +19,6 @@
   style="
 --hsl: {hsl};
 --slider-thumb-color: hsl({hslColor[0]}, 100%, 50%);
---slider-value-label-color: hsl({hslColor[0]}, 100%, 50%);
---slider-value-label-text-color: {toCssFn(contrast(hslToRgb([hslColor[0], 100, 50])))};
 --picker-x: {hsvColor[1]}%;
 --picker-y: {hsvColor[2]}%;
 --picker-h: {hslColor[0]};
@@ -28,21 +26,21 @@
 --picker-l: {hslColor[2]}%;
 --contrast: {contrastColor};"
 >
-  <div class="ColorPicker__selector-wrapper">
-    <DraggableArea
-      bind:isDragging
-      on:areadrag={({ detail: { percentage: { x, y } } }) => hsvColor = [hsvColor[0], x, y]}
-    >
-      <div class="ColorPicker__picker" class:dragging={isDragging}/>
-    </DraggableArea>
-    <Slider
-      min={0}
-      max={360}
-      bind:value={hsvColor[0]}
-      formatter={(v) => `${toFixed(v)}°`}
-      valueLabelPosition="bottom"
-    />
-  </div>
+  <DraggableArea
+    bind:isDragging
+    on:areadrag={({ detail: { percentage: { x, y } } }) => hsvColor = [hsvColor[0], x, y]}
+  >
+    <div class="ColorPicker__picker" class:dragging={isDragging}/>
+  </DraggableArea>
+  <Slider
+    hideMinMax
+    hideValue
+    min={0}
+    max={360}
+    bind:value={hsvColor[0]}
+    formatter={(v) => `${toFixed(v)}°`}
+    valueLabelPosition="bottom"
+  />
 </section>
 
 <style lang="scss">
@@ -57,6 +55,7 @@
     border: 1px solid var(--color-secondary-500);
     border-radius: var(--radius-nm-100);
     width: min-content;
+    gap: var(--spacing-md-200);
 
     --slider-track-color: linear-gradient(90deg,
       hsl(0,100%,50%),
@@ -75,12 +74,6 @@
       linear-gradient(90deg, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 50%, 0) 100%),
       hsl(var(--picker-h), 100%, 50%);
 
-    &__selector-wrapper {
-      display: flex;
-      flex-direction: column;
-      width: min-content;
-      gap: var(--spacing-md-200);
-    }
     &__picker {
       position: absolute;
       width: var(--spacing-lg-100);

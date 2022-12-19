@@ -10,6 +10,10 @@ export function createCurrencyFormatter(
   })).format;
 }
 
+export function capitalize<T extends string>(text: T) {
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}` as Capitalize<T>;
+}
+
 export function kebabCase(text: string) {
   return text.split(/_|\s|(?=[A-Z])/).join('-').toLowerCase();
 }

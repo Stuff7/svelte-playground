@@ -38,6 +38,7 @@ declare interface Vec2 {
 }
 
 declare type Position = 'top' | 'right' | 'bottom' | 'left' | 'none';
+declare type MixedPosition = Position | 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left';
 
 type WS = ' ' | '\n' | '\t';
 

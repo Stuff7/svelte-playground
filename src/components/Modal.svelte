@@ -3,52 +3,78 @@
   import Draggable from 'components/Draggable.svelte';
   import ConditionalWrapper from 'components/ConditionalWrapper.svelte';
   import { portalIdMap } from 'utils/dom';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let open = true;
   export let portal = false;
-  export let position: Position = 'none';
+  export let position: MixedPosition = 'none';
   export let disableDrag = false;
+  export let backdrop = false;
+
+  function close() {
+    open = false;
+    dispatch('close');
+  }
+
+  $: positionClass = disableDrag ? position : '';
 </script>
 
 {#if open}
   <ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
-    <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position}>
-      <dialog class="Modal {disableDrag ? `position-${position}` : ''}" class:center={portal} open>
+    {#if backdrop}
+      <div class="Modal__backdrop" aria-hidden="true" on:click={close} />
+    {/if}
+    <dialog class="Modal {positionClass}" class:center={portal} open>
+      <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position}>
         <slot />
-      </dialog>
-    </ConditionalWrapper>
+      </ConditionalWrapper>
+    </dialog>
   </ConditionalWrapper>
 {/if}
 
 <style lang="scss">
+  @use 'style/misc';
+
   .Modal {
+    $component: &;
     background: transparent;
+    z-index: 10;
+
+    &__backdrop {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9;
+    }
+
     &.center {
       position: absolute;
       transform: translate(-50%, -50%);
     }
-    &.position {
+
+    &__triangle {
       position: absolute;
-      z-index: 10;
-      &-top {
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 100%;
-      }
-      &-right {
-        left: -100%;
-        transform: translateX(100%);
-        top: 100%;
-      }
-      &-bottom {
-        left: 50%;
-        transform: translateX(-50%);
-        top: 100%;
-      }
-      &-left {
-        left: 100%;
-        transform: translateX(-100%);
-        top: 100%;
+    }
+
+    $gap: var(--spacing-nm-100);
+    @include misc.position-classes($mixed: true) using($pos, $inv-pos) {
+      @if $pos == left or $pos == right {
+        top: 50%;
+        left: if($pos == right, calc(100% + $gap), -100%);
+        transform: if($pos == right, translate(0, -50%), translate(-100%, -50%));
+      } @else {
+        #{$inv-pos}: calc(100% + $gap);
+        @if $pos == top or $pos == bottom {
+          left: 50%;
+          transform: translateX(-50%);
+        } @else if $pos == top-left or $pos == bottom-left {
+          left: 100%;
+          transform: translateX(-100%);
+        }
       }
     }
   }

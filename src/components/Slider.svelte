@@ -4,6 +4,8 @@
   import hover from 'actions/hover';
 
   export let label = '';
+  export let hideMinMax = false;
+  export let hideValue = false;
   export let min = 0;
   export let max = 100;
   export let step = 0.001;
@@ -53,18 +55,22 @@
             style={genCssVars({ stepPos: `${stepPos}%` })}
           />
         {/each}
-        <span
-          class="Slider__value-label {valueLabelPosition}"
-        >
-          {formatter(value)}
-          <span class="Slider__value-label-triangle"></span>
-        </span>
+        {#if !hideValue}
+          <span
+            class="Slider__value-label {valueLabelPosition}"
+          >
+            {formatter(value)}
+            <span class="Slider__value-label__triangle"></span>
+          </span>
+        {/if}
       </div>
     </div>
-    <div class="Slider__values">
-      <span class="Slider__min-label">{formatter(min)}</span>
-      <span class="Slider__max-label">{formatter(max)}</span>
-    </div>
+    {#if !hideMinMax}
+      <div class="Slider__values">
+        <span class="Slider__min-label">{formatter(min)}</span>
+        <span class="Slider__max-label">{formatter(max)}</span>
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -152,7 +158,7 @@
       color: var(--slider-value-label-text-color);
       text-align: center;
 
-      &-triangle {
+      &__triangle {
         position: absolute;
         z-index: -1;
       }
@@ -169,7 +175,7 @@
         } @else {
           left: calc(var(--rangePercentage) + calc(var(--thumbRadius) * 2));
         }
-        #{$component}-triangle {
+        #{$component}__triangle {
           @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color));
           @if $pos == 'top' or $pos == 'bottom' {
             #{$pos}: 100%;
