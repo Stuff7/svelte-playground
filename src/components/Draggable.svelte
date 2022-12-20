@@ -3,7 +3,7 @@
   import drag from 'actions/drag';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ drag: Point }>();
 
   export let position: Position = 'none';
 
@@ -15,7 +15,7 @@
   let endY = 0;
   let isDragging = false;
 
-  function startDrag({ detail: { event: e } }: DragAction) {
+  function startDrag({ detail: { event: e } }: CustomDragEvent) {
     isDragging = true;
     const { pageX, pageY } = getPagePos(e);
     startX = pageX;
@@ -23,7 +23,7 @@
     document.body.style.overflow = 'hidden';
   }
 
-  function doDrag({ detail: { event: e } }: DragAction) {
+  function doDrag({ detail: { event: e } }: CustomDragEvent) {
     if (!isDragging) {
       return;
     }
@@ -46,9 +46,9 @@
   class="Draggable position-{position}"
   class:dragging={isDragging}
   style={genCssVars({ x: `${x}px`, y: `${y}px` })}
-  on:dragstart={startDrag}
-  on:drag={doDrag}
-  on:dragend={finishDrag}
+  on:customdragstart={startDrag}
+  on:customdrag={doDrag}
+  on:customdragend={finishDrag}
   use:drag
 >
   <slot />

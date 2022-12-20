@@ -2,9 +2,10 @@
   import DraggableArea from 'components/DraggableArea.svelte';
   import { contrast, hslToRgb, hsvToHsl, hslToHsv, toCssFn, type HSL, type HSV } from 'utils/color';
   import Slider from 'components/Slider.svelte';
-  import { toFixed } from 'utils/math';
+  import { toFixed, type Shape } from 'utils/math';
 
-  export let hslColor: HSL = [42, 84, 52];
+  export let hslColor: HSL = [0, 100, 50];
+  export let shape: Shape = 'rectangle';
 
   let hsvColor: HSV = hslToHsv(hslColor);
   let isDragging = false;
@@ -28,6 +29,7 @@
 >
   <DraggableArea
     bind:isDragging
+    bind:shape
     on:areadrag={({ detail: { percentage: { x, y } } }) => hsvColor = [hsvColor[0], x, y]}
   >
     <div class="ColorPicker__picker" class:dragging={isDragging}/>

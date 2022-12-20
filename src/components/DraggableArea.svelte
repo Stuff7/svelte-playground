@@ -3,39 +3,73 @@
   import drag from 'actions/drag';
   import { createEventDispatcher } from 'svelte';
   import { resizeObserver } from 'actions/resizeObserver';
-  import { clamp } from 'utils/math';
+  import { circleSquareSide, clamp, lineLength, pointAtLength, squareCircumcircleRadius, type Shape } from 'utils/math';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ areadrag: AreaDragDetail }>();
 
   export let isDragging = false;
+  export let shape: Shape = 'rectangle';
 
   let x = 0;
   let y = 0;
-  let areaRect = { width: 1, height: 1 };
+  let percentage = { x, y };
+  let rect = { width: 1, height: 1 };
   let draggableArea: HTMLDivElement;
 
-  function startDrag(action: DragAction) {
+  let updatePoint: (point: Point) => void;
+  $: {
+    switch (shape) {
+      case 'rectangle': {
+        updatePoint = (point: Point) => {
+          const { width, height } = rect;
+          x = clamp(0, point.x, width);
+          y = clamp(0, point.y, height);
+          percentage = { x: x / width * 100, y: y / height * 100 };
+        };
+        break;
+      }
+      case 'circle': {
+        const radius = squareCircumcircleRadius(rect, 'inner');
+        const center = { x: rect.width / 2, y: rect.height / 2 };
+        const innerRectSize = circleSquareSide(radius, 'inner');
+
+        updatePoint = (point: Point) => {
+          const line: LineSegment = { a: center, b: point };
+          ({ x, y } = lineLength(line) > radius ? pointAtLength(line, radius) : point);
+          percentage = {
+            x: clamp(0, (x + innerRectSize / 2 - radius) / innerRectSize * 100, 100),
+            y: clamp(0, (y + innerRectSize / 2 - radius) / innerRectSize * 100, 100),
+          };
+          percentage = { x: x / rect.width * 100, y: y / rect.height * 100 };
+        };
+        break;
+      }
+      default: {
+        throw new Error(`Unhandled DraggableArea shape: ${shape}`);
+      }
+    }
+  }
+
+  function startDrag(action: CustomDragEvent) {
     isDragging = true;
     document.body.style.overflow = 'hidden';
     document.body.style.userSelect = 'none';
     doDrag(action);
   }
 
-  function doDrag({ detail: { event: e } }: DragAction) {
+  function doDrag({ detail: { event: e } }: CustomDragEvent) {
     if (!isDragging) {
       return;
     }
     const { left, top } = draggableArea?.getBoundingClientRect() || {};
     const { pageX, pageY } = getPagePos(e);
-    const { width, height } = areaRect;
 
-    x = clamp(0, pageX - left, width);
-    y = clamp(0, height - (pageY - top), height);
+    updatePoint({ x: pageX - left, y: rect.height - (pageY - top) });
 
-    dispatch('areadrag', { x, y, percentage: { x: x / width * 100, y: y / height * 100 }, isDragging });
+    dispatch('areadrag', { x, y, isDragging, percentage });
   }
 
-  function finishDrag(action: DragAction) {
+  function finishDrag(action: CustomDragEvent) {
     isDragging = false;
     document.body.style.overflow = '';
     document.body.style.userSelect = '';
@@ -45,12 +79,13 @@
 
 <div
   class="DraggableArea"
+  class:circle={shape === 'circle'}
   bind:this={draggableArea}
-  on:dragstart={startDrag}
-  on:drag={doDrag}
-  on:dragend={finishDrag}
+  on:customdragstart={startDrag}
+  on:customdrag={doDrag}
+  on:customdragend={finishDrag}
   use:drag
-  use:resizeObserver={(size) => areaRect = size}
+  use:resizeObserver={(size) => rect = size}
 >
   <slot />
 </div>
@@ -61,5 +96,8 @@
     background: var(--draggable-area-background);
     width: var(--draggable-area-width, var(--draggable-area-size));
     height: var(--draggable-area-height, var(--draggable-area-size));
+    &.circle {
+      border-radius: 50%;
+    }
   }
 </style>

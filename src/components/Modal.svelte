@@ -5,7 +5,7 @@
   import { portalIdMap } from 'utils/dom';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ close: undefined }>();
 
   export let open = true;
   export let portal = false;

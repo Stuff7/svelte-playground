@@ -87,9 +87,9 @@
         class="AnimatedInput__input"
         bind:this={inputElem}
         bind:value
-        on:dragstart={startSelecting}
-        on:drag={isSelecting ? updateCaretPosition : undefined}
-        on:dragend={endSelecting}
+        on:customdragstart={startSelecting}
+        on:customdrag={isSelecting ? updateCaretPosition : undefined}
+        on:customdragend={endSelecting}
         on:input={insertInput}
         on:keydown={updateCaretPosition}
         on:keyup={updateCaretPosition}

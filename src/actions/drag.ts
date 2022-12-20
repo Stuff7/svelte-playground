@@ -7,7 +7,7 @@ export default function drag<T extends HTMLElement>(node: T) {
     if (event instanceof MouseEvent && event.button !== 0) {
       return;
     }
-    node.dispatchEvent(new CustomEvent('dragstart', {
+    node.dispatchEvent(new CustomEvent('customdragstart', {
       detail: { event },
     }));
   }
@@ -16,7 +16,7 @@ export default function drag<T extends HTMLElement>(node: T) {
     if (event instanceof MouseEvent && event.button !== 0) {
       return;
     }
-    node.dispatchEvent(new CustomEvent('drag', {
+    node.dispatchEvent(new CustomEvent('customdrag', {
       detail: { event },
     }));
   }
@@ -29,7 +29,7 @@ export default function drag<T extends HTMLElement>(node: T) {
     if (event instanceof MouseEvent && event.button !== 0) {
       return;
     }
-    node.dispatchEvent(new CustomEvent('dragend', {
+    node.dispatchEvent(new CustomEvent('customdragend', {
       detail: { event },
     }));
   }

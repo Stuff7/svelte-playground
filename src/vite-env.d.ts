@@ -1,29 +1,30 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
 
+type Handler<E> = (event: E) => void;
+
 declare type MouseTouchEvent = MouseEvent | TouchEvent;
 
-declare type DragAction = CustomEvent<{ event: MouseTouchEvent }>;
-declare type DragActionHandler = (e: DragAction) => void;
+declare type CustomDragDetail = { event: MouseTouchEvent };
+declare type CustomDragEvent = CustomEvent<CustomDragDetail>;
+declare type CustomDragHandler = Handler<CustomDragEvent>;
 
-declare type DraggingAction = CustomEvent<Vec2>;
-declare type DraggingActionHandler = (e: DraggingAction) => void;
+declare type AreaDragDetail = Point & { isDragging: boolean, percentage: Point };
+declare type AreaDragEvent = CustomEvent<AreaDragDetail>;
+declare type AreaDragHandler = Handler<AreaDragEvent>;
 
-declare type AreaDragAction = CustomEvent<Vec2 & { percentage: Vec2, isDragging: boolean }>;
-declare type AreaDragHandler = (e: AreaDragAction) => void;
-
-declare type HoverAction = CustomEvent<{ event: MouseEvent }>;
-declare type HoverActionHandler = (e: HoverAction) => void;
+declare type HoverDetail = { event: MouseEvent };
+declare type HoverEvent = CustomEvent<HoverDetail>;
+declare type HoverHandler = Handler<HoverEvent>;
 
 declare namespace svelte.JSX {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface DOMAttributes<T> {
-    onareadrag?: AreaDragHandler;
-    ondragstart?: DragActionHandler;
-    ondrag?: DragActionHandler;
-    ondragend?: DragActionHandler;
-    onhover?: HoverActionHandler;
-    onhoverend?: HoverActionHandler;
+  interface HTMLProps<T> {
+    oncustomdragstart?: CustomDragHandler;
+    oncustomdrag?: CustomDragHandler;
+    oncustomdragend?: CustomDragHandler;
+    onhover?: HoverHandler;
+    onhoverend?: HoverHandler;
   }
 }
 
@@ -35,6 +36,12 @@ declare interface RectSize {
 declare interface Vec2 {
   x: number;
   y: number;
+}
+
+declare type Point = Vec2;
+declare interface LineSegment {
+  a: Point;
+  b: Point;
 }
 
 declare type Position = 'top' | 'right' | 'bottom' | 'left' | 'none';
