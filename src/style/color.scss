@@ -74,7 +74,7 @@ $max-brightness: brightness(#fff);
   @while $shade < 100 {
     $l: if($shade == 50, 40, if($shade < 50, math.div($shade, 2), $shade + 7));
     $shade-class: if($invert == true, 100 - $shade, $shade);
-    #{$var-name}-#{$shade-class}0: var-hsl(#{$var-name}, $s: 5%, $l: unquote("#{$l}%"));
+    #{$var-name}-#{$shade-class}0: var-hsl(#{$var-name}, $s: 10%, $l: unquote("#{$l}%"));
     $shade: $shade + 10;
   }
 }

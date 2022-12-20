@@ -30,7 +30,6 @@
 
   $sidebar-color: var(--color-secondary-300);
   $sidebar-outline-color: var(--color-secondary-400);
-  $sidebar-title-color: var(--color-secondary-900);
   $button-hover-bg: var(--color-secondary-500);
   $button-active-bg: var(--color-primary);
 
@@ -68,7 +67,7 @@
       border-radius: var(--radius-nm-100);
       gap: var(--spacing-sm-100);
       font-size: var(--p-sm-100);
-      font-weight: 600;
+      font-weight: 400;
       width: 100%;
       text-transform: capitalize;
       color: var(--color-secondary-900);
@@ -103,11 +102,12 @@
 
       &__section-title {
         display: block;
-        background: var(--color-secondary-100);
-        color: $sidebar-title-color;
-        padding: var(--spacing-sm-100);
         font-weight: 800;
         text-transform: uppercase;
+        background: var(--color-tertiary);
+        color: var(--color-tertiary-contrast);
+        border-block: 4px double var(--color-tertiary-contrast);
+        padding: var(--spacing-sm-50) var(--spacing-sm-100);
       }
 
       &__button {
