@@ -1,3 +1,4 @@
+import type { RectSize } from 'types/math';
 
 export function resizeObserver<E extends HTMLElement>(
   node: E,

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Position } from 'types/math';
   import Modal from 'components/Modal.svelte';
   
   type Data = $$Generic<object>;

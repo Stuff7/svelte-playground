@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { MixedPosition } from 'types/math';
   import Portal from 'components/Portal.svelte';
   import Draggable from 'components/Draggable.svelte';
   import ConditionalWrapper from 'components/ConditionalWrapper.svelte';

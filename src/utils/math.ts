@@ -1,5 +1,5 @@
-export type Shape = 'circle' | 'rectangle';
-export type InOut = 'inner' | 'outer';
+import type { InOut, LineSegment, Point, RectSize } from 'types/math';
+import { UnsupportedValueError } from 'utils/meta';
 
 export function* range(start: number, stop?: number, step = 1) {
   let loopStart = start;
@@ -45,7 +45,15 @@ export function* counter() {
 }
 
 export function toFixed(n: number, decimals = 2) {
-  return isNaN(n) ? n : Number(n.toFixed(decimals));
+  return Number(n.toFixed(decimals));
+}
+
+function radToDeg(rad: number) {
+  return rad * 180 / Math.PI;
+}
+
+function degToRad(deg: number) {
+  return deg * Math.PI / 180;
 }
 
 export function circleSquareSide(radius: number, position: InOut = 'outer') {
@@ -55,7 +63,7 @@ export function circleSquareSide(radius: number, position: InOut = 'outer') {
   if (position === 'outer') {
     return radius * 2;
   }
-  throw new Error(`Unhandled position ${position}`);
+  throw new UnsupportedValueError(position);
 }
 
 export function squareCircumcircleRadius(square: RectSize, position: InOut = 'outer') {
@@ -65,26 +73,36 @@ export function squareCircumcircleRadius(square: RectSize, position: InOut = 'ou
   if (position === 'outer') {
     return Math.hypot(square.width, square.height) / 2;
   }
-  throw new Error(`Unhandled position ${position}`);
+  throw new UnsupportedValueError(position);
 }
 
 export function lineLength({ a, b }: LineSegment) {
   return Math.hypot(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
 }
 
-export function slope({ a, b }: LineSegment) {
+export function lineAngle({ a, b }: LineSegment) {
+  const dx = a.x - b.x;
+  const dy = a.y - b.y;
+  return 180 + radToDeg(Math.atan2(dy, dx));
+}
+
+export function lineSlope({ a, b }: LineSegment) {
   if (b.x - a.x) {
     return (b.y - a.y) / (b.x - a.x);
   }
 }
 
-export function pointAtLength(line: LineSegment, length: number): Vec2 {
+export function pointAtLength(line: LineSegment, length: number): Point {
   const { a, b } = line;
-  const m = slope(line);
-  if (m) {
+  const m = lineSlope(line);
+  if (m !== undefined) {
     let r = Math.hypot(1, m);
     r = b.x < a.x ? -r : r;
     return { x: a.x + (length / r), y: a.y + ((length * m) / r) };
   }
-  return { x: 0, y: a.y + length };
+  return { x: a.x, y: a.y + length };
+}
+
+export function pointFromAngle(angle: number, length: number, { x, y }: Point = { x: 0, y: 0 }): Point {
+  return { x: x + length * Math.cos(degToRad(angle)), y: y + length * Math.sin(degToRad(angle)) };
 }

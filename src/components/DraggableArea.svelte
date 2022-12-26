@@ -1,52 +1,58 @@
 <script lang="ts">
-  import { getPagePos } from 'utils/dom';
-  import drag from 'actions/drag';
+  import type { AreaDragDetail, CustomDragEvent, ShapeDrag } from 'types/events';
+  import type { LineSegment, Point, Shape } from 'types/math';
   import { createEventDispatcher } from 'svelte';
+  import { clamp, lineAngle, lineLength, pointAtLength, squareCircumcircleRadius } from 'utils/math';
+  import { UnsupportedValueError } from 'utils/meta';
+  import { getPagePos } from 'utils/dom';
   import { resizeObserver } from 'actions/resizeObserver';
-  import { circleSquareSide, clamp, lineLength, pointAtLength, squareCircumcircleRadius, type Shape } from 'utils/math';
+  import drag from 'actions/drag';
 
-  const dispatch = createEventDispatcher<{ areadrag: AreaDragDetail }>();
-
+  type S = $$Generic<Shape>;
   export let isDragging = false;
-  export let shape: Shape = 'rectangle';
+  export let shape: S = 'rectangle' as S;
 
-  let x = 0;
-  let y = 0;
-  let percentage = { x, y };
+  const dispatch = createEventDispatcher<{ areadrag: AreaDragDetail<S> }>();
+
   let rect = { width: 1, height: 1 };
   let draggableArea: HTMLDivElement;
 
-  let updatePoint: (point: Point) => void;
+  let updatePoint: (point: Point) => AreaDragDetail<S>;
   $: {
     switch (shape) {
       case 'rectangle': {
         updatePoint = (point: Point) => {
-          const { width, height } = rect;
-          x = clamp(0, point.x, width);
-          y = clamp(0, point.y, height);
-          percentage = { x: x / width * 100, y: y / height * 100 };
+          const x = clamp(0, point.x, rect.width);
+          const y = clamp(0, point.y, rect.height);
+          const percentage = { x: x / rect.width * 100, y: y / rect.height * 100 };
+          const relativePosition = { x, y, percentage };
+          const rectDrag: ShapeDrag<'rectangle'> = { x, y, percentage };
+          return { isDragging, relativePosition, shapeDrag: rectDrag as ShapeDrag<S> };
         };
         break;
       }
       case 'circle': {
         const radius = squareCircumcircleRadius(rect, 'inner');
         const center = { x: rect.width / 2, y: rect.height / 2 };
-        const innerRectSize = circleSquareSide(radius, 'inner');
 
         updatePoint = (point: Point) => {
           const line: LineSegment = { a: center, b: point };
-          ({ x, y } = lineLength(line) > radius ? pointAtLength(line, radius) : point);
-          percentage = {
-            x: clamp(0, (x + innerRectSize / 2 - radius) / innerRectSize * 100, 100),
-            y: clamp(0, (y + innerRectSize / 2 - radius) / innerRectSize * 100, 100),
+          const centerDistance = lineLength(line);
+          const { x, y } = centerDistance > radius ? pointAtLength(line, radius) : point;
+          const percentage = { x: x / rect.width * 100, y: y / rect.height * 100 };
+          const relativePosition = { x, y, percentage };
+          const length = Math.min(centerDistance, radius);
+          const circleDrag: ShapeDrag<'circle'> = {
+            length,
+            lengthPercent: length / radius * 100,
+            radius,
+            angle: lineAngle(line),
           };
-          percentage = { x: x / rect.width * 100, y: y / rect.height * 100 };
+          return { isDragging, relativePosition, shapeDrag: circleDrag as ShapeDrag<S> };
         };
         break;
       }
-      default: {
-        throw new Error(`Unhandled DraggableArea shape: ${shape}`);
-      }
+      default: throw new UnsupportedValueError(shape);
     }
   }
 
@@ -64,9 +70,7 @@
     const { left, top } = draggableArea?.getBoundingClientRect() || {};
     const { pageX, pageY } = getPagePos(e);
 
-    updatePoint({ x: pageX - left, y: rect.height - (pageY - top) });
-
-    dispatch('areadrag', { x, y, isDragging, percentage });
+    dispatch('areadrag', updatePoint({ x: pageX - left, y: rect.height - (pageY - top) }));
   }
 
   function finishDrag(action: CustomDragEvent) {

@@ -89,3 +89,18 @@ $max-brightness: brightness(#fff);
 @function abs($n) {
   @return max($n, -1 * $n);
 }
+
+@function hue-step($step: 15, $saturation: 100%, $lightness: 50%) {
+  $colors: ();
+  $hue: 90;
+  @while $hue > 0 {
+    $colors: list.append($colors, hsl($hue, $saturation, $lightness), comma);
+    $hue: $hue - $step;
+  }
+  $hue: 360;
+  @while $hue > 90 {
+    $colors: list.append($colors, hsl($hue, $saturation, $lightness), comma);
+    $hue: $hue - $step;
+  }
+  @return list.append($colors, hsl(90, $saturation, $lightness), comma);
+}

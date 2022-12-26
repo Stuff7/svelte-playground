@@ -1,6 +1,6 @@
 <script lang="ts">
   import AnimatedInput from 'components/AnimatedInput.svelte';
-  import ColorPicker from 'components/ColorPicker.svelte';
+  import ColorWheel from 'components/ColorWheel.svelte';
   import { onDestroy, onMount } from 'svelte';
 
   let output = [] as string[];
@@ -61,7 +61,7 @@
     {/each}
   </div>
   <AnimatedInput />
-  <ColorPicker shape="circle" />
+  <ColorWheel />
 </section>
 
 <style lang="scss">

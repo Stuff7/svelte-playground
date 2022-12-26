@@ -1,3 +1,5 @@
+import type { MouseTouchEvent } from 'types/events';
+
 export default function drag<T extends HTMLElement>(node: T) {
   function startDrag(event: MouseTouchEvent) {
     document.addEventListener('mousemove', doDrag);

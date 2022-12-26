@@ -1,6 +1,6 @@
 <script lang="ts">
   import preferences from 'store/preferences';
-  import ColorPicker from 'components/ColorPicker.svelte';
+  import ColorWheel from 'components/ColorWheel.svelte';
   import Modal from 'components/Modal.svelte';
   import { capitalize } from 'utils/string';
 
@@ -24,7 +24,7 @@
         position="bottom-left"
         on:close={() => activeColorKey = null}
       >
-        <ColorPicker bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
+        <ColorWheel bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
       </Modal>
     </section>
   {/each}

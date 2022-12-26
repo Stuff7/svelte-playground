@@ -1,13 +1,18 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
+
   const NUMBER_PATTERN = /^-?(\d+\.?\d*|\d*\.?\d+)$/;
 
   type V = $$Generic<string | number>;
   export let formatter: ((val: V) => string) | null = null;
   export let label = '';
   export let value: V = '' as V;
-  export let inputMode = typeof value === 'number' ? 'numeric' : 'text';
+  export let inputMode = typeof value === 'number' ? 'numeric' as const : 'text' as const;
 
-  let inputValue = (value === 0 ? '' : value).toString();
+  const dispatch = createEventDispatcher<{ input: V }>();
+
+  $: inputValue = (value === 0 ? '' : value).toString();
 
   function validateInput(event: Event) {
     const prevValue = inputValue;
@@ -19,12 +24,14 @@
 
     inputValue = target.value;
     if (inputMode === 'text') {
+      dispatch('input', inputValue as V);
       return;
     }
 
     if (NUMBER_PATTERN.test(`${inputValue}0`)) {
       const numValue = Number(inputValue);
       value = (isNaN(numValue) ? 0 : numValue) as V;
+      dispatch('input', value);
       return;
     }
 

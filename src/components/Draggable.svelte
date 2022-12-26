@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { CustomDragEvent } from 'types/events';
+  import type { Point, Position } from 'types/math';
   import { genCssVars, getPagePos } from 'utils/dom';
   import drag from 'actions/drag';
   import { createEventDispatcher } from 'svelte';

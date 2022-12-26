@@ -1,3 +1,4 @@
+import type { MouseTouchEvent } from 'types/events';
 import { kebabCase } from 'utils/string';
 
 export function genCssVars(vars: Record<string, unknown>) {

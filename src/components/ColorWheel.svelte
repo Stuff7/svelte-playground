@@ -1,59 +1,57 @@
 <script lang="ts">
+  import { contrast, hslToRgb, toCssFn, type HSL } from 'utils/color';
+  import { pointFromAngle, toFixed } from 'utils/math';
   import DraggableArea from 'components/DraggableArea.svelte';
-  import { contrast, hslToRgb, hsvToHsl, hslToHsv, toCssFn, type HSL, type HSV } from 'utils/color';
+  import HSLInput from 'components/HSLInput.svelte';
   import Slider from 'components/Slider.svelte';
-  import { toFixed } from 'utils/math';
-  import HSLInput from './HSLInput.svelte';
 
   export let hslColor: HSL = [0, 100, 50];
 
-  let hsvColor: HSV = hslToHsv(hslColor).map(v => toFixed(v, 1)) as HSV;
   let isDragging = false;
 
-  $: hslColor = hsvToHsl(hsvColor);
+  $: pickerPoint = pointFromAngle(hslColor[0], (100 - hslColor[2]) / 2, { x: 50, y: 50 });
   $: hsl = toCssFn(hslColor, 'hsl');
   $: contrastColor = toCssFn(contrast(hslToRgb(hslColor)));
 </script>
 
 <section
-  class="ColorPicker"
+  class="ColorWheel"
   style="
 --hsl: {hsl};
---slider-thumb-color: hsl({hslColor[0]}, 100%, 50%);
---picker-x: {hsvColor[1]}%;
---picker-y: {hsvColor[2]}%;
+--slider-thumb-color: hsl({hslColor[0]}, {hslColor[1]}%, 50%);
+--picker-x: {pickerPoint.x}%;
+--picker-y: {pickerPoint.y}%;
 --picker-h: {hslColor[0]};
 --picker-s: {hslColor[1]}%;
 --picker-l: {hslColor[2]}%;
 --contrast: {contrastColor};"
 >
   <DraggableArea
-    shape="rectangle"
+    shape="circle"
     bind:isDragging
-    on:areadrag={({ detail: { shapeDrag: { percentage: { x, y } } } }) => {
-      hsvColor = [hsvColor[0], toFixed(x, 1), toFixed(y, 1)];
+    on:areadrag={({ detail: { shapeDrag } }) => {
+      hslColor = [toFixed(shapeDrag.angle, 1), hslColor[1], toFixed(100 - shapeDrag.lengthPercent, 1)];
     }}
   >
-    <div class="ColorPicker__picker" class:dragging={isDragging}/>
+    <div class="ColorWheel__picker" class:dragging={isDragging}/>
   </DraggableArea>
   <Slider
     hideMinMax
     hideValue
     min={0}
-    max={360}
+    max={100}
     step={0.1}
-    bind:value={hsvColor[0]}
-    formatter={(v) => `${toFixed(v)}°`}
     valueLabelPosition="bottom"
+    bind:value={hslColor[1]}
   />
-  <HSLInput aliasL="Value" bind:color={hsvColor} />
+  <HSLInput bind:color={hslColor} />
 </section>
 
 <style lang="scss">
   @use 'style/color';
   @use 'style/misc';
 
-  .ColorPicker {
+  .ColorWheel {
     display: flex;
     flex-direction: column;
     padding: var(--spacing-nm-100);
@@ -63,22 +61,15 @@
     width: min-content;
     gap: var(--spacing-md-200);
 
-    --slider-track-color: linear-gradient(90deg,
-      hsl(0,100%,50%),
-      hsl(60,100%,50%),
-      hsl(120,100%,50%),
-      hsl(180,100%,50%),
-      hsl(240,100%,50%),
-      hsl(300,100%,50%),
-      hsl(360,100%,50%)
-    );
+    --slider-track-color: linear-gradient(90deg, hsl(var(--picker-h), 0%, 50%), hsl(var(--picker-h), 100%, 50%));
     --slider-track-before-color: transparent;
 
     --draggable-area-size: max(#{misc.rem(180)}, 20vw);
     --draggable-area-background:
-      linear-gradient(180deg, hsla(0, 0%, 100%, 0) 0%, hsl(0, 0%, 0%) 100%),
-      linear-gradient(90deg, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 50%, 0) 100%),
-      hsl(var(--picker-h), 100%, 50%);
+      radial-gradient(
+        #fff 0%, #fffc 6.25%, #fff8 13%, #fff6 19.5%, #fff4 25%, #fff2 31.5%, #fff0 38%,
+        #0002 42.5%, #0004 50%, #0008 56.5%, #000c 63%, #000 69.5%),
+      conic-gradient(#{color.hue-step(40, var(--picker-s))});
 
     &__picker {
       position: absolute;
