@@ -3,9 +3,9 @@
   import Input from './Input.svelte';
 
   export let color: HSL = [0, 100, 50];
-  export let aliasH = 'Hue';
-  export let aliasS = 'Saturation';
-  export let aliasL = 'Lightness';
+  export let aliasH = 'H';
+  export let aliasS = 'S';
+  export let aliasL = 'L';
 
   $: [inputH, inputS, inputL] = color;
 </script>

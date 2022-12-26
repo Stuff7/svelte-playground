@@ -46,7 +46,7 @@
     formatter={(v) => `${toFixed(v)}°`}
     valueLabelPosition="bottom"
   />
-  <HSLInput aliasL="Value" bind:color={hsvColor} />
+  <HSLInput aliasL="V" bind:color={hsvColor} />
 </section>
 
 <style lang="scss">

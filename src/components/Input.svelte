@@ -68,12 +68,14 @@
     &__label {
       margin: 0;
       font-size: var(--h-nm-100);
+      color: var(--color-secondary-800);
     }
 
     &__wrapper {
       position: relative;
       display: flex;
       align-items: center;
+      overflow: hidden;
     }
 
     &__input {
@@ -86,6 +88,7 @@
     &__format {
       position: absolute;
       background: var(--color-secondary-200);
+      color: var(--color-secondary-800);
       left: misc.rem(3);
       z-index: 1;
       font-size: var(--h-nm-100);

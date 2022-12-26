@@ -1,5 +1,6 @@
 <script lang="ts">
   import AnimatedInput from 'components/AnimatedInput.svelte';
+  import ColorPicker from 'components/ColorPicker.svelte';
   import ColorWheel from 'components/ColorWheel.svelte';
   import { onDestroy, onMount } from 'svelte';
 
@@ -61,7 +62,10 @@
     {/each}
   </div>
   <AnimatedInput />
-  <ColorWheel />
+  <div class="ScreenPlayground__hot-stuff">
+    <ColorWheel />
+    <ColorPicker />
+  </div>
 </section>
 
 <style lang="scss">
@@ -74,6 +78,10 @@
     padding: var(--spacing-sm-100) var(--spacing-nm-100);
     max-height: 100%;
 
+    &__hot-stuff {
+      display: flex;
+      gap: var(--spacing-nm-100);
+    }
     &__output {
       display: flex;
       flex-direction: column;

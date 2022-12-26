@@ -84,6 +84,7 @@
 <div
   class="DraggableArea"
   class:circle={shape === 'circle'}
+  class:dragging={isDragging}
   bind:this={draggableArea}
   on:customdragstart={startDrag}
   on:customdrag={doDrag}
@@ -102,6 +103,10 @@
     height: var(--draggable-area-height, var(--draggable-area-size));
     &.circle {
       border-radius: 50%;
+    }
+    &.dragging {
+      -webkit-user-select: none;
+      user-select: none;
     }
   }
 </style>
