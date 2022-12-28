@@ -11,8 +11,8 @@ interface Component extends ComponentType {
 }
 
 interface Config {
-  props: {
-    $$slots: Record<string, BlockFn[]>;
+  props?: {
+    $$slots?: Record<string, BlockFn[]>;
   }
   target: Element | ShadowRoot;
 }
@@ -52,22 +52,24 @@ export function createBoundary(Component: Component) {
     constructor(config: Config) {
       const error = createErrorStore();
 
-      config.props.$$slots.default = config.props.$$slots.default.map(
-        (slot) => (...args: unknown[]) => {
-          const guarded = guard(slot, error.set);
-          const block = guarded(...args);
+      if (config.props?.$$slots) {
+        config.props.$$slots.default = config.props.$$slots.default.map(
+          (slot) => (...args: unknown[]) => {
+            const guarded = guard(slot, error.set);
+            const block = guarded(...args);
 
-          if (block) {
-            for (const fn of GUARDED_BLOCK_FNS) {
-              if (block[fn]) {
-                block[fn] = guard(block[fn], error.set) as BlockFn;
+            if (block) {
+              for (const fn of GUARDED_BLOCK_FNS) {
+                if (block[fn]) {
+                  block[fn] = guard(block[fn], error.set) as BlockFn;
+                }
               }
             }
-          }
 
-          return block as Block;
-        },
-      );
+            return block as Block;
+          },
+        );
+      }
 
       super(config);
 

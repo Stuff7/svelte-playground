@@ -47,24 +47,6 @@ body {
   height: 100%;
 }
 
-input {
-  padding: var(--spacing-sm-100) var(--spacing-nm-100);
-  font-size: var(--h-nm-100);
-  background: var(--color-secondary-200);
-  transition: border-color 0.25s;
-  outline: 0;
-  border: misc.rem(1) solid var(--color-secondary-400);
-  @include misc.border-radius;
-  &:focus {
-    border-color: var(--color-primary);
-  }
-  color: var(--color-secondary-800);
-  z-index: 1;
-  @include media.smaller-than(phone) {
-    padding: var(--spacing-sm-50) var(--spacing-sm-100);
-  }
-}
-
 button {
   font-size: var(--h-nm-100);
   font-weight: 800;

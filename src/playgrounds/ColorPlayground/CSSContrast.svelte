@@ -1,6 +1,5 @@
 <script lang="ts">
   import { contrast, hslToRgb, toCssFn } from 'utils/color';
-  import { genCssVars } from 'utils/dom';
   import Slider from 'components/Slider.svelte';
 
   let h = 29;
@@ -46,7 +45,11 @@
   />
   <figure
     class="CSSContrast__color-preview"
-    style={genCssVars({ h, s: percentage(s), l: percentage(l), contrast: textColorString })}
+    style="
+    --css-contrast__h: {h};
+    --css-contrast__s: {percentage(s)};
+    --css-contrast__l: {percentage(l)};
+    --css-contrast__contrast: {textColorString};"
   >
     <figcaption>hsl({h}, {percentage(s)}, {percentage(l)})</figcaption>
   </figure>
@@ -69,8 +72,8 @@
       font-size: clamp(misc.rem(16), 2.5vw, misc.rem(32));
       grid-area: d;
 
-      background: hsl(var(--h), var(--s), var(--l));
-      color: var(--contrast);
+      background: hsl(var(--css-contrast__h), var(--css-contrast__s), var(--css-contrast__l));
+      color: var(--css-contrast__contrast);
     }
   }
 </style>

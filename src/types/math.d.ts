@@ -3,8 +3,6 @@ export interface RectSize {
   height: number;
 }
 
-export type Shape = 'circle' | 'rectangle';
-
 export type InOut = 'inner' | 'outer';
 
 export interface Vec2 {

@@ -192,6 +192,8 @@
       font-size: var(--p-md-300);
       padding: 0;
       border: 0;
+      outline: 0;
+      background: transparent;
       color: transparent;
       width: 100%;
       &::selection {

@@ -21,11 +21,20 @@ interface CircleDrag {
   angle: number;
 }
 
+interface RingDrag {
+  angle: number;
+  anglePercent: number;
+}
+
+export type Shape = 'circle' | 'rectangle';
+
 export type ShapeDrag<S extends Shape> =
 S extends 'circle' ?
   CircleDrag :
 S extends 'rectangle' ?
   RectDrag :
+S extends 'ring' ?
+  RingDrag :
 never;
 
 export type AreaDragDetail<S extends Shape> = {

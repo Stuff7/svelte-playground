@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { genCssVars } from 'utils/dom';
+  import Input from 'components/Input.svelte';
 
   export let editable = false;
   export let hexBackground: string;
@@ -7,8 +7,11 @@
   export let name = '';
 </script>
 
-<div class="ColorPreview" style={genCssVars({ hexBackground, hexText })}>
-  {#if editable}<input class="ColorPreview__input" type="text" bind:value={hexBackground}>{/if}
+<div class="ColorPreview" style="
+--color-preview__hex-background: {hexBackground};
+--color-preview__hex-text: {hexText};
+">
+  {#if editable}<Input bind:value={hexBackground} />{/if}
   {#if name}<span class="ColorPreview__name">{name}</span>{/if}
   <div class="ColorPreview__value ">{hexText}</div>
 </div>
@@ -24,18 +27,16 @@
     font-size: var(--h-md-200);
     min-height: clamp(misc.rem(150), 30vw, misc.rem(300));
     flex: 1;
-    background: var(--hexBackground);
+    background: var(--color-preview__hex-background);
     outline: 1px solid var(--color-secondary-200);
 
-    &__input {
-      position: absolute;
-      left: var(--spacing-sm-50);
-      top: var(--spacing-lg-100);
-      max-width: calc(100% - var(--spacing-sm-100));
-    }
+    --input-position: absolute;
+    --input-left: var(--spacing-sm-50);
+    --input-top: var(--spacing-lg-100);
+    --input-max-width: calc(100% - var(--spacing-sm-100));
 
     &__value {
-      color: var(--hexText);
+      color: var(--color-preview__hex-text);
       width: 100%;
       flex: 1;
       display: flex;

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { range } from 'utils/math';
-  import { genCssVars } from 'utils/dom';
   import hover from 'actions/hover';
 
   export let label = '';
@@ -12,7 +11,7 @@
   export let value = 0;
   export let valueLabelPosition: 'top' | 'right' | 'bottom' | 'left' = 'top';
   export let stepIndicators = false;
-  export let thumbRadius = '0.5em';
+  export let style = '';
   export let element: HTMLDivElement | null = null;
   export let formatter: (val: number) => string | number = (val: number) => val;
 
@@ -29,10 +28,8 @@
   <div class="Slider__wrapper">
     <div
       class="Slider__container"
-      style={genCssVars({
-        rangePercentage: `${rangePercentage}%`,
-        thumbRadius,
-      })}
+      style="{style.trim()}
+      --slider__percentage: {rangePercentage}%;"
       bind:this={element}
       on:hover
       on:hoverend
@@ -52,7 +49,7 @@
         {#each steps as stepPos (`Slider__step-indicator--${stepPos}`)}
           <div
             class="Slider__step-indicator"
-            style={genCssVars({ stepPos: `${stepPos}%` })}
+            style="--slider__step-pos: {stepPos}%;"
           />
         {/each}
         {#if !hideValue}
@@ -92,9 +89,15 @@
     display: flex;
     flex-direction: column;
     gap: clamp(misc.rem(10), 1vw, misc.rem(16));
+    --slider__track-width: var(--slider-track-width, 0.75rem);
+    --slider__thumb-radius: calc(var(--slider__track-width) * 2 / 3);
+    --slider__track-radius: var(--slider-track-radius, var(--slider__thumb-radius));
 
     &__label {
       margin: 0;
+      letter-spacing: var(--slider-label-letter-spacing, inherit);
+      font-size: var(--p-sm-100);
+      color: var(--color-secondary-800);
     }
 
     &__wrapper {
@@ -114,8 +117,8 @@
 
     &__step-indicator {
       position: absolute;
-      left: var(--stepPos);
-      height: 0.5em;
+      left: var(--slider__step-pos);
+      height: var(--slider__thumb-radius);
       width: misc.rem(2);
       background: var(--color-secondary-100);
     }
@@ -125,25 +128,25 @@
       flex: 1;
       align-items: center;
       background: var(--slider-track-color);
-      height: 0.75em;
-      border: 2px solid var(--color-secondary-200);
-      border-radius: var(--radius-nm-100);
+      height: var(--slider__track-width);
+      border: 1px solid var(--color-secondary-200);
+      border-radius: var(--slider__track-radius);
       pointer-events: none;
       position: relative;
       &:before {
         content: "";
         background: var(--slider-track-before-color);
-        width: var(--rangePercentage);
+        width: var(--slider__percentage);
         height: 100%;
-        border-radius: var(--radius-nm-100);
+        border-radius: var(--slider__track-radius);
       }
       &:after {
         content: "";
         position: absolute;
-        @include misc.circle(var(--thumbRadius));
+        @include misc.circle(var(--slider__thumb-radius));
         @include misc.shadow;
         background: var(--slider-thumb-color);
-        left: var(--rangePercentage);
+        left: var(--slider__percentage);
         transform: translateX(-50%);
       }
     }
@@ -169,11 +172,11 @@
         @if $pos == 'top' or $pos == 'bottom' {
           #{$inv}: calc(100% + $gap);
           transform: translateX(-50%);
-          left: var(--rangePercentage);
+          left: var(--slider__percentage);
         } @else if $pos == 'left' {
-          right: calc(100% - var(--rangePercentage) + var(--thumbRadius) * 2);
+          right: calc(100% - var(--slider__percentage) + var(--slider__thumb-radius) * 2);
         } @else {
-          left: calc(var(--rangePercentage) + calc(var(--thumbRadius) * 2));
+          left: calc(var(--slider__percentage) + calc(var(--slider__thumb-radius) * 2));
         }
         #{$component}__triangle {
           @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color));

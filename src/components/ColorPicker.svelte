@@ -46,7 +46,7 @@
     formatter={(v) => `${toFixed(v)}°`}
     valueLabelPosition="bottom"
   />
-  <HSLInput aliasL="V" bind:color={hsvColor} />
+  <HSLInput label="HSV" bind:color={hsvColor} />
 </section>
 
 <style lang="scss">
@@ -61,7 +61,8 @@
     border: 1px solid var(--color-secondary-500);
     border-radius: var(--radius-nm-100);
     width: min-content;
-    gap: var(--spacing-md-200);
+    height: max-content;
+    gap: var(--spacing-sm-100);
 
     --slider-track-color: linear-gradient(90deg,
       hsl(0,100%,50%),
@@ -74,7 +75,7 @@
     );
     --slider-track-before-color: transparent;
 
-    --draggable-area-size: max(#{misc.rem(180)}, 20vw);
+    --draggable-area-size: clamp(#{misc.rem(180)}, 20vw, #{misc.rem(256)});
     --draggable-area-background:
       linear-gradient(180deg, hsla(0, 0%, 100%, 0) 0%, hsl(0, 0%, 0%) 100%),
       linear-gradient(90deg, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 50%, 0) 100%),

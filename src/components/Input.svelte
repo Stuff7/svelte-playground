@@ -1,18 +1,18 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-
   const NUMBER_PATTERN = /^-?(\d+\.?\d*|\d*\.?\d+)$/;
 
   type V = $$Generic<string | number>;
-  export let formatter: ((val: V) => string) | null = null;
+  export let formatter: (val: V) => string = (v) => v.toString();
   export let label = '';
   export let value: V = '' as V;
   export let inputMode = typeof value === 'number' ? 'numeric' as const : 'text' as const;
+  export let focused = false;
 
   const dispatch = createEventDispatcher<{ input: V }>();
 
-  $: inputValue = (value === 0 ? '' : value).toString();
+  $: inputValue = focused ? (value === 0 ? '' : value).toString() : formatter(value);
 
   function validateInput(event: Event) {
     const prevValue = inputValue;
@@ -24,6 +24,7 @@
 
     inputValue = target.value;
     if (inputMode === 'text') {
+      value = inputValue as V;
       dispatch('input', inputValue as V);
       return;
     }
@@ -40,30 +41,36 @@
 </script>
 
 <label class="Input">
-  <p class="Input__label">{label}</p>
-  <div class="Input__wrapper">
-    <input
-      class="Input__input"
-      inputmode={inputMode}
-      value={inputValue}
-      on:input={validateInput}
-    />
-    {#if formatter}
-      <span class="Input__format">
-        {formatter(value)}
-      </span>
-    {/if}
-  </div>
+  {#if label}<p class="Input__label">{label}</p>{/if}
+  <input
+    class="Input__input"
+    inputmode={inputMode}
+    value={inputValue}
+    on:blur={() => focused = false}
+    on:focus={() => focused = true}
+    on:input={validateInput}
+  />
 </label>
 
 <style lang="scss">
   @use 'style/text';
   @use 'style/misc';
+  @use 'style/media';
 
   .Input {
+    --input__background: var(--input-background, var(--color-secondary-200));
+    --input__color: var(--input-color, var(--color-secondary-800));
+    --input__padding: var(--input-padding, var(--spacing-sm-100) var(--spacing-nm-100));
+    --input__padding-small: var(--input-padding, var(--spacing-sm-50) var(--spacing-sm-100));
+    --input__font-size: var(--input-font-size, var(--h-nm-100));
+
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm-50);
+    position: var(--input-position, initial);
+    left: var(--input-left, initial);
+    top: var(--input-top, initial);
+    max-width: var(--input-max-width, initial);
 
     &__label {
       margin: 0;
@@ -71,29 +78,24 @@
       color: var(--color-secondary-800);
     }
 
-    &__wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
     &__input {
-      width: 100%;
-      &:focus + .Input__format {
-        display: none;
+      font-size: var(--input__font-size);
+      width: var(--input-width, 100%);
+      min-width: clamp(misc.rem(10), 4vw, misc.rem(30));
+      padding: var(--input__padding);
+      background: var(--input__background);
+      color: var(--input__color);
+      transition: border-color 0.25s;
+      outline: 0;
+      text-align: var(--input-text-align, initial);
+      border: 1px solid var(--color-secondary-400);
+      @include misc.border-radius;
+      &:focus {
+        border-color: var(--color-primary);
       }
-    }
-
-    &__format {
-      position: absolute;
-      background: var(--color-secondary-200);
-      color: var(--color-secondary-800);
-      left: misc.rem(3);
-      z-index: 1;
-      font-size: var(--h-nm-100);
-      padding-inline: clamp(misc.rem(10), 0.4vw, misc.rem(30));
-      pointer-events: none;
+      @include media.smaller-than(phone) {
+        padding: var(--input__padding-small);
+  }
     }
   }
 </style>

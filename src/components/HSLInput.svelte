@@ -3,38 +3,59 @@
   import Input from './Input.svelte';
 
   export let color: HSL = [0, 100, 50];
-  export let aliasH = 'H';
-  export let aliasS = 'S';
-  export let aliasL = 'L';
+  export let label = 'HSL';
 
   $: [inputH, inputS, inputL] = color;
 </script>
 
-<div class="HSLInput">
-  <Input
-    formatter={(value) => `${value}°`}
-    label={aliasH}
-    bind:value={inputH}
-    on:input={({ detail }) => color = [detail, color[1], color[2]]}
-  />
-  <Input
-    formatter={(value) => `${value}%`}
-    label={aliasS}
-    bind:value={inputS}
-    on:input={({ detail }) => color = [color[0], detail, color[2]]}
-  />
-  <Input
-    formatter={(value) => `${value}%`}
-    label={aliasL}
-    bind:value={inputL}
-    on:input={({ detail }) => color = [color[0], color[1], detail]}
-  />
-</div>
+<section class="HSLInput">
+  <span class="HSLInput__label">{label}</span>
+  <div class="HSLInput__inputs">
+    <Input
+      bind:value={inputH}
+      on:input={({ detail }) => color = [detail, color[1], color[2]]}
+    />
+    <Input
+      bind:value={inputS}
+      on:input={({ detail }) => color = [color[0], detail, color[2]]}
+    />
+    <Input
+      bind:value={inputL}
+      on:input={({ detail }) => color = [color[0], color[1], detail]}
+    />
+  </div>
+</section>
 
 <style lang="scss">
+  @use 'style/misc';
+
   .HSLInput {
     display: flex;
-    flex-wrap: nowrap;
-    gap: var(--spacing-nm-100);
+    align-items: center;
+    justify-content: space-between;
+    background: var(--hsl-input-background-hover, var(--color-secondary-200));
+    color: var(--color-secondary-900);
+    gap: var(--spacing-sm-50);
+    padding: var(--spacing-sm-50) var(--spacing-sm-100);
+    @include misc.border-radius;
+
+    &__label {
+      flex: 1;
+      font-size: var(--p-nm-100);
+      font-weight: bold;
+    }
+
+    &__inputs {
+      --input-background: var(--hsl-input-background, var(--color-secondary-400));
+      --input-padding: var(--spacing-sm-50) var(--spacing-sm-25);
+      --input-max-width: min-content;
+      --input-font-size: var(--p-nm-100);
+      --input-text-align: center;
+      --input-width: #{clamp(misc.rem(32), 4vw, misc.rem(42))};
+
+      display: flex;
+      flex: 0;
+      gap: var(--spacing-sm-50);
+    }
   }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { AreaDragDetail, CustomDragEvent, ShapeDrag } from 'types/events';
-  import type { LineSegment, Point, Shape } from 'types/math';
+  import type { AreaDragDetail, CustomDragEvent, Shape, ShapeDrag } from 'types/events';
+  import type { LineSegment, Point } from 'types/math';
   import { createEventDispatcher } from 'svelte';
   import { clamp, lineAngle, lineLength, pointAtLength, squareCircumcircleRadius } from 'utils/math';
   import { UnsupportedValueError } from 'utils/meta';
@@ -85,6 +85,7 @@
   class="DraggableArea"
   class:circle={shape === 'circle'}
   class:dragging={isDragging}
+  draggable="false"
   bind:this={draggableArea}
   on:customdragstart={startDrag}
   on:customdrag={doDrag}
@@ -96,14 +97,25 @@
 </div>
 
 <style lang="scss">
+  @use 'style/misc';
+
   .DraggableArea {
-    position: relative;
+    position: var(--draggable-area-position, relative);
+    transform: var(--draggable-area-transform, inherit);
+    left: var(--draggable-area-left, inherit);
+    top: var(--draggable-area-top, inherit);
+    z-index: var(--draggable-area-z-index, 0);
     background: var(--draggable-area-background);
-    width: var(--draggable-area-width, var(--draggable-area-size));
-    height: var(--draggable-area-height, var(--draggable-area-size));
+    cursor: var(--draggable-area-cursor, initial);
+    width: var(--draggable-area-width, var(--draggable-area-size, misc.rem(200)));
+    height: var(--draggable-area-height, var(--draggable-area-size, misc.rem(200)));
+    mask: var(--draggable-area-mask, none);
+
     &.circle {
       border-radius: 50%;
+      flex: 0 0 auto;
     }
+
     &.dragging {
       -webkit-user-select: none;
       user-select: none;

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { CustomDragEvent } from 'types/events';
   import type { Point, Position } from 'types/math';
-  import { genCssVars, getPagePos } from 'utils/dom';
+  import { getPagePos } from 'utils/dom';
   import drag from 'actions/drag';
   import { createEventDispatcher } from 'svelte';
 
@@ -47,7 +47,9 @@
 <div
   class="Draggable position-{position}"
   class:dragging={isDragging}
-  style={genCssVars({ x: `${x}px`, y: `${y}px` })}
+  style="
+  --draggable__x: {x}px;
+  --draggable__y: {y}px;"
   on:customdragstart={startDrag}
   on:customdrag={doDrag}
   on:customdragend={finishDrag}
@@ -59,7 +61,7 @@
 <style lang="scss">
   .Draggable {
     position: absolute;
-    transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%));
+    transform: translate(calc(var(--draggable__x) - 50%), calc(var(--draggable__y) - 50%));
     cursor: grab;
     z-index: 1;
 

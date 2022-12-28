@@ -29,9 +29,11 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --spacing-md-300: #{clamp(misc.rem(24), 3vw, misc.rem(30))};
   --spacing-md-200: #{clamp(misc.rem(20), 2vw, misc.rem(24))};
   --spacing-md-100: #{clamp(misc.rem(16), 1.5vw, misc.rem(20))};
+  --spacing-nm-200: #{clamp(misc.rem(14), 1.25vw, misc.rem(16))};
   --spacing-nm-100: #{clamp(misc.rem(12), 1vw, misc.rem(14))};
   --spacing-sm-100: #{clamp(misc.rem(10), 0.8vw, misc.rem(12))};
   --spacing-sm-50: #{clamp(misc.rem(6), 0.4vw, misc.rem(8))};
+  --spacing-sm-25: #{clamp(misc.rem(3), 0.2vw, misc.rem(4))};
 
   --radius-nm-100: #{clamp(misc.rem(5), 0.25vw, misc.rem(10))};
   --radius-nm-200: #{clamp(misc.rem(10), 0.5vw, misc.rem(15))};

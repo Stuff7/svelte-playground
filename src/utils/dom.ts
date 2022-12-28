@@ -1,12 +1,6 @@
 import type { MouseTouchEvent } from 'types/events';
 import { kebabCase } from 'utils/string';
 
-export function genCssVars(vars: Record<string, unknown>) {
-  return Object.entries(vars).reduce((css, [key, val]) => (
-    `${css}--${key}:${val};`
-  ), '');
-}
-
 export function cssCustomProps(vars: Record<string, unknown>) {
   return Object.entries(vars).reduce((css, [key, val]) => (
     `${css}--${kebabCase(key)}:${val};`
