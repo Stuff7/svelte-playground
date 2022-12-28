@@ -112,7 +112,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      width: var(--slider-width);
+      width: var(--slider-width, 100%);
     }
 
     &__step-indicator {
@@ -127,7 +127,7 @@
       display: flex;
       flex: 1;
       align-items: center;
-      background: var(--slider-track-color);
+      background: var(--slider-track-color, transparent);
       height: var(--slider__track-width);
       border: 1px solid var(--color-secondary-200);
       border-radius: var(--slider__track-radius);
@@ -135,7 +135,7 @@
       position: relative;
       &:before {
         content: "";
-        background: var(--slider-track-before-color);
+        background: var(--slider-track-before-color, var(--color-primary));
         width: var(--slider__percentage);
         height: 100%;
         border-radius: var(--slider__track-radius);
@@ -145,7 +145,7 @@
         position: absolute;
         @include misc.circle(var(--slider__thumb-radius));
         @include misc.shadow;
-        background: var(--slider-thumb-color);
+        background: var(--slider-thumb-color, var(--color-primary));
         left: var(--slider__percentage);
         transform: translateX(-50%);
       }
@@ -157,8 +157,8 @@
       padding: var(--spacing-sm-50) var(--spacing-sm-100);
       @include misc.border-radius;
       @include misc.shadow;
-      background: var(--slider-value-label-color);
-      color: var(--slider-value-label-text-color);
+      background: var(--slider-value-label-color, var(--color-primary));
+      color: var(--slider-value-label-text-color, var(--color-primary-contrast));
       text-align: center;
 
       &__triangle {
@@ -179,7 +179,7 @@
           left: calc(var(--slider__percentage) + calc(var(--slider__thumb-radius) * 2));
         }
         #{$component}__triangle {
-          @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color));
+          @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color, var(--color-primary)));
           @if $pos == 'top' or $pos == 'bottom' {
             #{$pos}: 100%;
             @include misc.abs-horizontal-center;

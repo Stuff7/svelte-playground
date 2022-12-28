@@ -41,14 +41,6 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
 
   --font-title: 'Major Mono Display', #{$fallback-fonts};
   --font-body: 'Ubuntu Mono', #{$fallback-fonts};
-
-  --icon-size: var(--svg-nm-100);
-  --slider-track-color: transparent;
-  --slider-track-before-color: var(--color-primary);
-  --slider-thumb-color: var(--color-primary);
-  --slider-value-label-color: var(--color-primary);
-  --slider-value-label-text-color: var(--color-primary-contrast);
-  --slider-width: 100%;
 }
 
 h6 {

@@ -39,8 +39,8 @@
     }
 
     & :global(svg) {
-      width: var(--icon-size);
-      height: var(--icon-size);
+      width: var(--icon-size, var(--svg-nm-100));
+      height: var(--icon-size, var(--svg-nm-100));
       position: var(--icon-position, initial);
       left: var(--icon-left, initial);
       top: var(--icon-top, initial);
