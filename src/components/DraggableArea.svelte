@@ -11,6 +11,7 @@
   type S = $$Generic<Shape>;
   export let isDragging = false;
   export let shape: S = 'rectangle' as S;
+  export let style = '';
 
   const dispatch = createEventDispatcher<{ areadrag: AreaDragDetail<S> }>();
 
@@ -86,6 +87,7 @@
   class:circle={shape === 'circle'}
   class:dragging={isDragging}
   draggable="false"
+  {style}
   bind:this={draggableArea}
   on:customdragstart={startDrag}
   on:customdrag={doDrag}
@@ -105,6 +107,7 @@
     left: var(--draggable-area-left, inherit);
     top: var(--draggable-area-top, inherit);
     z-index: var(--draggable-area-z-index, 0);
+    border: var(--draggable-area-border, 0);
     background: var(--draggable-area-background);
     cursor: var(--draggable-area-cursor, initial);
     width: var(--draggable-area-width, var(--draggable-area-size, misc.rem(200)));

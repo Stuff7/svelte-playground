@@ -4,6 +4,7 @@
   import DraggableArea from 'components/DraggableArea.svelte';
   import HSLInput from 'components/HSLInput.svelte';
   import Slider from 'components/Slider.svelte';
+  import Icon from 'components/Icon.svelte';
 
   export let hslColor: HSL = [0, 100, 50];
 
@@ -22,7 +23,7 @@
 --color-wheel__hsl: hsl({hslColor[0]}, {hslColor[1]}%, {hslColor[2]}%);
 --color-wheel__knob-x: {pickerPoint.x}%;
 --color-wheel__knob-y: {pickerPoint.y}%;
---color-wheel__knob-rotation: {90 - hslColor[0]}deg;
+--color-wheel__knob-rotation: {-hslColor[0]}deg;
 --color-wheel__h: {hslColor[0]}deg;
 --color-wheel__s: {hslColor[1]}%;
 --color-wheel__l: {hslColor[2]}%;
@@ -33,18 +34,13 @@
 >
   <DraggableArea
     shape="circle"
+    style={isDragging ? '--draggable-area-cursor: grabbing;' : ''}
     bind:isDragging
     on:areadrag={({ detail: { shapeDrag } }) => {
       hslColor = [toFixed(shapeDrag.angle, 1), hslColor[1], hslColor[2]];
     }}
   >
-    <div class="ColorWheel__panel">
-      <div class="ColorWheel__panel__knob" class:dragging={isDragging}>
-        <svg class="ColorWheel__panel__knob__triangle" width="512" height="512" viewBox="0 0 512 512" fill="#C73436">
-          <path d="M216.39 27.9384L2.23756 453.087C-5.4107 470.092 6.3167 512 40.989 512H471.844C508.046 512 518.754 470.092 508.046 447.013L294.913 27.9384C284.977 11.6708 269.784 0.0106391 255.142 7.84612e-06C238.913 -0.0117758 223.36 13.251 216.39 27.9384Z"/>
-        </svg>
-      </div>
-    </div>
+    <Icon name="knob" style="pointer-events: none;" />
   </DraggableArea>
   <div class="ColorWheel__controls">
     <Slider
@@ -89,11 +85,9 @@
     --color-wheel__radius: calc(var(--draggable-area-size) / 2);
 
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     gap: var(--spacing-md-100);
-    @include media.smaller-than(tablet) {
-      flex-direction: column;
-      justify-content: center;
-    }
     padding: var(--spacing-nm-100) var(--spacing-md-100);
     background: var(--color-wheel__background);
     border: 1px solid var(--color-secondary-500);
@@ -103,6 +97,7 @@
     position: relative;
 
     --draggable-area-cursor: grab;
+    --draggable-area-border: #{misc.rem(3)} solid var(--color-secondary-800);
     --draggable-area-size: clamp(#{misc.rem(180)}, 20vw, #{misc.rem(200)});
     --draggable-area-position: relative;
     --draggable-area-z-index: 1;
@@ -121,52 +116,12 @@
       --slider-label-font-size: var(--p-nm-100);
     }
 
-    &__panel {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(var(--color-wheel__knob-rotation));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 60%;
-      aspect-ratio: 1 / 1;
-      background: var(--color-wheel__background);
-      border-radius: 50%;
-      &__knob {
-        position: relative;
-        width: 75%;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        border: 1px solid var(--color-wheel__contrast);
-        cursor: grab;
-        &.dragging {
-          cursor: grabbing;
-        }
-
-        &__triangle {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          transform: translate(-50%, -65%);
-          width: calc(var(--color-wheel__radius) / 2);
-          height: calc(var(--color-wheel__radius) / 1.5);
-          fill: var(--color-wheel__hsl);
-          stroke: var(--color-wheel__contrast);
-          stroke-width: 10px;
-        }
-
-        &::after {
-          content: "";
-          background: var(--color-wheel__hsl);
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
-      }
-    }
+    --icon-accent: var(--color-wheel__hsl);
+    --icon-accent-2: var(--color-wheel__contrast);
+    --icon-size: 90%;
+    --icon-position: absolute;
+    --icon-left: 50%;
+    --icon-top: 50%;
+    --icon-transform: translate(-50%, -50%) rotate(var(--color-wheel__knob-rotation));
   }
 </style>

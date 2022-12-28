@@ -3,6 +3,7 @@
   import iconLoading from 'icons/loading.svg?raw';
 
   export let name: IconName;
+  export let style = '';
 
   async function loadIcon(iconName: IconName) {
     return (await import(`icons/${iconName}.svg?raw`)).default as string;
@@ -13,15 +14,15 @@
 </script>
 
 {#await iconPromise}
-  <span class="Icon Icon--rotate" title="Loading {quotedName} icon...">
+  <span class="Icon Icon--rotate" {style} title="Loading {quotedName} icon...">
     {@html iconLoading}
   </span>
 {:then icon}
-  <span class="Icon">
+  <span class="Icon" {style}>
     {@html icon}
   </span>
 {:catch}
-  <span class="Icon Icon__error" title="Could not find icon {quotedName}">
+  <span class="Icon Icon__error" {style} title="Could not find icon {quotedName}">
     {@html iconError}
   </span>
 {/await}
@@ -35,6 +36,16 @@
 
     &--rotate {
       @include animation.rotate;
+    }
+
+    & :global(svg) {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      position: var(--icon-position, initial);
+      left: var(--icon-left, initial);
+      top: var(--icon-top, initial);
+      transform: var(--icon-transform, initial);
+      cursor: var(--icon-cursor, initial);
     }
 
     & :global(.icon-accent) {
