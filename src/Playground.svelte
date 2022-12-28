@@ -1,21 +1,26 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import router from 'store/router';
+  import { portalIdMap } from 'utils/dom';
+  import { capitalize } from 'utils/string';
   import { initPreferencesStore } from 'store/preferences';
+  import router from 'store/router';
   import routes from '@Playground/routes';
   import Sidebar from 'components/Sidebar.svelte';
   import Topbar from 'components/Topbar.svelte';
   import Icon from 'components/Icon.svelte';
   import ErrorBoundary from 'components/ErrorBoundary';
-  import { portalIdMap } from 'utils/dom';
 
   onMount(initPreferencesStore);
 
   $: CurrentPlayground = $router in routes ? (
     routes[$router as keyof typeof routes]
   ) : null;
+  $: title = $router ? `${capitalize($router)} Playground` : 'Playground';
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 <main id="playground" class="Playground">
   <Topbar />
   <Sidebar />

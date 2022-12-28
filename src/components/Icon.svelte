@@ -45,7 +45,7 @@
       left: var(--icon-left, initial);
       top: var(--icon-top, initial);
       transform: var(--icon-transform, initial);
-      cursor: var(--icon-cursor, initial);
+      cursor: var(--icon-cursor, inherit);
     }
 
     & :global(.icon-accent) {

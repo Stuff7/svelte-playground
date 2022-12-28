@@ -1,10 +1,10 @@
 import ColorPlayground from 'playgrounds/ColorPlayground';
-import ScreenPlayground from 'playgrounds/ScreenPlayground.svelte';
+import HotPlayground from 'playgrounds/HotPlayground.svelte';
 import TaxPlayground from 'playgrounds/TaxPlayground.svelte';
 
 const ROUTE_MAP = {
   color: ColorPlayground,
-  screen: ScreenPlayground,
+  hot: HotPlayground,
   tax: TaxPlayground,
 };
 
@@ -17,8 +17,8 @@ export const routes: Route[] = [{
   name: 'color',
   icon: 'brush',
 }, {
-  name: 'screen',
-  icon: 'display',
+  name: 'hot',
+  icon: 'fire',
 }, {
   name: 'tax',
   icon: 'money',

@@ -9,7 +9,7 @@ window.addEventListener('popstate', () => router.set(window.location.pathname));
 export const navigate = (href: string) => {
   const route = href.replace(/^\s*\/+|\/+\s*$/g, '');
   history.pushState({}, '', `${basePath}/${route}`);
-  router.set(href);
+  router.set(route);
 };
 
 export default router;
