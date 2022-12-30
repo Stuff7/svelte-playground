@@ -37,7 +37,7 @@ export function clamp(min: number, n: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-export function* counter() {
+export function* counter(): Generator<number, number, never> {
   let i = 0;
   while (true) {
     yield i++;

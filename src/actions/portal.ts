@@ -1,6 +1,6 @@
 
 import { tick } from 'svelte';
-import { getElementByPortalId, type PortalID } from 'utils/dom';
+import type { TooltipPortalID } from 'store/tooltip';
 
 export function portal<E extends HTMLElement>(
   element: E,
@@ -19,7 +19,7 @@ export function portal<E extends HTMLElement>(
       }
       if (targetEl === null) {
         throw new Error(
-          `No element found matching css selector: "${currentTarget}"`,
+          `No element found matching target name: "${currentTarget}"`,
         );
       }
     } else if (currentTarget instanceof HTMLElement) {
@@ -48,3 +48,9 @@ export function portal<E extends HTMLElement>(
     destroy,
   };
 }
+
+export function getElementByPortalId<T extends HTMLElement>(id: PortalID) {
+  return document.querySelector<T>(`[data-portal-id = ${id}]`);
+}
+
+export type PortalID = 'modal' | 'tooltip' | TooltipPortalID | 'topbar';

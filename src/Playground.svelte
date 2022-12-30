@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { portalIdMap } from 'utils/dom';
   import { capitalize } from 'utils/string';
   import { initPreferencesStore } from 'store/preferences';
   import router from 'store/router';
@@ -9,6 +8,7 @@
   import Topbar from 'components/Topbar.svelte';
   import Icon from 'components/Icon.svelte';
   import ErrorBoundary from 'components/ErrorBoundary';
+  import PortalLayer from 'components/PortalLayer.svelte';
 
   onMount(initPreferencesStore);
 
@@ -34,7 +34,8 @@
     </section>
   {/if}
 </main>
-<div aria-hidden="true" data-portal-id={portalIdMap.modal} />
+<PortalLayer portalID="modal" left="50%" top="50%" zIndex={10} />
+<PortalLayer portalID="tooltip" cover preventClicks zIndex={10} />
 
 <style lang="scss">
   @use 'style/color';
@@ -76,12 +77,5 @@
         "b c" 1fr
         "b c" 1fr / max-content 1fr;
     }
-  }
-
-  [data-portal-id = modal] {
-    position: fixed;
-    z-index: 10;
-    left: 50%;
-    top: 50%;
   }
 </style>

@@ -93,7 +93,7 @@
   on:customdrag={doDrag}
   on:customdragend={finishDrag}
   use:drag
-  use:resizeObserver={(size) => rect = size}
+  use:resizeObserver={(size) => rect = { width: size.width, height: size.height }}
 >
   <slot />
 </div>

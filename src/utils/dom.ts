@@ -20,14 +20,3 @@ export function getPagePos(e: MouseTouchEvent) {
   }
   return e as MouseEvent;
 }
-
-export function getElementByPortalId<T extends HTMLElement>(id: PortalID) {
-  return document.querySelector<T>(`[data-portal-id = ${id}]`);
-}
-
-export const portalIdMap = {
-  modal: 'modal',
-  topbar: 'topbar',
-} as const;
-
-export type PortalID = typeof portalIdMap[keyof typeof portalIdMap];

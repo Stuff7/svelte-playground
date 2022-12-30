@@ -7,12 +7,6 @@
   transform: translateX(-50%);
 }
 
-@mixin apply-rules($styles: ()) {
-  @each $rule, $value in $styles {
-    #{$rule}: $value;
-  }
-}
-
 @mixin border-radius {
   border-radius: var(--radius-nm-100);
 }
@@ -40,31 +34,31 @@
   }
 }
 
-@mixin input-range-thumb($styles: ()) {
+@mixin input-range-thumb {
   input[type=range]::-webkit-slider-thumb {
-    @include apply-rules($styles);
+    @content;
   }
 
   input[type=range]::-moz-range-thumb {
-    @include apply-rules($styles);
+    @content;
   }
 
   input[type=range]::-ms-thumb {
-    @include apply-rules($styles);
+    @content;
   }
 }
 
-@mixin input-range-track($styles: ()) {
+@mixin input-range-track {
   input[type=range]::-webkit-slider-runnable-track {
-    @include apply-rules($styles);
+    @content;
   }
 
   input[type=range]::-moz-range-track {
-    @include apply-rules($styles);
+    @content;
   }
 
   input[type=range]::-ms-track {
-    @include apply-rules($styles);
+    @content;
   }
 }
 

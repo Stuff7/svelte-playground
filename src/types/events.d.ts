@@ -45,6 +45,6 @@ export type AreaDragDetail<S extends Shape> = {
 export type AreaDragEvent<S extends Shape> = CustomEvent<AreaDragDetail<S>>;
 export type AreaDragHandler = Handler<AreaDragEvent>;
 
-export type HoverDetail = { event: MouseEvent };
+export type HoverDetail = { event: MouseTouchEvent };
 export type HoverEvent = CustomEvent<HoverDetail>;
 export type HoverHandler = Handler<HoverEvent>;

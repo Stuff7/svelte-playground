@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { portal } from 'actions/portal';
-  import type { PortalID } from 'utils/dom';
+  import { portal, type PortalID } from 'actions/portal';
 
-export let target: PortalID | undefined = undefined;
+  export let target: PortalID | undefined = undefined;
+  export let style = '';
 </script>
 
-<div use:portal={target}>
+<div {style} use:portal={target}>
   <slot />
 </div>

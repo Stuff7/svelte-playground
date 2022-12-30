@@ -1,14 +1,9 @@
-import type { RectSize } from 'types/math';
-
 export function resizeObserver<E extends HTMLElement>(
   node: E,
-  onResize: (size: RectSize) => void,
+  onResize: (size: DOMRect) => void,
 ) {
   const observer = new ResizeObserver(([element]) => {
-    onResize({
-      width: element.contentRect.width,
-      height: element.contentRect.height,
-    });
+    onResize(element.contentRect);
   });
 
   observer.observe(node);

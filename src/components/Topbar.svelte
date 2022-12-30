@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { portalIdMap } from 'utils/dom';
   import internalLink from 'actions/internalLink';
   import Icon from 'components/Icon.svelte';
   import Console from 'components/Console';
   import ThemeToggle from './ThemeToggle.svelte';
   import ColorSettings from './ColorSettings.svelte';
+  import PortalLayer from './PortalLayer.svelte';
 </script>
 
 <nav class="Topbar">
@@ -12,10 +12,15 @@
     <Icon name="logo" />
     JSPlayground
   </a>
-  <section data-portal-id={portalIdMap.topbar} class="Topbar__right-section">
+  <PortalLayer
+    element="section"
+    portalID="topbar"
+    static
+    style="display: flex; margin-left: auto; gap: var(--spacing-sm-100);"
+  >
     <Console />
     <ThemeToggle />
-  </section>
+  </PortalLayer>
   <ColorSettings />
 </nav>
 
@@ -36,11 +41,6 @@
     background: var(--color-secondary-300);
     outline: 1px solid var(--color-secondary-400);
 
-    &__right-section {
-      display: flex;
-      gap: var(--spacing-sm-100);
-    }
-
     &__home {
       @include text.font-title;
       @include text.shadow(var(--color-primary-contrast));
@@ -51,10 +51,6 @@
       color: var(--color-primary);
       font-weight: 800;
       --icon-size: var(--h-nm-200);
-    }
-
-    &__right-section {
-      margin-left: auto;
     }
   }
 </style>

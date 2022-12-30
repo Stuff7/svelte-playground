@@ -3,11 +3,7 @@
 
   export let error: Error;
 
-  let stackExpanded = false;
-
-  function toggleExpandStack() {
-    stackExpanded = !stackExpanded;
-  }
+  let collapsed = true;
 </script>
 
 <section class="ErrorBlock">
@@ -18,8 +14,8 @@
   </h1>
   <pre
     class="ErrorBlock__stack"
-    on:mousedown={toggleExpandStack}
-    class:expanded={stackExpanded}
+    class:collapsed={collapsed}
+    on:mousedown={() => collapsed = !collapsed}
   >{error.stack}</pre>
 </section>
 
@@ -44,10 +40,8 @@
       font-weight: 400;
     }
 
-    &__stack {
-      &:not(.expanded) {
-        @include text.ellipsis(3);
-      }
+    &__stack.collapsed {
+      @include text.ellipsis(3);
     }
   }
 </style>

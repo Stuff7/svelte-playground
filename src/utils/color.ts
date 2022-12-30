@@ -63,6 +63,11 @@ export function hexString(color: RGB) {
   return `#${paddedHex(r)}${paddedHex(g)}${paddedHex(b)}`;
 }
 
+export function hslString(color: HSL) {
+  const [h, s, l] = color;
+  return `hsl(${h}deg, ${s}%, ${l}%)`;
+}
+
 export function toCssFn(color: RGB, fnName: CSSFnName = 'rgb') {
   const [r, g, b] = color;
   const cssFn = fnName === 'rgb' ?

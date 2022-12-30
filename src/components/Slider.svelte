@@ -75,16 +75,6 @@
   @use 'style/color';
   @use 'style/misc';
 
-  @include misc.input-range-track((
-    min-height: 2.75rem,
-    background: transparent,
-  ));
-
-  @include misc.input-range-thumb((
-    min-width: 1.25rem,
-    min-height: 3rem,
-  ));
-
   .Slider {
     display: flex;
     flex-direction: column;
@@ -92,6 +82,16 @@
     --slider__track-width: var(--slider-track-width, 0.75rem);
     --slider__thumb-radius: calc(var(--slider__track-width) * 2 / 3);
     --slider__track-radius: var(--slider-track-radius, var(--slider__thumb-radius));
+
+    @include misc.input-range-track {
+      min-height: 2.75rem;
+      background: transparent;
+    }
+
+    @include misc.input-range-thumb {
+      min-width: 1.25rem;
+      min-height: 3rem;
+    }
 
     &__label {
       margin: 0;

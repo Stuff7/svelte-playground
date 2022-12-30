@@ -68,6 +68,7 @@ module.exports = {
       multiline: true,
     }],
     'object-curly-spacing': ['warn', 'always', { 'objectsInObjects': true }],
+    'object-shorthand': 'warn',
     'quotes': [2, 'single', 'avoid-escape'],
     'space-before-blocks': 'warn',
     'space-infix-ops': ['warn', { 'int32Hint': false }],

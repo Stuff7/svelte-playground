@@ -1,3 +1,9 @@
+<script lang="ts" context="module">
+  import { counter } from 'utils/math';
+
+  const idGenerator = counter();
+</script>
+
 <script lang="ts">
   import iconError from 'icons/triangle-exclamation.svg?raw';
   import iconLoading from 'icons/loading.svg?raw';
@@ -6,7 +12,12 @@
   export let style = '';
 
   async function loadIcon(iconName: IconName) {
-    return (await import(`icons/${iconName}.svg?raw`)).default as string;
+    const icon = (await import(`icons/${iconName}.svg?raw`)).default as string;
+    if (icon.includes('${dynamic-id}')) {
+      const id = idGenerator.next().value;
+      return icon.replaceAll('${dynamic-id}', `icon-id-${id}`);
+    }
+    return icon;
   }
 
   $: quotedName = `"${name}"`;
@@ -30,6 +41,7 @@
 <style lang="scss">
   @use 'style/animation';
   @use 'style/color';
+  @use 'style/misc';
 
   .Icon {
     display: flex;
@@ -46,6 +58,7 @@
       top: var(--icon-top, initial);
       transform: var(--icon-transform, initial);
       cursor: var(--icon-cursor, inherit);
+      filter: drop-shadow(1px 1px 2px var(--icon-shadow, transparent));
     }
 
     & :global(.icon-accent) {

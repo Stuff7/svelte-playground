@@ -8,6 +8,7 @@
   const dispatch = createEventDispatcher<{ drag: Point }>();
 
   export let position: Position = 'none';
+  export let whitelistOnly = false;
 
   let startX = 0;
   let startY = 0;
@@ -18,6 +19,9 @@
   let isDragging = false;
 
   function startDrag({ detail: { event: e } }: CustomDragEvent) {
+    if (whitelistOnly && e.target instanceof HTMLElement && !('draggable' in e.target.dataset)) {
+      return;
+    }
     isDragging = true;
     const { pageX, pageY } = getPagePos(e);
     startX = pageX;

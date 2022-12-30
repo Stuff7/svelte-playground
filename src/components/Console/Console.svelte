@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { tooltip } from 'actions/tooltip';
+  import { clampNumber } from 'utils/string';
+  import debug, { clearErrors } from 'store/debug';
   import Icon from 'components/Icon.svelte';
   import Modal from 'components/Modal.svelte';
-  import debug, { clearErrors } from 'store/debug';
-  import { clampNumber } from 'utils/string';
   import ErrorBlock from './ErrorBlock.svelte';
 
   export let open = false;
@@ -21,12 +22,28 @@
     <Icon name="console" />
     <span class="ConsoleButton__error-count">{clampNumber($debug.errors.length, 99)}</span>
   </button>
-  <Modal portal {open}>
+  <Modal portal {open} whitelistOnly>
     <section class="Console">
-      <div class="Console__title-bar">
+      <div class="Console__title-bar" data-draggable>
         <h1 class="Console__title">{$debug.errors.length} errors</h1>
-        <button on:click={clearErrors}>clear</button>
-        <button on:click={toggleModal}>x</button>
+        <div class="Console__buttons">
+          <button
+            class="Console__icon-button"
+            data-tooltip="Clear console"
+            on:click={clearErrors}
+            use:tooltip
+          >
+            <Icon name="trash" />
+          </button>
+          <button
+            class="Console__icon-button Console__close-button"
+            data-tooltip="Close"
+            on:click={toggleModal}
+            use:tooltip
+          >
+            <Icon name="x" />
+          </button>
+        </div>
       </div>
       <div class="Console__output">
         {#each $debug.errors as error}
@@ -40,8 +57,10 @@
 <style lang="scss">
   @use 'style/misc';
   @use 'style/color';
+  @use 'style/text';
 
   .Console {
+    $component: &;
     display: flex;
     flex-direction: column;
     max-width: 80vw;
@@ -63,7 +82,27 @@
 
     &__title {
       font-size: var(--p-nm-200);
-      color: var(--color-primary);
+      color: var(--color-secondary-900);
+    }
+
+    &__buttons {
+      display: flex;
+      gap: var(--spacing-md-100);
+      & #{$component}__icon-button {
+        --icon-size: #{misc.rem(16)};
+        background: transparent;
+        border: transparent;
+        padding: 0;
+        color: var(--color-secondary-900);
+        &:hover {
+          color: var(--color-primary);
+          --icon-shadow: var(--color-primary-contrast);
+        }
+      }
+
+      & #{$component}__close-button {
+        --icon-size: #{misc.rem(12)};
+      }
     }
 
     &__output {

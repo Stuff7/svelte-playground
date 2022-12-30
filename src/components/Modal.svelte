@@ -3,7 +3,6 @@
   import Portal from 'components/Portal.svelte';
   import Draggable from 'components/Draggable.svelte';
   import ConditionalWrapper from 'components/ConditionalWrapper.svelte';
-  import { portalIdMap } from 'utils/dom';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher<{ close: undefined }>();
@@ -13,6 +12,7 @@
   export let position: MixedPosition = 'none';
   export let disableDrag = false;
   export let backdrop = false;
+  export let whitelistOnly = false;
 
   function close() {
     open = false;
@@ -23,12 +23,12 @@
 </script>
 
 {#if open}
-  <ConditionalWrapper component={Portal} target={portalIdMap.modal} wrap={portal}>
+  <ConditionalWrapper component={Portal} target="modal" wrap={portal}>
     {#if backdrop}
       <div class="Modal__backdrop" aria-hidden="true" on:click={close} />
     {/if}
     <dialog class="Modal {positionClass}" class:center={portal} open>
-      <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position}>
+      <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position} {whitelistOnly}>
         <slot />
       </ConditionalWrapper>
     </dialog>
