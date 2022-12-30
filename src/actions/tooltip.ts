@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'svelte';
-import { addTooltipPortal, deleteTooltipPortal } from 'store/tooltip';
 import type { MouseTouchEvent } from 'types/events';
+import type { Position } from 'types/math';
+import { addTooltipPortal, deleteTooltipPortal } from 'store/tooltip';
 import { getPagePos } from 'utils/dom';
 import { getElementByPortalId } from 'actions/portal';
 import Tooltip from 'actions/TooltipFromAction.svelte';
@@ -18,7 +19,7 @@ export function tooltip<T extends HTMLElement>(node: T) {
 
     const event = getPagePos(e);
     const id = node.dataset.tooltipId;
-    const position = node.dataset.tooltipPosition;
+    const position = node.dataset.tooltipPosition as Position;
     const rect = node.getBoundingClientRect();
     const title = node.dataset.tooltip;
     const props: ComponentProps<Tooltip> = {
