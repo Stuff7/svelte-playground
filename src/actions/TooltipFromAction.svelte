@@ -71,6 +71,8 @@
     width: max-content;
     min-width: clamp(misc.rem(48), 4vw, misc.rem(96));
     max-width: clamp(misc.rem(220), 80vw, misc.rem(900));
+    pointer-events: all;
+
     &:not(.static) {
       $x: var(--tooltip__calculated-x);
       $y: var(--tooltip__calculated-y);
