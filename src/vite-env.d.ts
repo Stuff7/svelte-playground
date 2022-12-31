@@ -7,6 +7,7 @@ declare namespace svelte.JSX {
     oncustomdragstart?: import('types/events').CustomDragHandler;
     oncustomdrag?: import('types/events').CustomDragHandler;
     oncustomdragend?: import('types/events').CustomDragHandler;
+    onintersection?: import('types/events').IntersectionHandler;
     onhover?: import('types/events').HoverHandler;
     onhovermove?: import('types/events').HoverHandler;
     onhoverend?: import('types/events').HoverHandler;

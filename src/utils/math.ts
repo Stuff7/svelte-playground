@@ -1,4 +1,4 @@
-import type { InOut, LineSegment, Point, RectSize } from 'types/math';
+import type { InOut, LineSegment, Point, Position, RectSize } from 'types/math';
 import { UnsupportedValueError } from 'utils/meta';
 
 export function* range(start: number, stop?: number, step = 1) {
@@ -23,6 +23,16 @@ export function* range(start: number, stop?: number, step = 1) {
       yield loopStart;
       loopStart += step;
     }
+  }
+}
+
+export function invertPosition(position: Position): Position {
+  switch (position) {
+    case 'bottom': return 'top';
+    case 'top': return 'bottom';
+    case 'left': return 'right';
+    case 'right': return 'left';
+    default: return 'none';
   }
 }
 

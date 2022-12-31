@@ -30,6 +30,7 @@
         }
       }
 
+      insertions.ok();
       insertions = insertions;
     }
     updateCaretPosition();

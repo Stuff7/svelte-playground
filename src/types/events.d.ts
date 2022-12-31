@@ -48,3 +48,7 @@ export type AreaDragHandler = Handler<AreaDragEvent>;
 export type HoverDetail = { event: MouseTouchEvent };
 export type HoverEvent = CustomEvent<HoverDetail>;
 export type HoverHandler = Handler<HoverEvent>;
+
+export type IntersectionDetail = IntersectionObserverEntry;
+export type IntersectionEvent = CustomEvent<IntersectionDetail>;
+export type IntersectionHandler = Handler<IntersectionEvent>;

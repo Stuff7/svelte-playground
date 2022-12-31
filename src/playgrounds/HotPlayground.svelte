@@ -62,15 +62,15 @@
 
 </script>
 
-<section class="ScreenPlayground">
-  <button class="ScreenPlayground__clear" on:click={clearOutput}>Clear</button>
-  <div class="ScreenPlayground__output" on:dblclick={() => log('Hey')}>
+<section class="HotPlayground">
+  <button class="HotPlayground__clear" on:click={clearOutput}>Clear</button>
+  <div class="HotPlayground__output" on:dblclick={() => log('Hey')}>
     {#each output as msg}
       <span>{msg}</span>
     {/each}
   </div>
   <AnimatedInput />
-  <div class="ScreenPlayground__hot-stuff">
+  <div class="HotPlayground__hot-stuff">
     <ColorWheel bind:hslColor={color1} />
     <ColorPicker bind:hslColor={color2} />
   </div>
@@ -101,7 +101,7 @@
   @use 'style/color';
   @use 'style/misc';
 
-  .ScreenPlayground {
+  .HotPlayground {
     display: flex;
     flex-direction: column;
     padding: var(--spacing-sm-100) var(--spacing-nm-100);

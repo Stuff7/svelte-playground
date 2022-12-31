@@ -1,4 +1,5 @@
-import type { ComponentProps } from 'svelte';
+import type { ComponentProps, SvelteComponent } from 'svelte';
+import { check_outros, group_outros, transition_out } from 'svelte/internal';
 import type { MouseTouchEvent } from 'types/events';
 import type { Position } from 'types/math';
 import { addTooltipPortal, deleteTooltipPortal } from 'store/tooltip';
@@ -38,7 +39,8 @@ export function tooltip<T extends HTMLElement>(node: T) {
     }
 
     tooltipComponent?.$destroy();
-    tooltipComponent = new Tooltip({ props, target });
+    removePortal();
+    tooltipComponent = new Tooltip({ intro: true, props, target });
 
     if (id) {
       addTooltipPortal(id);
@@ -54,11 +56,14 @@ export function tooltip<T extends HTMLElement>(node: T) {
   }
 
   function hoverEnd() {
+    outroAndDestroy(tooltipComponent, removePortal);
+  }
+
+  function removePortal() {
     const id = node.dataset.tooltipId;
     if (id) {
       deleteTooltipPortal(id);
     }
-    tooltipComponent?.$destroy();
   }
 
   node.addEventListener('mouseenter', hoverStart);
@@ -83,4 +88,19 @@ export function tooltip<T extends HTMLElement>(node: T) {
       hoverEnd();
     },
   };
+}
+
+// Workaround for https://github.com/sveltejs/svelte/issues/4056
+function outroAndDestroy(instance?: SvelteComponent, callback?: () => void) {
+  if (instance?.$$.fragment) {
+    group_outros();
+    transition_out(instance.$$.fragment, 0, 0, () => {
+      instance.$destroy();
+      callback?.();
+    });
+    check_outros();
+  } else {
+    instance?.$destroy();
+    callback?.();
+  }
 }
