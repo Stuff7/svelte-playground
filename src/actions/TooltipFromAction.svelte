@@ -30,7 +30,7 @@
         positionX = '1rem';
       }
       if (tooltipRect.top !== intersectionRect.top) {
-        positionY = '100% + 1rem';
+        positionY = '1rem';
       } else if (tooltipRect.bottom !== intersectionRect.bottom) {
         positionY = '-100% - 1rem';
       }
