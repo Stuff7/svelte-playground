@@ -1,38 +1,56 @@
 <script lang="ts">
-  import type { MixedPosition } from 'types/math';
+  import { createEventDispatcher } from 'svelte';
+  import { expoInOut } from 'svelte/easing';
+  import { scale } from 'svelte/transition';
+  import { clickOut } from 'actions/clickOut';
   import Portal from 'components/Portal.svelte';
   import Draggable from 'components/Draggable.svelte';
-  import ConditionalWrapper from 'components/ConditionalWrapper.svelte';
-  import { createEventDispatcher } from 'svelte';
+  import IconButton from 'components/IconButton.svelte';
 
   const dispatch = createEventDispatcher<{ close: undefined }>();
 
   export let open = true;
-  export let portal = false;
-  export let position: MixedPosition = 'none';
-  export let disableDrag = false;
-  export let backdrop = false;
-  export let whitelistOnly = false;
+  export let style: Option<string> = null;
+  export let topbarBackground: Option<string> = null;
+  export let background: Option<string> = null;
+  export let color: Option<string> = null;
+  export let disableClickOutClose = false;
+  export let borderColor: Option<string> = null;
 
   function close() {
     open = false;
     dispatch('close');
   }
-
-  $: positionClass = disableDrag ? position : '';
 </script>
 
 {#if open}
-  <ConditionalWrapper component={Portal} target="modal" wrap={portal}>
-    {#if backdrop}
-      <div class="Modal__backdrop" aria-hidden="true" on:click={close} />
-    {/if}
-    <dialog class="Modal {positionClass}" class:center={portal} open>
-      <ConditionalWrapper component={Draggable} wrap={!disableDrag} {position} {whitelistOnly}>
+  <Portal target="modal">
+    <Draggable whitelistOnly>
+      <dialog
+        class="Modal"
+        {style}
+        style:--modal-topbar-background={topbarBackground}
+        style:--modal-background={background}
+        style:--modal-color={color}
+        style:--modal-border-color={borderColor}
+        open
+        on:clickout={disableClickOutClose ? null : close}
+        transition:scale|local={{ easing: expoInOut }}
+        use:clickOut
+      >
+        <div class="Modal__topbar" data-draggable>
+          <div class="Modal__topbar__left">
+            <slot name="topbar-left" />
+          </div>
+          <div class="Modal__topbar__right">
+            <slot name="topbar-right" />
+            <IconButton name="x" tooltip="Close" on:click={close} />
+          </div>
+        </div>
         <slot />
-      </ConditionalWrapper>
-    </dialog>
-  </ConditionalWrapper>
+      </dialog>
+    </Draggable>
+  </Portal>
 {/if}
 
 <style lang="scss">
@@ -40,42 +58,21 @@
 
   .Modal {
     $component: &;
-    background: transparent;
-    z-index: 10;
+    transform: translate(-50%, -50%);
+    background: var(--modal-background, var(--color-secondary-300));
+    color: var(--modal-color, var(--color-secondary-900));
+    border: misc.rem(1) solid var(--modal-border-color, var(--color-secondary-400));
+    @include misc.border-radius;
 
-    &__backdrop {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9;
-    }
-
-    &.center {
-      position: absolute;
-      transform: translate(-50%, -50%);
-    }
-
-    &__triangle {
-      position: absolute;
-    }
-
-    $gap: var(--spacing-nm-100);
-    @include misc.position-classes($mixed: true) using($pos, $inv-pos) {
-      @if $pos == left or $pos == right {
-        top: 50%;
-        left: if($pos == right, calc(100% + $gap), -100%);
-        transform: if($pos == right, translate(0, -50%), translate(-100%, -50%));
-      } @else {
-        #{$inv-pos}: calc(100% + $gap);
-        @if $pos == top or $pos == bottom {
-          left: 50%;
-          transform: translateX(-50%);
-        } @else if $pos == top-left or $pos == bottom-left {
-          left: 100%;
-          transform: translateX(-100%);
-        }
+    &__topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--modal-topbar-background, var(--modal-background));
+      border-radius: var(--radius-nm-100) var(--radius-nm-100) 0 0;
+      & > * {
+        display: flex;
+        align-items: center;
       }
     }
   }

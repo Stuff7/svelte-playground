@@ -50,31 +50,29 @@ $max-brightness: brightness(#fff);
   @return color.scale($text-color, $lightness: if($bg-brightness < 50%, $strength, -$strength));
 }
 
-@mixin create-hsl($var-name, $hue, $saturation, $lightness){
-  $color: hsl($hue, $saturation, $lightness);
-  $contrast: text-contrast($color);
-  #{$var-name}-h: $hue;
-  #{$var-name}-s: $saturation;
-  #{$var-name}-l: $lightness;
-  #{$var-name}: hsl(var(#{$var-name}-h), var(#{$var-name}-s), var(#{$var-name}-l));
-  #{$var-name}-contrast: $contrast;
-}
-
 @function var-hsl($var-name, $h: var(#{$var-name}-h), $s: var(#{$var-name}-s), $l: var(#{$var-name}-l), $alpha: 1) {
   @return hsl($h, $s, $l, $alpha);
 }
 
-@mixin define-hsl($var-name, $hue, $saturation, $lightness, $invert: false){
+@mixin define-hsl($var-name, $hue, $saturation, $lightness){
   #{$var-name}-h: $hue;
   #{$var-name}-s: $saturation;
   #{$var-name}-l: $lightness;
   #{$var-name}: var-hsl($var-name);
   #{$var-name}-contrast: text-contrast(hsl($hue, $saturation, $lightness));
+  $shade: 100;
+  @while $shade < 1000 {
+    #{$var-name}-#{$shade}: var-hsl($var-name, $s: 10%, $l: var(--color-shade-#{$shade}));
+    $shade: $shade + 100;
+  }
+}
+
+@mixin define-shades($invert: false) {
   $shade: 10;
   @while $shade < 100 {
     $l: if($shade == 50, 40, if($shade < 50, math.div($shade, 2), $shade + 7));
     $shade-class: if($invert == true, 100 - $shade, $shade);
-    #{$var-name}-#{$shade-class}0: var-hsl(#{$var-name}, $s: 10%, $l: unquote("#{$l}%"));
+    --color-shade-#{$shade-class}0: #{$l + '%'};
     $shade: $shade + 10;
   }
 }
@@ -84,6 +82,14 @@ $max-brightness: brightness(#fff);
   $s: var(#{$var-name}-s);
   $l: var(#{$var-name}-l);
   @return hsla($h, $s, $l, $alpha);
+}
+
+@function shade($var-name, $shade, $s: var(#{$var-name}-s), $l: var(--color-shade-#{$shade}), $a: 1) {
+  @return var-hsl($var-name, $s: $s, $l: $l, $alpha: $a);
+}
+
+@function alpha-shade($var-name, $shade, $alpha: 1) {
+  @return var-hsl($var-name, $s: 10%, $l: var(--color-shade-#{$shade}), $alpha: $alpha);
 }
 
 @function abs($n) {

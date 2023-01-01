@@ -45,13 +45,12 @@
   />
   <figure
     class="CSSContrast__color-preview"
-    style="
-    --css-contrast__h: {h};
-    --css-contrast__s: {percentage(s)};
-    --css-contrast__l: {percentage(l)};
-    --css-contrast__contrast: {textColorString};"
+    style:--css-contrast__h="{h}deg"
+    style:--css-contrast__s={percentage(s)}
+    style:--css-contrast__l={percentage(l)}
+    style:--css-contrast__contrast={textColorString}
   >
-    <figcaption>hsl({h}, {percentage(s)}, {percentage(l)})</figcaption>
+    <figcaption>hsl({h}deg, {percentage(s)}, {percentage(l)})</figcaption>
   </figure>
 </section>
 

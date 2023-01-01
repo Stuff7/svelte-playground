@@ -70,8 +70,7 @@
     &__heading {
       text-align: center;
       padding-top: var(--spacing-md-100);
-      color: var(--color-primary);
-      @include text.shadow;
+      color: color.shade(--color-primary, 600);
     }
 
     &__calculator {

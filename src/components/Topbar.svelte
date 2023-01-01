@@ -16,7 +16,7 @@
     element="section"
     portalID="topbar"
     static
-    style="display: flex; margin-left: auto; gap: var(--spacing-sm-100);"
+    style="display: flex; align-items: center; margin-left: auto; gap: var(--spacing-sm-100);"
   >
     <Console />
     <ThemeToggle />
@@ -43,12 +43,11 @@
 
     &__home {
       @include text.font-title;
-      @include text.shadow(var(--color-primary-contrast));
       font-size: var(--h-nm-100);
       display: flex;
       align-items: center;
       gap: var(--spacing-nm-100);
-      color: var(--color-primary);
+      color: color.shade(--color-primary, 800);
       font-weight: 800;
       --icon-size: var(--h-nm-200);
     }

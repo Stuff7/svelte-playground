@@ -9,7 +9,7 @@
   import iconLoading from 'icons/loading.svg?raw';
 
   export let name: IconName;
-  export let style = '';
+  export let style: Option<string> = null;
 
   async function loadIcon(iconName: IconName) {
     const icon = (await import(`icons/${iconName}.svg?raw`)).default as string;

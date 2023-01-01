@@ -47,7 +47,7 @@
   style:--tooltip__calculated-x="calc({calculatedPosition.x})"
   style:--tooltip__calculated-y="calc({calculatedPosition.y})"
   on:intersection={onIntersection}
-  transition:clipPath={{ duration: 100 }}
+  transition:clipPath
   use:intersectionObserver={{ rootPortalID: 'tooltip' }}
 >
   {#if id}
@@ -58,10 +58,11 @@
 </div>
 
 <style lang="scss">
+  @use 'style/color';
   @use 'style/misc';
 
   .TooltipFromAction {
-    $tooltip-bg: var(--color-tertiary-400);
+    $tooltip-bg: color.alpha-shade(--color-tertiary, 400, 0.85);
     background: $tooltip-bg;
     color: var(--color-tertiary-900);
     @include misc.shadow(var(--color-tertiary-300));

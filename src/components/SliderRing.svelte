@@ -17,11 +17,10 @@
 
 <section
   class="SliderRing"
-  style="
---ring-slider__picker-rotation: {180 - angle + rotation}deg;
---ring-slider__picker-x: {pickerPoint.x}%;
---ring-slider__picker-y: {pickerPoint.y}%;
---ring-slider__contrast: white;"
+  style:--ring-slider__picker-rotation="{180 - angle + rotation}deg"
+  style:--ring-slider__picker-x="{pickerPoint.x}%"
+  style:--ring-slider__picker-y="{pickerPoint.y}%"
+  style:--ring-slider__contrast="white"
 >
   <DraggableArea
     shape="circle"

@@ -11,7 +11,7 @@
   type S = $$Generic<Shape>;
   export let isDragging = false;
   export let shape: S = 'rectangle' as S;
-  export let style = '';
+  export let style: Option<string> = null;
 
   const dispatch = createEventDispatcher<{ areadrag: AreaDragDetail<S> }>();
 

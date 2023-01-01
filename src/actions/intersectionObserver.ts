@@ -5,7 +5,7 @@ export function intersectionObserver<E extends HTMLElement>(
   node: E,
   options = {} as IntersectionObserverInit & { rootPortalID?: PortalID, rootSelector?: string },
 ) {
-  let root: Element | null;
+  let root: Option<Element>;
   if (options.rootPortalID) {
     root = getElementByPortalId(options.rootPortalID);
   } else if (options.rootSelector) {

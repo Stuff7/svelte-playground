@@ -36,7 +36,7 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --spacing-sm-25: #{clamp(misc.rem(3), 0.2vw, misc.rem(4))};
 
   --radius-nm-100: #{clamp(misc.rem(5), 0.25vw, misc.rem(10))};
-  --radius-nm-200: #{clamp(misc.rem(10), 0.5vw, misc.rem(15))};
+  --radius-nm-200: #{clamp(misc.rem(8), 0.5vw, misc.rem(12))};
   --radius-md-100: #{clamp(misc.rem(18), 1vw, misc.rem(28))};
 
   --font-title: 'Major Mono Display', #{$fallback-fonts};

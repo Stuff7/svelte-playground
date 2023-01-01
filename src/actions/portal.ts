@@ -4,10 +4,10 @@ import type { TooltipPortalID } from 'store/tooltip';
 
 export function portal<E extends HTMLElement>(
   element: E,
-  target?: PortalID,
+  target: Option<PortalID> = null,
 ) {
   let currentTarget = target || globalThis.document?.body;
-  let targetEl;
+  let targetEl: Option<HTMLElement> = null;
 
   async function update(newTarget: PortalID | HTMLElement) {
     currentTarget = newTarget || globalThis.document?.body;

@@ -30,7 +30,7 @@
 
   $sidebar-color: var(--color-secondary-300);
   $sidebar-outline-color: var(--color-secondary-400);
-  $button-hover-bg: var(--color-secondary-500);
+  $button-hover-bg: var(--color-secondary-700);
   $button-active-bg: var(--color-primary);
 
   .Sidebar {
@@ -72,15 +72,21 @@
       text-transform: capitalize;
       color: var(--color-secondary-900);
       padding: var(--spacing-sm-50);
+      border-color: transparent;
+      border-width: 1px 0 1px 1px;
+      border-style: solid;
+      @include media.smaller-than(tablet) {
+        border-right-width: 1px;
+      }
 
       &:hover {
         background: $button-hover-bg;
-        color: var(--color-secondary-900);
+        color: var(--color-secondary-100);
       }
       &.active {
-        --icon-accent: var(--color-secondary);
         background: $button-active-bg;
         color: var(--color-primary-contrast);
+        border-color: #{color.shade(--color-primary, 600)};
       }
     }
 

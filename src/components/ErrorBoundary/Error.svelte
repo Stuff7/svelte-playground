@@ -3,7 +3,7 @@
   import type { Writable } from 'svelte/store';
 
   export let error: Writable<Error>;
-  export let onError: ((err: Error) => unknown) | null = null;
+  export let onError: Option<(err: Error) => unknown> = null;
 
   $: if ($error && onError) {
     onError($error);

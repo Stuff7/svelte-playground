@@ -7,13 +7,15 @@
   import ColorWheel from 'components/ColorWheel.svelte';
   import Icon from 'components/Icon.svelte';
   import Tooltip from 'components/Tooltip.svelte';
+  import DebugObject from 'components/DebugObject.svelte';
 
   let color1: HSL = [310, 100, 74];
   let color2: HSL = [127, 100, 50];
   $: hsl1 = hslString(color1);
   $: hsl2 = hslString(color2);
   let output = [] as string[];
-  let handleEvent: (() => void) | undefined;
+  let handleEvent: Option<() => void>;
+  let debugObjectOpen = false;
 
   function log(msg: string) {
     output = [...output, msg];
@@ -21,6 +23,10 @@
 
   function clearOutput() {
     output = [];
+  }
+
+  function throwError() {
+    throw new Error('Test Error');
   }
 
   onMount(() => {
@@ -79,7 +85,7 @@
   </button>
   <Tooltip
     for="custom-tooltip"
-    style="display: flex;--icon-accent: {hsl1};--icon-accent-3: {hsl2};--icon-size: 5rem;"
+    style="display: flex;--icon-accent: {hsl1};--icon-accent-3: {hsl2};--icon-size: min(10vw, 5rem);"
   >
     <Icon name="brush" />
     <Icon name="display" />
@@ -95,6 +101,11 @@
   >
     Custom Static Tooltip
   </button>
+  <button on:click={() => debugObjectOpen = !debugObjectOpen}>
+    Debug object
+  </button>
+  <button class="HotPlayground__error-button" on:click={throwError}>Trigger Error</button>
+  <DebugObject bind:open={debugObjectOpen} data={{ color1, color2, hsl1, hsl2, output }} />
 </section>
 
 <style lang="scss">
@@ -120,6 +131,17 @@
       padding: var(--spacing-nm-100);
       white-space: pre;
       overflow: hidden auto;
+    }
+
+    &__error-button {
+      background: var(--color-error);
+      color: var(--color-error-contrast);
+      border-color: color.shade(--color-error, 600);
+      &:hover {
+        background: var(--color-error-contrast);
+        color: var(--color-error);
+        border-color: var(--color-error);
+      }
     }
   }
 </style>

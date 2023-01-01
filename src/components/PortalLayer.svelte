@@ -8,7 +8,7 @@
   export let top = '0';
   export let cover = false;
   export let preventClicks = false;
-  export let style = '';
+  export let style: Option<string> = null;
   export let statik = false;
 
   export { statik as static };

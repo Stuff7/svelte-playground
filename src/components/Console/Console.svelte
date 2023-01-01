@@ -1,50 +1,42 @@
 <script lang="ts">
-  import { tooltip } from 'actions/tooltip';
   import { clampNumber } from 'utils/string';
   import debug, { clearErrors } from 'store/debug';
-  import Icon from 'components/Icon.svelte';
   import Modal from 'components/Modal.svelte';
+  import IconButton from 'components/IconButton.svelte';
   import ErrorBlock from './ErrorBlock.svelte';
 
   export let open = false;
 
-  function toggleModal() {
-    open = !open;
-  }
-
-  $: if ($debug.errors.length === 0) {
+  $: errorCount = $debug.errors.length;
+  $: if (errorCount === 0) {
     open = false;
   }
 </script>
 
-{#if $debug.errors.length}
-  <button class="ConsoleButton" on:click={toggleModal}>
-    <Icon name="console" />
-    <span class="ConsoleButton__error-count">{clampNumber($debug.errors.length, 99)}</span>
-  </button>
-  <Modal portal {open} whitelistOnly>
+{#if errorCount}
+  <IconButton
+    name="console"
+    iconAccent="hsl(var(--color-primary-h), var(--color-primary-s), var(--color-shade-400))"
+    padding="0"
+    size="clamp(1.35rem, 2vw, 1.5rem)"
+    on:click={() => open = !open}
+  >
+    <span class="ConsoleButton__error-count">{clampNumber(errorCount, 99)}</span>
+  </IconButton>
+  <Modal
+    borderColor="hsl(var(--color-error-h), var(--color-error-s), var(--color-shade-700))"
+    bind:open
+  >
+    <h1 class="Console__title" slot="topbar-left">
+      {errorCount} Error{errorCount > 1 ? 's' : ''} Found
+    </h1>
+    <IconButton
+      slot="topbar-right"
+      name="trash"
+      tooltip="Clear console"
+      on:click={clearErrors}
+    />
     <section class="Console">
-      <div class="Console__title-bar" data-draggable>
-        <h1 class="Console__title">{$debug.errors.length} errors</h1>
-        <div class="Console__buttons">
-          <button
-            class="Console__icon-button"
-            data-tooltip="Clear console"
-            on:click={clearErrors}
-            use:tooltip
-          >
-            <Icon name="trash" />
-          </button>
-          <button
-            class="Console__icon-button Console__close-button"
-            data-tooltip="Close"
-            on:click={toggleModal}
-            use:tooltip
-          >
-            <Icon name="x" />
-          </button>
-        </div>
-      </div>
       <div class="Console__output">
         {#each $debug.errors as error}
           <ErrorBlock {error} />
@@ -63,48 +55,21 @@
     $component: &;
     display: flex;
     flex-direction: column;
+    min-width: 100%;
     max-width: 80vw;
     max-height: 50vh;
     width: max-content;
-    border-radius: var(--radius-nm-200);
+    border-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100);
     overflow: hidden;
-    border: misc.rem(1) solid var(--color-secondary-500);
+    border-top: misc.rem(1) solid color.shade(--color-error, 700);
     gap: misc.rem(1);
 
-    &__title-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--color-secondary-300);
-      outline: misc.rem(1) solid var(--color-secondary-400);
-      padding: var(--spacing-sm-100);
-    }
-
     &__title {
-      font-size: var(--p-nm-200);
-      color: var(--color-secondary-900);
+      margin-left: var(--spacing-sm-100);
+      color: color.shade(--color-error, 700);
+      font-size: var(--p-nm-100);
+      cursor: initial;
     }
-
-    &__buttons {
-      display: flex;
-      gap: var(--spacing-md-100);
-      & #{$component}__icon-button {
-        --icon-size: #{misc.rem(16)};
-        background: transparent;
-        border: transparent;
-        padding: 0;
-        color: var(--color-secondary-900);
-        &:hover {
-          color: var(--color-primary);
-          --icon-shadow: var(--color-primary-contrast);
-        }
-      }
-
-      & #{$component}__close-button {
-        --icon-size: #{misc.rem(12)};
-      }
-    }
-
     &__output {
       display: flex;
       flex-direction: column;
@@ -115,24 +80,13 @@
   }
 
   .ConsoleButton {
-    position: relative;
-    color: var(--color-secondary-900);
-    background: transparent;
-    --icon-accent: var(--color-secondary-100);
-    padding: 0;
-    border: 0;
-    &:hover {
-      color: var(--color-secondary-100);
-      --icon-accent: var(--color-secondary-900);
-    }
-
     &__error-count {
-      @include misc.circle(var(--radius-nm-200));
+      @include misc.circle(clamp(misc.rem(8), 0.5vw, misc.rem(12)));
       font-size: var(--p-nm-100);
       position: absolute;
       top: 0;
       right: 0;
-      transform: translate(50%, -50%);
+      transform: translate(50%, -15%);;
       background: var(--color-error);
       color: var(--color-error-contrast);
       display: flex;

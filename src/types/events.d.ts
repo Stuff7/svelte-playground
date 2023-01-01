@@ -4,6 +4,9 @@ type Handler<E> = (event: E) => void;
 
 export type MouseTouchEvent = MouseEvent | TouchEvent;
 
+export type ClickOutEvent = CustomEvent<MouseTouchEvent>;
+export type ClickOutHandler = Handler<ClickOutEvent>;
+
 export type CustomDragDetail = { event: MouseTouchEvent };
 export type CustomDragEvent = CustomEvent<CustomDragDetail>;
 export type CustomDragHandler = Handler<CustomDragEvent>;

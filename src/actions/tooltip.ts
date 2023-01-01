@@ -7,11 +7,19 @@ import { getPagePos } from 'utils/dom';
 import { getElementByPortalId } from 'actions/portal';
 import Tooltip from 'actions/TooltipFromAction.svelte';
 
+
 export function tooltip<T extends HTMLElement>(node: T) {
-  let tooltipComponent: Tooltip | undefined;
-  const isStatic = node.dataset.tooltipStatic !== undefined;
+  let tooltipComponent: Option<Tooltip> = null;
+  const isStatic = 'tooltipStatic' in node.dataset;
 
   function hoverStart(e: MouseTouchEvent) {
+    const id = node.dataset.tooltipId;
+    const title = node.dataset.tooltip;
+
+    if (!(id || title)) {
+      return;
+    }
+
     const target = getElementByPortalId('tooltip');
 
     if (!target) {
@@ -19,10 +27,8 @@ export function tooltip<T extends HTMLElement>(node: T) {
     }
 
     const event = getPagePos(e);
-    const id = node.dataset.tooltipId;
     const position = node.dataset.tooltipPosition as Position;
     const rect = node.getBoundingClientRect();
-    const title = node.dataset.tooltip;
     const props: ComponentProps<Tooltip> = {
       id,
       isStatic,
@@ -49,7 +55,9 @@ export function tooltip<T extends HTMLElement>(node: T) {
 
   function hoverMove(e: MouseTouchEvent) {
     const event = getPagePos(e);
+    const title = node.dataset.tooltip;
     tooltipComponent?.$set({
+      title,
       x: event.pageX,
       y: event.pageY,
     });
@@ -91,7 +99,7 @@ export function tooltip<T extends HTMLElement>(node: T) {
 }
 
 // Workaround for https://github.com/sveltejs/svelte/issues/4056
-function outroAndDestroy(instance?: SvelteComponent, callback?: () => void) {
+function outroAndDestroy(instance?: Option<SvelteComponent>, callback?: () => void) {
   if (instance?.$$.fragment) {
     group_outros();
     transition_out(instance.$$.fragment, 0, 0, () => {

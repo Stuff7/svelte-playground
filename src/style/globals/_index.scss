@@ -51,7 +51,7 @@ button {
   font-size: var(--h-nm-100);
   font-weight: 800;
   text-transform: uppercase;
-  border: misc.rem(1) solid transparent;
+  border: misc.rem(1) solid color.shade(--color-primary, 600);
   border-radius: misc.rem(8);
   padding: var(--spacing-sm-50) var(--spacing-sm-100);
   font-family: inherit;

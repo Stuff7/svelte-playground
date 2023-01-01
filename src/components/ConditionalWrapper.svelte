@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { SvelteComponent } from 'svelte';
 
-  export let component: typeof SvelteComponent | null = null;
+  export let component: Option<typeof SvelteComponent> = null;
   export let wrap = false;
 </script>
 

@@ -19,22 +19,21 @@
 
 <section
   class="ColorWheel"
-  style="
---color-wheel__hsl: hsl({hslColor[0]}, {hslColor[1]}%, {hslColor[2]}%);
---color-wheel__knob-x: {pickerPoint.x}%;
---color-wheel__knob-y: {pickerPoint.y}%;
---color-wheel__knob-rotation: {-hslColor[0]}deg;
---color-wheel__h: {hslColor[0]}deg;
---color-wheel__s: {hslColor[1]}%;
---color-wheel__l: {hslColor[2]}%;
---color-wheel__contrast: {contrastColor};
---color-wheel__contrast-h: {contrastH};
---color-wheel__contrast-s: {contrastS};
---color-wheel__contrast-l: {contrastL};"
+  style:--color-wheel__hsl="hsl({hslColor[0]}, {hslColor[1]}%, {hslColor[2]}%)"
+  style:--color-wheel__knob-x="{pickerPoint.x}%"
+  style:--color-wheel__knob-y="{pickerPoint.y}%"
+  style:--color-wheel__knob-rotation="{-hslColor[0]}deg"
+  style:--color-wheel__h="{hslColor[0]}deg"
+  style:--color-wheel__s="{hslColor[1]}%"
+  style:--color-wheel__l="{hslColor[2]}%"
+  style:--color-wheel__contrast={contrastColor}
+  style:--color-wheel__contrast-h={contrastH}
+  style:--color-wheel__contrast-s={contrastS}
+  style:--color-wheel__contrast-l={contrastL}
 >
   <DraggableArea
     shape="circle"
-    style={isDragging ? '--draggable-area-cursor: grabbing;' : ''}
+    style={isDragging ? '--draggable-area-cursor: grabbing;' : null}
     bind:isDragging
     on:areadrag={({ detail: { shapeDrag } }) => {
       hslColor = [toFixed(shapeDrag.angle, 1), hslColor[1], hslColor[2]];

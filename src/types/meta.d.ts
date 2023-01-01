@@ -37,3 +37,5 @@ Trim<S> extends '' ? true : false;
 declare type DeepPartial<T> = T extends Record<string, unknown> ? {
   [P in keyof T]?: DeepPartial<T[P]>;
 } : T;
+
+declare type Option<T> = T | null;

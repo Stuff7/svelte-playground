@@ -51,9 +51,9 @@
 <div
   class="Draggable position-{position}"
   class:dragging={isDragging}
-  style="
-  --draggable__x: {x}px;
-  --draggable__y: {y}px;"
+  class:whitelisting={whitelistOnly}
+  style:--draggable__x="{x}px"
+  style:--draggable__y="{y}px"
   on:customdragstart={startDrag}
   on:customdrag={doDrag}
   on:customdragend={finishDrag}
@@ -66,8 +66,15 @@
   .Draggable {
     position: absolute;
     transform: translate(calc(var(--draggable__x) - 50%), calc(var(--draggable__y) - 50%));
-    cursor: grab;
     z-index: 1;
+
+    &:not(.whitelisting) {
+      cursor: grab;
+    }
+
+    &.whitelisting:not(.dragging) :global([data-draggable]) {
+      cursor: grab;
+    }
 
     &.dragging {
       user-select: none;

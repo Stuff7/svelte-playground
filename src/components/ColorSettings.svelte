@@ -1,31 +1,45 @@
-<script lang="ts">
-  import preferences from 'store/preferences';
-  import ColorWheel from 'components/ColorWheel.svelte';
-  import Modal from 'components/Modal.svelte';
-  import { capitalize } from 'utils/string';
-
+<script context="module" lang="ts">
   const colorKeys = ['primary', 'secondary', 'tertiary'] as const;
   type ColorKey = typeof colorKeys[number];
-  let activeColorKey: ColorKey | null = null;
+</script>
+
+<script lang="ts">
+  import { fly } from 'svelte/transition';
+  import { expoInOut } from 'svelte/easing';
+  import { capitalize } from 'utils/string';
+  import { clickOut } from 'actions/clickOut';
+  import { tooltip } from 'actions/tooltip';
+  import preferences from 'store/preferences';
+  import ColorWheel from 'components/ColorWheel.svelte';
+
+  let activeColorKey: Option<ColorKey> = null;
 </script>
 
 <article class="ColorSettings">
   {#each colorKeys as colorKey}
     <section
       class="ColorSettings__ColorPicker"
-      style="--color: var(--color-{colorKey});--contrast: var(--color-{colorKey}-contrast)"
-      title={colorKey}
+      style:--color="var(--color-{colorKey})"
+      style:--contrast="var(--color-{colorKey}-contrast)"
     >
-      <button on:click={() => activeColorKey = colorKey}>{colorKey[0]}</button>
-      <Modal
-        backdrop
-        disableDrag
-        open={activeColorKey === colorKey}
-        position="bottom-left"
-        on:close={() => activeColorKey = null}
+      <button
+        data-tooltip="{colorKey} color"
+        on:click={() => activeColorKey = colorKey}
+        use:tooltip
       >
-        <ColorWheel bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
-      </Modal>
+        {colorKey[0]}
+      </button>
+      {#if activeColorKey === colorKey}
+        <dialog
+          class="ColorSettings__dialog"
+          open
+          on:clickout={() => activeColorKey = null}
+          transition:fly={{ easing: expoInOut, x: 100 }}
+          use:clickOut
+        >
+          <ColorWheel bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
+        </dialog>
+      {/if}
     </section>
   {/each}
 </article>
@@ -59,6 +73,14 @@
         text-transform: uppercase;
         transition: font-size 0.1s;
       }
+    }
+
+    &__dialog {
+      background: transparent;
+      position: absolute;
+      top: calc(100% + var(--spacing-nm-100));
+      left: 100%;
+      transform: translateX(-100%);
     }
   }
 </style>

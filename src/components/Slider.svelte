@@ -1,6 +1,7 @@
 <script lang="ts">
   import { range } from 'utils/math';
   import hover from 'actions/hover';
+  import { tooltip } from 'actions/tooltip';
 
   export let label = '';
   export let hideMinMax = false;
@@ -9,10 +10,9 @@
   export let max = 100;
   export let step = 0.001;
   export let value = 0;
-  export let valueLabelPosition: 'top' | 'right' | 'bottom' | 'left' = 'top';
   export let stepIndicators = false;
-  export let style = '';
-  export let element: HTMLDivElement | null = null;
+  export let style: Option<string> = null;
+  export let element: Option<HTMLDivElement> = null;
   export let formatter: (val: number) => string | number = (val: number) => val;
 
   $: length = max - min;
@@ -28,13 +28,15 @@
   <div class="Slider__wrapper">
     <div
       class="Slider__container"
-      style="{style.trim()}
-      --slider__percentage: {rangePercentage}%;"
+      {style}
+      style:--slider__percentage="{rangePercentage}%"
+      data-tooltip={hideValue ? null : formatter(value)}
       bind:this={element}
       on:hover
       on:hoverend
       on:pointermove
       use:hover
+      use:tooltip
     >
       <input
         class="Slider__input"
@@ -49,17 +51,9 @@
         {#each steps as stepPos (`Slider__step-indicator--${stepPos}`)}
           <div
             class="Slider__step-indicator"
-            style="--slider__step-pos: {stepPos}%;"
+            style:--slider__step-pos="{stepPos}%"
           />
         {/each}
-        {#if !hideValue}
-          <span
-            class="Slider__value-label {valueLabelPosition}"
-          >
-            {formatter(value)}
-            <span class="Slider__value-label__triangle"></span>
-          </span>
-        {/if}
       </div>
     </div>
     {#if !hideMinMax}
@@ -129,7 +123,7 @@
       align-items: center;
       background: var(--slider-track-color, transparent);
       height: var(--slider__track-width);
-      border: 1px solid var(--color-secondary-200);
+      border: 1px solid color.shade(--color-primary, 600);
       border-radius: var(--slider__track-radius);
       pointer-events: none;
       position: relative;
@@ -146,51 +140,10 @@
         @include misc.circle(var(--slider__thumb-radius));
         @include misc.shadow;
         background: var(--slider-thumb-color, var(--color-primary));
+        border: 1px solid color.shade(--color-primary, 600);
         left: var(--slider__percentage);
         transform: translateX(-50%);
       }
-    }
-
-    &__value-label {
-      position: absolute;
-      $gap: var(--spacing-md-100);
-      padding: var(--spacing-sm-50) var(--spacing-sm-100);
-      @include misc.border-radius;
-      @include misc.shadow;
-      background: var(--slider-value-label-color, var(--color-primary));
-      color: var(--slider-value-label-text-color, var(--color-primary-contrast));
-      text-align: center;
-
-      &__triangle {
-        position: absolute;
-        z-index: -1;
-      }
-
-      $component: &;
-      @include misc.position-classes() using ($pos, $inv) {
-        transform: translateX(0);
-        @if $pos == 'top' or $pos == 'bottom' {
-          #{$inv}: calc(100% + $gap);
-          transform: translateX(-50%);
-          left: var(--slider__percentage);
-        } @else if $pos == 'left' {
-          right: calc(100% - var(--slider__percentage) + var(--slider__thumb-radius) * 2);
-        } @else {
-          left: calc(var(--slider__percentage) + calc(var(--slider__thumb-radius) * 2));
-        }
-        #{$component}__triangle {
-          @include misc.triangle($inv, $gap, calc($gap / 2), var(--slider-value-label-color, var(--color-primary)));
-          @if $pos == 'top' or $pos == 'bottom' {
-            #{$pos}: 100%;
-            @include misc.abs-horizontal-center;
-          } @else {
-            top: 50%;
-            #{$pos}: 100%;
-            transform: translateY(-50%);
-          }
-        }
-      };
-
     }
 
     &__values {

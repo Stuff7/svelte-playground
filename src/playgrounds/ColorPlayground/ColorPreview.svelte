@@ -7,10 +7,11 @@
   export let name = '';
 </script>
 
-<div class="ColorPreview" style="
---color-preview__hex-background: {hexBackground};
---color-preview__hex-text: {hexText};
-">
+<div
+  class="ColorPreview"
+  style:--color-preview__hex-background={hexBackground}
+  style:--color-preview__hex-text={hexText}
+>
   {#if editable}<Input bind:value={hexBackground} />{/if}
   {#if name}<span class="ColorPreview__name">{name}</span>{/if}
   <div class="ColorPreview__value ">{hexText}</div>

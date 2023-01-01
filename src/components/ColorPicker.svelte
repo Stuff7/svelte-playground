@@ -17,15 +17,14 @@
 
 <section
   class="ColorPicker"
-  style="
---hsl: {hsl};
---slider-thumb-color: hsl({hslColor[0]}, 100%, 50%);
---picker-x: {hsvColor[1]}%;
---picker-y: {hsvColor[2]}%;
---picker-h: {hslColor[0]};
---picker-s: {hslColor[1]}%;
---picker-l: {hslColor[2]}%;
---contrast: {contrastColor};"
+  style:--hsl={hsl}
+  style:--slider-thumb-color="hsl({hslColor[0]}deg, 100%, 50%)"
+  style:--picker-x="{hsvColor[1]}%"
+  style:--picker-y="{hsvColor[2]}%"
+  style:--picker-h="{hslColor[0]}deg"
+  style:--picker-s="{hslColor[1]}%"
+  style:--picker-l="{hslColor[2]}%"
+  style:--contrast={contrastColor}
 >
   <DraggableArea
     shape="rectangle"
@@ -44,7 +43,6 @@
     step={0.1}
     bind:value={hsvColor[0]}
     formatter={(v) => `${toFixed(v)}°`}
-    valueLabelPosition="bottom"
   />
   <HSLInput label="HSV" bind:color={hsvColor} />
 </section>

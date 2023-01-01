@@ -3,7 +3,7 @@
   import tooltipStore, { createTooltipID } from 'store/tooltip';
 
   export let forProp: string;
-  export let style = '';
+  export let style: Option<string> = null;
 
   $: target = createTooltipID(forProp);
 
