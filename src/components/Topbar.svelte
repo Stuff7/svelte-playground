@@ -2,9 +2,10 @@
   import internalLink from 'actions/internalLink';
   import Icon from 'components/Icon.svelte';
   import Console from 'components/Console';
-  import ThemeToggle from './ThemeToggle.svelte';
-  import ColorSettings from './ColorSettings.svelte';
-  import PortalLayer from './PortalLayer.svelte';
+  import ThemeToggle from 'components/ThemeToggle.svelte';
+  import ColorSettings from 'components/ColorSettings.svelte';
+  import PortalLayer from 'components/PortalLayer.svelte';
+  import LoginButton from 'components/LoginButton.svelte';
 </script>
 
 <nav class="Topbar">
@@ -22,6 +23,7 @@
     <ThemeToggle />
   </PortalLayer>
   <ColorSettings />
+  <LoginButton />
 </nav>
 
 <style lang="scss">
@@ -34,7 +36,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    min-height: min(misc.rem(42), 3vw);
+    height: clamp(misc.rem(34), 3vw, misc.rem(42));
     padding-inline: var(--spacing-nm-100);
     gap: var(--spacing-nm-100);
     grid-area: a;

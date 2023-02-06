@@ -8,7 +8,11 @@
   import Icon from 'components/Icon.svelte';
   import Tooltip from 'components/Tooltip.svelte';
   import DebugObject from 'components/DebugObject.svelte';
+  import accountStore from 'store/account';
+  import { getUserFiles } from 'api';
+  import type { UserFile } from 'api/models';
 
+  let driveFiles: Option<UserFile[]> = null;
   let color1: HSL = [310, 100, 74];
   let color2: HSL = [127, 100, 50];
   $: hsl1 = hslString(color1);
@@ -16,6 +20,10 @@
   let output = [] as string[];
   let handleEvent: Option<() => void>;
   let debugObjectOpen = false;
+
+  async function loadDriveFiles() {
+    driveFiles = await getUserFiles();
+  }
 
   function log(msg: string) {
     output = [...output, msg];
@@ -106,6 +114,12 @@
   </button>
   <button class="HotPlayground__error-button" on:click={throwError}>Trigger Error</button>
   <DebugObject bind:open={debugObjectOpen} data={{ color1, color2, hsl1, hsl2, output }} />
+  {#if $accountStore.user}
+    <button on:click={loadDriveFiles}>Get drive files</button>
+    <pre>
+      {JSON.stringify(driveFiles, null, 2)}
+    </pre>
+  {/if}
 </section>
 
 <style lang="scss">

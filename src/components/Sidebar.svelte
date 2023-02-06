@@ -11,8 +11,8 @@
     {#each routes as route}
       <a
         class="Sidebar__button"
-        class:active={route.name === $router}
-        href={route.name === $router ? '/' : route.name}
+        class:active={route.name === $router.playgroundKey}
+        href={route.name === $router.playgroundKey ? '/' : route.name}
         use:internalLink
       >
         <Icon name={route.icon} />

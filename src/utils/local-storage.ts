@@ -16,7 +16,7 @@ export function getLocalItem<T = string>(
     if (!item && fallback) {
       return fallback;
     }
-    return item && isObject ? JSON.parse(item) as T : item as unknown as T;
+    return item && isObject ? JSON.parse(item) as T : item as T;
   } catch (e) {
     console.error('Error getting local storage item', item, '\n\n', e);
     throw e;
@@ -24,7 +24,13 @@ export function getLocalItem<T = string>(
 }
 
 export function setLocalItem<T>(key: string, value: T) {
-  localStorage.setItem(prefix(key), stringify(value));
+  const itemKey = prefix(key);
+  const itemValue = stringify(value);
+  if (itemValue == null) {
+    localStorage.removeItem(itemKey);
+  } else {
+    localStorage.setItem(itemKey, itemValue);
+  }
 }
 
 export function removeLocalItem(key: string) {

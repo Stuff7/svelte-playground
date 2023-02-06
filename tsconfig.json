@@ -34,7 +34,6 @@
         "./src/*"
       ]
     },
-    "rootDir": "src",
     "sourceMap": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
@@ -48,6 +47,13 @@
     "node_modules",
     "dist"
   ],
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "src/App.svelte"],
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte",
+    "src/App.svelte",
+    ".eslintrc.cjs"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

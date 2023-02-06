@@ -4,13 +4,11 @@
 </script>
 
 <script lang="ts">
-  import { fly } from 'svelte/transition';
-  import { expoInOut } from 'svelte/easing';
   import { capitalize } from 'utils/string';
-  import { clickOut } from 'actions/clickOut';
   import { tooltip } from 'actions/tooltip';
   import preferences from 'store/preferences';
   import ColorWheel from 'components/ColorWheel.svelte';
+  import FloatingDialog from './FloatingDialog.svelte';
 
   let activeColorKey: Option<ColorKey> = null;
 </script>
@@ -29,17 +27,15 @@
       >
         {colorKey[0]}
       </button>
-      {#if activeColorKey === colorKey}
-        <dialog
-          class="ColorSettings__dialog"
-          open
-          on:clickout={() => activeColorKey = null}
-          transition:fly={{ easing: expoInOut, x: 100 }}
-          use:clickOut
-        >
-          <ColorWheel bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
-        </dialog>
-      {/if}
+      <FloatingDialog
+        open={activeColorKey === colorKey}
+        background="transparent"
+        padding="0"
+        radius="var(--radius-md-100)"
+        on:close={() => activeColorKey = null}
+      >
+        <ColorWheel bind:hslColor={$preferences[`color${capitalize(colorKey)}`]} />
+      </FloatingDialog>
     </section>
   {/each}
 </article>
@@ -73,14 +69,6 @@
         text-transform: uppercase;
         transition: font-size 0.1s;
       }
-    }
-
-    &__dialog {
-      background: transparent;
-      position: absolute;
-      top: calc(100% + var(--spacing-nm-100));
-      left: 100%;
-      transform: translateX(-100%);
     }
   }
 </style>

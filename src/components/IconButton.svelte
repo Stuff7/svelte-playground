@@ -3,6 +3,7 @@
   import Icon from 'components/Icon.svelte';
 
   export let name: IconName;
+  export let disabled = false;
   export let style: Option<string> = null;
   export let tooltipValue: Option<string> = null; export { tooltipValue as tooltip };
   export let tooltipID: Option<string> = null;
@@ -15,6 +16,7 @@
   class="IconButton"
   data-tooltip={tooltipValue}
   data-tooltip-id={tooltipID}
+  {disabled}
   {style}
   style:--icon-button-padding={padding}
   style:--icon-size={size}
@@ -43,6 +45,11 @@
     color: var(--color-secondary-900);
     &:hover {
       color: color.shade(--color-primary, 700);
+    }
+
+    &:disabled {
+      opacity: 0.75;
+      cursor: default;
     }
   }
 </style>

@@ -47,9 +47,10 @@ body {
   height: 100%;
 }
 
-button {
+button, [role=button] {
   font-size: var(--h-nm-100);
   font-weight: 800;
+  text-align: center;
   text-transform: uppercase;
   border: misc.rem(1) solid color.shade(--color-primary, 600);
   border-radius: misc.rem(8);

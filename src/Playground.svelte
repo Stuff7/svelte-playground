@@ -12,10 +12,10 @@
 
   onMount(initPreferencesStore);
 
-  $: CurrentPlayground = $router in routes ? (
-    routes[$router as keyof typeof routes]
+  $: CurrentPlayground = $router.playgroundKey && $router.playgroundKey in routes ? (
+    routes[$router.playgroundKey]
   ) : null;
-  $: title = $router ? `${capitalize($router)} Playground` : 'Playground';
+  $: title = $router ? `${capitalize($router.playgroundKey)} Playground` : 'Playground';
 </script>
 
 <svelte:head>

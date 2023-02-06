@@ -1,9 +1,3 @@
-<script lang="ts" context="module">
-  import { counter } from 'utils/math';
-
-  const idGenerator = counter();
-</script>
-
 <script lang="ts">
   import iconError from 'icons/triangle-exclamation.svg?raw';
   import iconLoading from 'icons/loading.svg?raw';
@@ -14,8 +8,7 @@
   async function loadIcon(iconName: IconName) {
     const icon = (await import(`icons/${iconName}.svg?raw`)).default as string;
     if (icon.includes('${dynamic-id}')) {
-      const id = idGenerator.next().value;
-      return icon.replaceAll('${dynamic-id}', `icon-id-${id}`);
+      return icon.replaceAll('${dynamic-id}', crypto.randomUUID());
     }
     return icon;
   }
@@ -44,7 +37,7 @@
   @use 'style/misc';
 
   .Icon {
-    display: flex;
+    display: var(--icon-display, flex);
 
     &--rotate {
       @include animation.rotate;
@@ -69,6 +62,14 @@
     }
     & :global(.icon-accent-3) {
       color: var(--icon-accent-3, var(--color-tertiary));
+    }
+    & :global(svg path.icon-transition) {
+      transition: transform var(--icon-transition-duration, 0.5s);
+      transform: var(--icon-transition-transform, none);
+    }
+    & :global(svg path.icon-transition-2) {
+      transition: transform var(--icon-transition-2-duration, 0.5s);
+      transform: var(--icon-transition-2-transform, none);
     }
     & :global(.icon-error) {
       color: var(--icon-error, var(--color-error));
