@@ -11,15 +11,15 @@ export const initialState: DebugStore = {
 const debug = writable(initialState);
 
 window.addEventListener('error', (ev) => {
-  debug.update(store => ({
+  debug.update(store => ev.error instanceof Error ? ({
     errors: [...store.errors, ev.error],
-  }));
+  }) : store);
 });
 
 window.addEventListener('unhandledrejection', (ev) => {
-  debug.update(store => ({
+  debug.update(store => ev.reason instanceof Error ? ({
     errors: [...store.errors, ev.reason],
-  }));
+  }) : store);
 });
 
 export function clearErrors() {
