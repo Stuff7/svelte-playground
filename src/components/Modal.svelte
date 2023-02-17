@@ -2,10 +2,11 @@
   import { createEventDispatcher } from 'svelte';
   import { expoInOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
-  import { clickOut } from 'actions/clickOut';
+  import clickOut from 'actions/clickOut';
+  import tooltip from 'actions/tooltip';
   import Portal from 'components/Portal.svelte';
   import Draggable from 'components/Draggable.svelte';
-  import IconButton from 'components/IconButton.svelte';
+  import Icon from 'components/Icon.svelte';
 
   const dispatch = createEventDispatcher<{ close: undefined }>();
 
@@ -13,6 +14,7 @@
   export let style: Option<string> = null;
   export let topbarBackground: Option<string> = null;
   export let background: Option<string> = null;
+  export let minWidth: Option<string> = null;
   export let color: Option<string> = null;
   export let disableClickOutClose = false;
   export let borderColor: Option<string> = null;
@@ -29,6 +31,7 @@
       <dialog
         class="Modal"
         {style}
+        style:min-width={minWidth}
         style:--modal-topbar-background={topbarBackground}
         style:--modal-background={background}
         style:--modal-color={color}
@@ -44,7 +47,14 @@
           </div>
           <div class="Modal__topbar__right">
             <slot name="topbar-right" />
-            <IconButton name="x" tooltip="Close" on:click={close} />
+            <button
+              class="Modal__close"
+              data-tooltip="Close"
+              on:click={close}
+              use:tooltip
+            >
+              <Icon name="x" />
+            </button>
           </div>
         </div>
         <slot />
@@ -55,6 +65,7 @@
 
 <style lang="scss">
   @use 'style/misc';
+  @use 'style/color';
 
   .Modal {
     $component: &;
@@ -64,6 +75,17 @@
     border: misc.rem(1) solid var(--modal-border-color, var(--color-secondary-400));
     @include misc.border-radius;
 
+    &__close {
+      --icon-size: #{misc.rem(12)};
+      width: var(--spacing-lg-100);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      aspect-ratio: 1 / 1;
+      &:hover {
+        color: color.shade(--color-primary, 700);
+      }
+    }
     &__topbar {
       display: flex;
       justify-content: space-between;

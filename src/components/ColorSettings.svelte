@@ -5,7 +5,7 @@
 
 <script lang="ts">
   import { capitalize } from 'utils/string';
-  import { tooltip } from 'actions/tooltip';
+  import tooltip from 'actions/tooltip';
   import preferences from 'store/preferences';
   import ColorWheel from 'components/ColorWheel.svelte';
   import FloatingDialog from './FloatingDialog.svelte';
@@ -59,15 +59,13 @@
       display: flex;
       height: 100%;
       & button, & button:hover {
-        background: transparent;
+        padding: var(--spacing-sm-50) var(--spacing-sm-100);
         color: var(--contrast);
-        border-radius: 0;
-        border: 0;
-        outline: 0;
         width: 100%;
         height: 100%;
+        font-size: var(--h-nm-100);
+        font-weight: 800;
         text-transform: uppercase;
-        transition: font-size 0.1s;
       }
     }
   }

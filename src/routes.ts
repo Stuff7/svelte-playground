@@ -1,5 +1,5 @@
-import ColorPlayground from 'playgrounds/ColorPlayground';
-import Fylvur from 'playgrounds/Fylvur';
+import ColorPlayground from 'playgrounds/ColorPlayground/index.svelte';
+import Fylvur from 'playgrounds/Fylvur/index.svelte';
 import HotPlayground from 'playgrounds/HotPlayground.svelte';
 import TaxPlayground from 'playgrounds/TaxPlayground.svelte';
 

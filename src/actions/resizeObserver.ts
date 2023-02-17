@@ -1,4 +1,4 @@
-export function resizeObserver<E extends HTMLElement>(
+export default function resizeObserver<E extends HTMLElement>(
   node: E,
   onResize: (size: DOMRect) => void,
 ) {

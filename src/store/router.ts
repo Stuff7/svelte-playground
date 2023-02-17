@@ -1,4 +1,4 @@
-import type { RouteKey } from 'routes';
+import type { RouteKey } from '@Playground/routes';
 import { writable } from 'svelte/store';
 
 interface RouterState {

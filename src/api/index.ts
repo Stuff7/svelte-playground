@@ -1,33 +1,77 @@
 import { API_URL } from '@Playground/config';
+import type { HttpMethod } from 'types/http';
+import { accessToken, awake, setAccessToken } from 'store/server';
 import {
   ApiError,
   isApiErrorAndWarn,
   queryParams,
-  User,
-  UserFile,
   type ApiErrorResponse,
   type ApiResource,
   type ApiResult,
   type UserFilesQuery,
-  type UserFileResponse,
-  type UserResponse,
+  type UserFile,
+  type User,
+  type CreateFolderBody,
+  type UpdateFileBody,
+  type VideoMetadata,
+  type VideoMetadataQuery,
+  type CreateVideoBody,
 } from './models';
-import { accessToken, awake, setAccessToken } from 'store/server';
 
 export async function getUser(): Promise<Option<User>> {
-  const data = await apiRequest<UserResponse>('/users/me', {
+  const data = await apiRequest<User>('/users/me', {
     authorization: true,
     revokeOn401: true,
   });
-  return isApiErrorAndWarn(data) ? null : new User(data);
+  return isApiErrorAndWarn(data) ? null : data;
 }
 
-export async function getUserFiles(folder = 'root'): Promise<UserFile[]> {
+export async function getUserFiles(folder: Option<string> = 'root'): Promise<UserFile[]> {
   const query: UserFilesQuery = { folder };
-  const data = await apiRequest<UserFileResponse[]>(`/files${queryParams(query)}`, {
+  const data = await apiRequest<UserFile[]>(`/files${queryParams(query)}`, {
     authorization: true,
   });
-  return isApiErrorAndWarn(data) ? [] : data.map(user => new UserFile(user));
+  return isApiErrorAndWarn(data) ? [] : data;
+}
+
+export async function createFolder(name: string, folder: Option<string> = 'root'): Promise<Option<UserFile>> {
+  const body: CreateFolderBody = { name, folder };
+  const data = await apiRequest<UserFile>('/files/folder', {
+    authorization: true,
+    method: 'POST',
+    body,
+  });
+  return isApiErrorAndWarn(data) ? null : data;
+}
+
+export async function updateFile(
+  fileId: string,
+  { name, folder }: { name?: string, folder?: string },
+): Promise<Option<UserFile>> {
+  const body: UpdateFileBody = { name, folder };
+  const data = await apiRequest<UserFile>(`/files/${fileId}`, {
+    authorization: true,
+    method: 'PATCH',
+    body,
+  });
+  return isApiErrorAndWarn(data) ? null : data;
+}
+
+export async function createVideo(videoId: string, body: CreateVideoBody): Promise<Option<UserFile>> {
+  const data = await apiRequest<UserFile>(`/files/video/${videoId}`, {
+    authorization: true,
+    method: 'POST',
+    body,
+  });
+  return isApiErrorAndWarn(data) ? null : data;
+}
+
+export async function getVideoMetadata(fileId: string): Promise<Option<VideoMetadata>> {
+  const query: VideoMetadataQuery = { fileUrl: fileId };
+  const data = await apiRequest<VideoMetadata>(`/files/video/metadata${queryParams(query)}`, {
+    authorization: true,
+  });
+  return isApiErrorAndWarn(data) ? null : data;
 }
 
 export async function pingServer(): Promise<boolean> {
@@ -57,11 +101,20 @@ export async function logout(): Promise<void> {
   }
 }
 
+interface ApiRequestOptions {
+  authorization?: boolean,
+  revokeOn401?: boolean,
+  method?: HttpMethod,
+  body?: Record<string, unknown>,
+}
+
 export async function apiRequest<T extends ApiResource>(
   endpoint: string, {
     authorization = false,
     revokeOn401 = false,
-  },
+    method = 'GET',
+    body,
+  } = {} as ApiRequestOptions,
 ): Promise<ApiResult<T>> {
   const url = `${API_URL}/api${endpoint}`;
 
@@ -73,12 +126,13 @@ export async function apiRequest<T extends ApiResource>(
     return new ApiError(`Tried to make an authorized API request (${url}) while logged out.`);
   }
 
-  let options;
+  const options: RequestInit = { method };
 
   if (authorization) {
-    options = {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    };
+    options.headers  = { Authorization: `Bearer ${accessToken}` };
+  }
+  if (body) {
+    options.body = JSON.stringify(body);
   }
 
   const { data, response } = await fetchJSON<T | ApiErrorResponse>(url, options);
@@ -113,8 +167,14 @@ interface JSONResponse<T> {
   response: Response,
 }
 
-export async function fetchJSON<T>(url: string, options?: RequestInit): Promise<JSONResponse<T>> {
-  const response = await fetch(url, options);
+export async function fetchJSON<T>(url: string, options = {} as RequestInit): Promise<JSONResponse<T>> {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      'Content-Type': 'application/json',
+    },
+  });
   if (response.headers.get('Content-Type') == 'application/json') {
     return {
       data: await response.json() as T,

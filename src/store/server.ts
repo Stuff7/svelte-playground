@@ -32,7 +32,7 @@ export function setAwake(awake: boolean) {
 serverStore.subscribe(async (store) => {
   accessToken = store.accessToken;
   awake = store.awake;
-  if (awake) {
+  if (awake && accessToken) {
     accountStore.set({ user: await getUser() });
   }
 });

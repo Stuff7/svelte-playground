@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
-  import { tooltip } from 'actions/tooltip';
   import { hslString, type HSL } from 'utils/color';
   import AnimatedInput from 'components/AnimatedInput.svelte';
   import ColorPicker from 'components/ColorPicker.svelte';
@@ -11,7 +10,9 @@
   import accountStore from 'store/account';
   import { getUserFiles } from 'api';
   import type { UserFile } from 'api/models';
+  import Button from 'components/Button.svelte';
 
+  let hotPlaygroundElement: HTMLElement;
   let driveFiles: Option<UserFile[]> = null;
   let color1: HSL = [310, 100, 74];
   let color2: HSL = [127, 100, 50];
@@ -74,10 +75,19 @@
     }
   });
 
+  const icons = ['sun', 'fire', 'user-plus', 'knob', 'brush'] as const;
 </script>
 
-<section class="HotPlayground">
-  <button class="HotPlayground__clear" on:click={clearOutput}>Clear</button>
+<section class="HotPlayground" bind:this={hotPlaygroundElement}>
+  {#each icons as iconName, i (i)}
+    <Button
+      icon={iconName}
+      on:click={() => console.log(iconName)}
+    >
+      Option {i}
+    </Button>
+  {/each}
+  <Button on:click={clearOutput}>Clear</Button>
   <div class="HotPlayground__output" on:dblclick={() => log('Hey')}>
     {#each output as msg}
       <span>{msg}</span>
@@ -88,9 +98,9 @@
     <ColorWheel bind:hslColor={color1} />
     <ColorPicker bind:hslColor={color2} />
   </div>
-  <button data-tooltip="tooltip-button yeah!" use:tooltip>
+  <Button tooltip="tooltip-button yeah!">
     Simple Tooltip
-  </button>
+  </Button >
   <Tooltip
     for="custom-tooltip"
     style="display: flex;--icon-accent: {hsl1};--icon-accent-3: {hsl2};--icon-size: min(10vw, 5rem);"
@@ -101,21 +111,26 @@
     <Icon name="moon" />
     <Icon name="fire" />
   </Tooltip>
-  <button
-    data-tooltip-id="custom-tooltip"
-    data-tooltip-static
-    data-tooltip-position="bottom"
-    use:tooltip
+  <Button
+    tooltipId="custom-tooltip"
+    tooltipStatic
+    tooltipPosition="bottom"
   >
     Custom Static Tooltip
-  </button>
-  <button on:click={() => debugObjectOpen = !debugObjectOpen}>
+  </Button>
+  <Button on:click={() => debugObjectOpen = !debugObjectOpen}>
     Debug object
-  </button>
-  <button class="HotPlayground__error-button" on:click={throwError}>Trigger Error</button>
+  </Button>
+  <Button
+    background="var(--color-error)"
+    color="var(--color-error-contrast)"
+    on:click={throwError}
+  >
+    Trigger Error
+  </Button>
   <DebugObject bind:open={debugObjectOpen} data={{ color1, color2, hsl1, hsl2, output }} />
   {#if $accountStore.user}
-    <button on:click={loadDriveFiles}>Get drive files</button>
+    <Button on:click={loadDriveFiles}>Get drive files</Button>
     <pre>
       {JSON.stringify(driveFiles, null, 2)}
     </pre>
@@ -132,6 +147,7 @@
     padding: var(--spacing-sm-100) var(--spacing-nm-100);
     max-height: 100%;
     gap: var(--spacing-sm-100);
+    --button-content-align: left;
 
     &__hot-stuff {
       display: flex;
@@ -145,17 +161,6 @@
       padding: var(--spacing-nm-100);
       white-space: pre;
       overflow: hidden auto;
-    }
-
-    &__error-button {
-      background: var(--color-error);
-      color: var(--color-error-contrast);
-      border-color: color.shade(--color-error, 600);
-      &:hover {
-        background: var(--color-error-contrast);
-        color: var(--color-error);
-        border-color: var(--color-error);
-      }
     }
   }
 </style>

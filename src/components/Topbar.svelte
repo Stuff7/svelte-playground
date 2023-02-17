@@ -1,7 +1,7 @@
 <script lang="ts">
   import internalLink from 'actions/internalLink';
   import Icon from 'components/Icon.svelte';
-  import Console from 'components/Console';
+  import Console from 'components/Console/index.svelte';
   import ThemeToggle from 'components/ThemeToggle.svelte';
   import ColorSettings from 'components/ColorSettings.svelte';
   import PortalLayer from 'components/PortalLayer.svelte';

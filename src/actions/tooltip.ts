@@ -8,7 +8,7 @@ import { getElementByPortalId } from 'actions/portal';
 import Tooltip from 'actions/TooltipFromAction.svelte';
 
 
-export function tooltip<T extends HTMLElement>(node: T) {
+export default function tooltip<T extends HTMLElement>(node: T) {
   let tooltipComponent: Option<Tooltip> = null;
   const isStatic = 'tooltipStatic' in node.dataset;
 

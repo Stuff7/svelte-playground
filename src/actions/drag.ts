@@ -1,4 +1,5 @@
 import type { MouseTouchEvent } from 'types/events';
+import { MouseButton } from 'utils/dom';
 
 export default function drag<T extends HTMLElement>(node: T) {
   function startDrag(event: MouseTouchEvent) {
@@ -6,7 +7,7 @@ export default function drag<T extends HTMLElement>(node: T) {
     document.addEventListener('touchmove', doDrag);
     document.addEventListener('mouseup', endDrag);
     document.addEventListener('touchend', endDrag);
-    if (event instanceof MouseEvent && event.button !== 0) {
+    if (event instanceof MouseEvent && event.button !== MouseButton.Left) {
       return;
     }
     node.dispatchEvent(new CustomEvent('customdragstart', {
@@ -15,7 +16,7 @@ export default function drag<T extends HTMLElement>(node: T) {
   }
 
   function doDrag(event: MouseTouchEvent) {
-    if (event instanceof MouseEvent && event.button !== 0) {
+    if (event instanceof MouseEvent && event.button !== MouseButton.Left) {
       return;
     }
     node.dispatchEvent(new CustomEvent('customdrag', {
@@ -28,7 +29,7 @@ export default function drag<T extends HTMLElement>(node: T) {
     document.removeEventListener('touchmove', doDrag);
     document.removeEventListener('mouseup', endDrag);
     document.removeEventListener('touchend', endDrag);
-    if (event instanceof MouseEvent && event.button !== 0) {
+    if (event instanceof MouseEvent && event.button !== MouseButton.Left) {
       return;
     }
     node.dispatchEvent(new CustomEvent('customdragend', {

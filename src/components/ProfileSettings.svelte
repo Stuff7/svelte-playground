@@ -1,15 +1,15 @@
 <script lang="ts">
+  import type { User } from 'api/models';
   import { logout } from '@Playground/api';
   import FloatingDialog from 'components/FloatingDialog.svelte';
-  import Icon from 'components/Icon.svelte';
-  import type { User } from 'api/models';
+  import Button from 'components/Button.svelte';
 
   export let user: User;
   let profileDialogOpen = false;
 </script>
 
 <section class="ProfileSettings">
-  <button class="ProfileSettings__button" on:click={() => profileDialogOpen = !profileDialogOpen}>
+  <button on:click={() => profileDialogOpen = !profileDialogOpen}>
     <img
       class="ProfileSettings__picture"
       referrerPolicy="no-referrer"
@@ -20,10 +20,9 @@
   <FloatingDialog padding="0" bind:open={profileDialogOpen}>
     <section class="ProfileSettings__content">
       <h4 class="ProfileSettings__name">{user.name}</h4>
-      <button class="ProfileSettings__option" on:click={logout}>
-        <Icon name="door-out" />
-        <span>Log out</span>
-      </button>
+      <Button icon="door-out" on:click={logout}>
+        Log out
+      </Button>
     </section>
   </FloatingDialog>
 </section>
@@ -38,12 +37,7 @@
       font-size: var(--p-md-300);
     }
 
-    &__button {
-      all: unset;
-      cursor: pointer;
-    }
-
-    &, &__button {
+    &, button {
       position: relative;
       display: flex;
       max-height: 100%;
@@ -67,29 +61,9 @@
       border: 1px solid var(--color-secondary-400);
       border-radius: var(--radius-nm-100);
       background: var(--color-secondary-300);
-
-      button {
-        border-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100);
-        border: 0;
-        text-align: left;
-        padding: var(--spacing-sm-50) var(--spacing-sm-100);
-        background: transparent;
-      }
-    }
-
-    &__option {
-      display: flex;
-      align-items: center;
-      padding: var(--spacing-sm-50) var(--spacing-sm-100);
-      gap: var(--spacing-nm-100);
-      --icon-accent: #{color.shade(--color-primary, 600)};
-      color: color.shade(--color-primary, 600);
-
-      &:hover {
-        background: color.shade(--color-primary, 600);
-        color: var(--color-primary-200);
-      --icon-accent: var(--color-primary-200);
-      }
+      --button-background: #{color.shade(--color-primary, 600)};
+      --button-color: var(--color-primary-200);
+      --button-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100)
     }
   }
 </style>

@@ -3,22 +3,10 @@ import { snakeCase } from 'utils/string';
 export type Provider = 'google';
 export type UserID = `${Provider}@${string}`;
 
-export interface UserResponse {
+export interface User {
   _id: UserID,
   name: string,
   picture: string,
-}
-
-export class User {
-  id: UserID;
-  name: string;
-  picture: string;
-
-  constructor(userResponse: UserResponse) {
-    this.id = userResponse._id;
-    this.name = userResponse.name;
-    this.picture = userResponse.picture;
-  }
 }
 
 export interface Video {
@@ -33,6 +21,18 @@ export interface Video {
   sizeBytes: number,
 }
 
+export type VideoMetadata = Omit<Video, 'type'>;
+
+export type VideoMetadataQuery = {
+  fileUrl: string,
+}
+
+export type CreateVideoBody = {
+  name?: string,
+  thumbnail?: string,
+  folder?: string,
+}
+
 export interface Folder {
   type: 'folder',
 }
@@ -40,7 +40,7 @@ export interface Folder {
 export type FileMetadata = Video | Folder;
 export type FileType = FileMetadata['type'];
 
-export interface UserFileResponse {
+export interface UserFile {
   _id: string,
   folderId: string,
   userId: string,
@@ -48,24 +48,18 @@ export interface UserFileResponse {
   metadata: FileMetadata,
 }
 
-export class UserFile {
-  id: string;
-  folderId: string;
-  userId: string;
-  name: string;
-  metadata: FileMetadata;
-
-  constructor(response: UserFileResponse) {
-    this.id = response._id;
-    this.folderId = response.folderId;
-    this.name = response.name;
-    this.userId = response.userId;
-    this.metadata = response.metadata;
-  }
-}
-
 export type UserFilesQuery = {
   folder?: Option<string>,
+}
+
+export type CreateFolderBody = {
+  name: string,
+  folder?: Option<string>,
+}
+
+export type UpdateFileBody = {
+  name?: string,
+  folder?: string,
 }
 
 export function queryParams<T extends Record<string, unknown>>(query: T): string {
@@ -84,7 +78,7 @@ export interface ApiErrorResponse {
   message: string,
 }
 
-export type ApiResource = UserResponse | UserFileResponse[];
+export type ApiResource = User | UserFile[] | UserFile | VideoMetadata;
 
 export class ApiError extends Error {
   response: Option<Response>;

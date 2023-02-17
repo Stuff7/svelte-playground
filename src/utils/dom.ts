@@ -20,3 +20,11 @@ export function getPagePos(e: MouseTouchEvent) {
   }
   return e as MouseEvent;
 }
+
+export const MouseButton = {
+  Left: 0,
+  Middle: 1,
+  Right: 2,
+  Back: 3,
+  Forward: 4,
+};

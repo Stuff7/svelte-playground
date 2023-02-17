@@ -36,6 +36,7 @@
 </main>
 <PortalLayer portalID="modal" left="50%" top="50%" zIndex={10} />
 <PortalLayer portalID="tooltip" cover preventClicks zIndex={10} />
+<PortalLayer portalID="context-menu" left="50%" top="50%" zIndex={10} />
 
 <style lang="scss">
   @use 'style/color';

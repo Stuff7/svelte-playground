@@ -2,7 +2,7 @@
   import type { Position } from 'types/math';
   import type { IntersectionEvent } from 'types/events';
   import { createTooltipID } from 'store/tooltip';
-  import { intersectionObserver } from 'actions/intersectionObserver';
+  import intersectionObserver from 'actions/intersectionObserver';
   import clipPath from 'transitions/clip-path';
   import PortalLayer from 'components/PortalLayer.svelte';
 

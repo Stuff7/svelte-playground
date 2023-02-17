@@ -39,10 +39,10 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --radius-nm-200: #{clamp(misc.rem(8), 0.5vw, misc.rem(12))};
   --radius-md-100: #{clamp(misc.rem(18), 1vw, misc.rem(28))};
 
-  --area-md-100: #{clamp(misc.rem(600), 50vw, misc.rem(800))};
-  --area-nm-100: #{clamp(misc.rem(300), 25vw, misc.rem(500))};
-  --area-sm-100: #{clamp(misc.rem(150), 10vw, misc.rem(400))};
-  --area-sm-50: #{clamp(misc.rem(100), 7vw, misc.rem(150))};
+  --area-md-100: #{clamp(misc.rem(180), 50vw, misc.rem(800))};
+  --area-nm-100: #{clamp(misc.rem(150), 25vw, misc.rem(500))};
+  --area-sm-100: #{clamp(misc.rem(70), 10vw, misc.rem(300))};
+  --area-sm-50: #{clamp(misc.rem(36), 7vw, misc.rem(150))};
 
   --font-title: 'Major Mono Display', #{$fallback-fonts};
   --font-body: 'Ubuntu Mono', #{$fallback-fonts};

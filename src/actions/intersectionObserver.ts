@@ -1,7 +1,7 @@
 import type { IntersectionDetail } from 'types/events';
 import { getElementByPortalId, type PortalID } from 'actions/portal';
 
-export function intersectionObserver<E extends HTMLElement>(
+export default function intersectionObserver<E extends HTMLElement>(
   node: E,
   options = {} as IntersectionObserverInit & { rootPortalID?: PortalID, rootSelector?: string },
 ) {

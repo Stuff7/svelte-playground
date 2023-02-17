@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { clickOut } from 'actions/clickOut';
+  import clickOut from 'actions/clickOut';
   import { expoInOut } from 'svelte/easing';
   import { fly } from 'svelte/transition';
 
@@ -41,7 +41,7 @@
     background: var(--color-secondary-400);
     color: var(--color-secondary-900);
     position: absolute;
-    top: calc(100% + var(--spacing-nm-100));
+    top: calc(100% + var(--floating-dialog-separation, var(--spacing-nm-100)));
     left: 100%;
     transform: translateX(-100%);
     z-index: 9;

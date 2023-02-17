@@ -1,7 +1,7 @@
 <script lang="ts">
   import { range } from 'utils/math';
   import hover from 'actions/hover';
-  import { tooltip } from 'actions/tooltip';
+  import tooltip from 'actions/tooltip';
 
   export let label = '';
   export let hideMinMax = false;

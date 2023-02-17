@@ -2,7 +2,7 @@
 import { tick } from 'svelte';
 import type { TooltipPortalID } from 'store/tooltip';
 
-export function portal<E extends HTMLElement>(
+export default function portal<E extends HTMLElement>(
   element: E,
   target: Option<PortalID> = null,
 ) {
@@ -53,4 +53,4 @@ export function getElementByPortalId<T extends HTMLElement>(id: PortalID) {
   return document.querySelector<T>(`[data-portal-id = ${id}]`);
 }
 
-export type PortalID = 'modal' | 'tooltip' | TooltipPortalID | 'topbar';
+export type PortalID = 'modal' | 'tooltip' | TooltipPortalID | 'topbar' | 'context-menu';

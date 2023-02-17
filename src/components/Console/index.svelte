@@ -2,8 +2,9 @@
   import { clampNumber } from 'utils/string';
   import debug, { clearErrors } from 'store/debug';
   import Modal from 'components/Modal.svelte';
-  import IconButton from 'components/IconButton.svelte';
   import ErrorBlock from './ErrorBlock.svelte';
+  import Icon from 'components/Icon.svelte';
+  import tooltip from 'actions/tooltip';
 
   export let open = false;
 
@@ -14,15 +15,10 @@
 </script>
 
 {#if errorCount}
-  <IconButton
-    name="console"
-    iconAccent="hsl(var(--color-primary-h), var(--color-primary-s), var(--color-shade-400))"
-    padding="0"
-    size="clamp(1.35rem, 2vw, 1.5rem)"
-    on:click={() => open = !open}
-  >
-    <span class="ConsoleButton__error-count">{clampNumber(errorCount, 99)}</span>
-  </IconButton>
+  <button class="ConsoleButton" on:click={() => open = !open}>
+    <Icon name="console" />
+    <p>{clampNumber(errorCount, 99)}</p>
+  </button>
   <Modal
     borderColor="hsl(var(--color-error-h), var(--color-error-s), var(--color-shade-700))"
     bind:open
@@ -30,12 +26,15 @@
     <h1 class="Console__title" slot="topbar-left">
       {errorCount} Error{errorCount > 1 ? 's' : ''} Found
     </h1>
-    <IconButton
+    <button
+      class="Console__trash"
       slot="topbar-right"
-      name="trash"
-      tooltip="Clear console"
+      data-tooltip="Clear console"
       on:click={clearErrors}
-    />
+      use:tooltip
+    >
+      <Icon name="trash" />
+    </button>
     <section class="Console">
       <div class="Console__output">
         {#each $debug.errors as error}
@@ -64,6 +63,12 @@
     border-top: misc.rem(1) solid color.shade(--color-error, 700);
     gap: misc.rem(1);
 
+    &__trash {
+      --icon-size: #{misc.rem(12)};
+      &:hover {
+        color: #{color.shade(--color-primary, 700)};
+      }
+    }
     &__title {
       margin-left: var(--spacing-sm-100);
       color: color.shade(--color-error, 700);
@@ -80,7 +85,10 @@
   }
 
   .ConsoleButton {
-    &__error-count {
+    --icon-accent: #{color.shade(--color-primary, 400)};
+    --icon-size: var(--p-md-300);
+    position: relative;
+    p {
       @include misc.circle(clamp(misc.rem(8), 0.5vw, misc.rem(12)));
       font-size: var(--p-nm-100);
       position: absolute;

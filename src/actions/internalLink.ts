@@ -7,7 +7,8 @@ export default function internalLink<
   function handleClick(e: MouseEvent) {
     e.preventDefault();
     const href = node.getAttribute('href');
-    if (href) {
+    const disabled = node.getAttribute('aria-disabled');
+    if (disabled === null && href) {
       navigate(href);
     }
   }

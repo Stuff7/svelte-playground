@@ -5,7 +5,7 @@
   import { clamp, lineAngle, lineLength, pointAtLength, squareCircumcircleRadius } from 'utils/math';
   import { UnsupportedValueError } from 'utils/meta';
   import { getPagePos } from 'utils/dom';
-  import { resizeObserver } from 'actions/resizeObserver';
+  import resizeObserver from 'actions/resizeObserver';
   import drag from 'actions/drag';
 
   type S = $$Generic<Shape>;

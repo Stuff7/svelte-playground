@@ -1,9 +1,17 @@
 <script lang="ts">
+  import tooltip from 'actions/tooltip';
   import iconError from 'icons/triangle-exclamation.svg?raw';
   import iconLoading from 'icons/loading.svg?raw';
 
   export let name: IconName;
   export let style: Option<string> = null;
+  export let size: Option<string> = null;
+  export let margin: Option<string> = null;
+  export let spinning = false;
+  export let tooltipValue: Option<string> = null; export { tooltipValue as tooltip };
+  export let tooltipId: Option<string> = null;
+  export let tooltipStatic = false;
+  export let tooltipPosition: Option<string> = null;
 
   async function loadIcon(iconName: IconName) {
     const icon = (await import(`icons/${iconName}.svg?raw`)).default as string;
@@ -18,15 +26,38 @@
 </script>
 
 {#await iconPromise}
-  <span class="Icon Icon--rotate" {style} title="Loading {quotedName} icon...">
+  <span
+    class="Icon Icon--rotate"
+    {style}
+    data-tooltip="Loading {quotedName} icon..."
+    use:tooltip
+  >
     {@html iconLoading}
   </span>
 {:then icon}
-  <span class="Icon" {style}>
+  <span
+    class="Icon"
+    class:Icon--rotate={spinning}
+    {style}
+    style:overflow="visible"
+    style:--icon-size={size}
+    style:margin
+    data-tooltip={tooltipValue}
+    data-tooltip-id={tooltipId}
+    data-tooltip-static={tooltipStatic || null}
+    data-tooltip-position={tooltipPosition}
+    use:tooltip
+  >
     {@html icon}
   </span>
 {:catch}
-  <span class="Icon Icon__error" {style} title="Could not find icon {quotedName}">
+  <span
+    class="Icon Icon__error"
+    {style}
+    data-tooltip="Could not find icon
+    {quotedName}"
+    use:tooltip
+  >
     {@html iconError}
   </span>
 {/await}
@@ -40,7 +71,9 @@
     display: var(--icon-display, flex);
 
     &--rotate {
-      @include animation.rotate;
+      & :global(svg) {
+        animation: rotate 2s linear infinite;
+      }
     }
 
     & :global(svg) {
