@@ -53,4 +53,4 @@ export function getElementByPortalId<T extends HTMLElement>(id: PortalID) {
   return document.querySelector<T>(`[data-portal-id = ${id}]`);
 }
 
-export type PortalID = 'modal' | 'tooltip' | TooltipPortalID | 'topbar' | 'context-menu';
+export type PortalID = 'modal' | 'tooltip' | TooltipPortalID | 'topbar';
