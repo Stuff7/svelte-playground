@@ -1,5 +1,3 @@
-import { snakeCase } from 'utils/string';
-
 export type Provider = 'google';
 export type UserID = `${Provider}@${string}`;
 
@@ -24,7 +22,7 @@ export interface Video {
 export type VideoMetadata = Omit<Video, 'type'>;
 
 export type VideoMetadataQuery = {
-  fileUrl: string,
+  videoId: string,
 }
 
 export type CreateVideoBody = {
@@ -62,11 +60,24 @@ export type UpdateFileBody = {
   folder?: string,
 }
 
+export type DeleteFilesQuery = {
+  id: string[],
+}
+
+export type DeleteFilesResponse = {
+  deleted: number,
+}
+
 export function queryParams<T extends Record<string, unknown>>(query: T): string {
   const entries = Object.entries(query);
   return entries.length ? `?${
     entries
-      .map(([key, value]) => value == null ? '' : `${snakeCase(key)}=${encodeURIComponent(`${value}`)}`)
+      .map(([key, v]) => {
+        if (v == null) { return ''; }
+        let value = v;
+        if (v instanceof Array) { value = v.join(','); }
+        return `${key}=${encodeURIComponent(`${value}`)}`;
+      })
       .filter((entry) => entry)
       .join('&')
   }` : '';
@@ -78,7 +89,7 @@ export interface ApiErrorResponse {
   message: string,
 }
 
-export type ApiResource = User | UserFile[] | UserFile | VideoMetadata;
+export type ApiResource = User | UserFile[] | UserFile | VideoMetadata | DeleteFilesResponse;
 
 export class ApiError extends Error {
   response: Option<Response>;

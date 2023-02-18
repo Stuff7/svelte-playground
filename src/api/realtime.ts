@@ -62,7 +62,7 @@ type EventHandler<T extends EventName> = typeof EVENTS[T][number];
 type FileChangeEventHandler = (fileChange: FileChange) => unknown;
 
 export interface FileChange {
-  user_id: string,
-  folder_id: string,
+  userId: string,
+  folderId: string,
   files: UserFile[],
 }

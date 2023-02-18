@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deleteFiles } from 'api';
   import Button from 'components/Button.svelte';
   import FloatingDialog from 'components/FloatingDialog.svelte';
   import Icon from 'components/Icon.svelte';
@@ -8,12 +9,33 @@
   const dispatch = createEventDispatcher<{[key in CreateEvent]: undefined }>();
 
   export let fileCount: number;
+  export let selectedFiles: Set<string>;
+  export let inSelectMode = false;
 
   let createDialogOpen = false;
 </script>
 
 <nav>
   <p>{fileCount} items</p>
+  {#if selectedFiles.size}
+    <Button
+      icon="trash"
+      tooltip="Delete"
+      background="var(--color-error)"
+      color="var(--color-error-contrast)"
+      on:click={() => deleteFiles([...selectedFiles])}
+    />
+  {/if}
+  <Button
+    icon={inSelectMode ? 'x' : 'checkmark'}
+    iconSize="var(--p-nm-100)"
+    minHeight="100%"
+    background={inSelectMode ? 'var(--color-error)' : null}
+    color={inSelectMode ? 'var(--color-error-contrast)' : null}
+    on:click={() => inSelectMode = !inSelectMode}
+  >
+    {#if inSelectMode}Cancel{:else}Select{/if}
+  </Button>
   <Button icon="add-file" on:click={() => createDialogOpen = !createDialogOpen}>
     Create
   </Button>

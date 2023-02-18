@@ -16,6 +16,8 @@ import {
   type VideoMetadata,
   type VideoMetadataQuery,
   type CreateVideoBody,
+  type DeleteFilesResponse,
+  type DeleteFilesQuery,
 } from './models';
 
 export async function getUser(): Promise<Option<User>> {
@@ -57,6 +59,15 @@ export async function updateFile(
   return isApiErrorAndWarn(data) ? null : data;
 }
 
+export async function deleteFiles(ids: string[]): Promise<Option<DeleteFilesResponse>> {
+  const query: DeleteFilesQuery = { id: ids };
+  const data = await apiRequest<DeleteFilesResponse>(`/files${queryParams(query)}`, {
+    authorization: true,
+    method: 'DELETE',
+  });
+  return isApiErrorAndWarn(data) ? null : data;
+}
+
 export async function createVideo(videoId: string, body: CreateVideoBody): Promise<Option<UserFile>> {
   const data = await apiRequest<UserFile>(`/files/video/${videoId}`, {
     authorization: true,
@@ -66,8 +77,8 @@ export async function createVideo(videoId: string, body: CreateVideoBody): Promi
   return isApiErrorAndWarn(data) ? null : data;
 }
 
-export async function getVideoMetadata(fileId: string): Promise<Option<VideoMetadata>> {
-  const query: VideoMetadataQuery = { fileUrl: fileId };
+export async function getVideoMetadata(videoId: string): Promise<Option<VideoMetadata>> {
+  const query: VideoMetadataQuery = { videoId };
   const data = await apiRequest<VideoMetadata>(`/files/video/metadata${queryParams(query)}`, {
     authorization: true,
   });

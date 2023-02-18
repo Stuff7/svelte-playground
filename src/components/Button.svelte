@@ -11,6 +11,8 @@
   export let contentAlign: Option<string> = null;
   export let background: Option<string> = null;
   export let color: Option<string> = null;
+  export let minHeight: Option<string> = null;
+  export let iconSize: Option<string> = null;
 </script>
 
 <button
@@ -19,9 +21,11 @@
   data-tooltip-static={tooltipStatic || null}
   data-tooltip-position={tooltipPosition}
   {disabled}
+  style:min-height={minHeight}
   style:--button-content-align={contentAlign}
   style:--button-background={background}
   style:--button-color={color}
+  style:--button-icon-size={iconSize}
   on:click
   use:tooltip
 >
@@ -36,7 +40,7 @@
   button, :global([role=button]) {
     $button-background: var(--button-background, var(--color-primary));
     $button-color: var(--button-color, var(--color-primary-contrast));
-    --icon-size: var(--p-md-200);
+    --icon-size: var(--button-icon-size, var(--p-md-200));
     font-size: var(--h-nm-100);
     font-weight: 800;
     text-transform: uppercase;
@@ -44,7 +48,7 @@
     align-items: center;
     justify-content: var(--button-content-align, center);
     gap: var(--spacing-sm-50);
-    border: misc.rem(1) solid $button-background;
+    border: misc.rem(1) solid $button-color;
     border-radius: var(--button-radius, misc.rem(8));
     padding: var(--spacing-sm-50) var(--spacing-sm-100);
     font-family: inherit;
@@ -53,15 +57,23 @@
     --icon-accent: #{$button-color};
     cursor: pointer;
     transition: background 0.1s, color 0.1s, border-color 0.1s;
+
+    p {
+      display: flex;
+      align-items: center;
+    }
+
     &:hover {
       background: $button-color;
       color: $button-background;
       --icon-accent: #{$button-background};
       border-color: $button-background;
     }
+
     &:focus, &:focus-visible {
       outline: misc.rem(4) auto -webkit-focus-ring-color;
     }
+
     &:disabled {
       background: darkgray;
       color: black;

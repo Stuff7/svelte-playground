@@ -50,7 +50,7 @@ module.exports = {
     'arrow-body-style': 'off',
     'arrow-parens': 'off',
     'block-spacing': 'warn',
-    'brace-style': ['warn', '1tbs', { 'allowSingleLine': false }],
+    'brace-style': ['warn', '1tbs', { 'allowSingleLine': true }],
     'comma-dangle': [1, 'always-multiline'],
     'comma-spacing': ['warn', { 'after': true }],
     'curly': ['error', 'all'],

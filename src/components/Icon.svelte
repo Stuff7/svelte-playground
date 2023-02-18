@@ -85,6 +85,7 @@
       transform: var(--icon-transform, initial);
       cursor: var(--icon-cursor, inherit);
       filter: drop-shadow(1px 1px 2px var(--icon-shadow, transparent));
+      color: var(--icon-color, inherit);
     }
 
     & :global(.icon-accent) {

@@ -3,14 +3,25 @@
   import { updateFile } from 'api';
   import type { FileMetadata } from 'api/models';
   import Icon from 'components/Icon.svelte';
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
 
   export let id: string;
   export let name: string;
   export let metadata: FileMetadata;
   export let disableLink = false;
+  export let inSelectMode = false;
 
-  const dispatch = createEventDispatcher<{ create: string }>();
+  onMount(() => {
+    if (disableLink && nameInput) {
+      nameInput.focus();
+    }
+    return () => dispatch('selectionchange', false);
+  });
+
+  const dispatch = createEventDispatcher<{ create: string, selectionchange: boolean }>();
+
+  let selected = false;
+  let nameInput: Option<HTMLInputElement>;
 
   async function changeName({ currentTarget }: FocusEvent) {
     if (!(currentTarget instanceof HTMLInputElement) || currentTarget.value === name) {
@@ -22,19 +33,18 @@
       return;
     }
 
-    const file = await updateFile(id, { name: currentTarget.value });
-
-    if (file?.name) {
-      name = file.name;
-    } else {
-      currentTarget.value = name;
-    }
+    await updateFile(id, { name: currentTarget.value });
   }
 </script>
 
-<div>
+<button
+  class:selecting={inSelectMode}
+  on:click={() => {
+    if (inSelectMode) { dispatch('selectionchange', selected = !selected); }
+  }}
+>
   <a
-    aria-disabled={disableLink || null}
+    aria-disabled={disableLink || inSelectMode || null}
     href="/fylvur/{metadata.type}/{metadata.type === 'video' ? metadata.playId : id}"
     use:internalLink
   >
@@ -55,16 +65,43 @@
       <Icon name="file" />
     {/if}
   </a>
-  <input value={name} on:blur={changeName} />
-</div>
+  <input value={name} disabled={inSelectMode} on:blur={changeName} bind:this={nameInput} />
+  {#if inSelectMode && selected}
+    <div role="img">
+      <Icon name="checkmark" />
+    </div>
+  {/if}
+</button>
 
 <style lang="scss">
   @use 'style/color';
   @use 'style/text';
 
-  div {
+  button {
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    &.selecting {
+      outline: 2px dashed var(--color-secondary-600);
+    }
+
+    [role=img] {
+      pointer-events: none;
+      position: absolute;
+      background-color: var(--color-primary-300);
+      --icon-size: calc(var(--area-sm-100) / 10);
+      --icon-color: #{color.shade(--color-primary, 600)};
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      padding: var(--spacing-sm-100);
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     a {
       $folder-color: color.shade(--color-primary, 700);
       $paper-color: var(--color-primary-200);

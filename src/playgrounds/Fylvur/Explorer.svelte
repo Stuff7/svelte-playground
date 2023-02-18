@@ -14,7 +14,7 @@
 
   onMount(() => {
     const onFilesChange = realtime.on('file-change', (change) => {
-      if (change.folder_id === folder || (folder === 'root' && change.folder_id === userId)) {
+      if (change.folderId === folder || (folder === 'root' && change.folderId === userId)) {
         files = change.files;
       }
     });
@@ -23,16 +23,15 @@
 
   let newFolderName: Option<string> = null;
   let videoDialogOpen = false;
-
-  async function createNewFolder({ detail: name }: CustomEvent<string>) {
-    await createFolder(name, folder);
-    newFolderName = null;
-  }
+  let inSelectMode = false;
+  let selectedFiles = new Set<string>();
 </script>
 
 <section class="Explorer">
   <Nav
     fileCount={files.length}
+    {selectedFiles}
+    bind:inSelectMode
     on:create-folder={() => {
       newFolderName = '';
     }}
@@ -46,6 +45,11 @@
         id={file._id}
         metadata={file.metadata}
         name={file.name}
+        {inSelectMode}
+        on:selectionchange={({ detail: selected }) => {
+          selectedFiles[selected ? 'add' : 'delete'](file._id);
+          selectedFiles = selectedFiles;
+        }}
       />
     {/each}
     {#if newFolderName !== null}
@@ -54,7 +58,10 @@
         id=""
         metadata={{ type: 'folder' }}
         name={newFolderName}
-        on:create={createNewFolder}
+        on:create={async ({ detail: name }) => {
+          await createFolder(name, folder);
+          newFolderName = null;
+        }}
       />
     {/if}
   </div>
