@@ -1,6 +1,6 @@
 import { clamp, toFixed } from 'utils/math';
 
-export type RGB = [r: number, g: number, b: number] & { length: 3 };
+export type RGB = [r: number, g: number, b: number];
 export type RGBString<T extends string> =
   Trim<T> extends `rgb(${infer R},${infer G},${infer B})` ?
     true extends IsNumber<R> & IsNumber<G> & IsNumber<B> ?
@@ -9,7 +9,7 @@ export type RGBString<T extends string> =
   never;
 
 export type HSV = [h: number, s: number, v: number];
-export type HSL = [h: number, s: number, l: number] & { length: 3 };
+export type HSL = [h: number, s: number, l: number];
 export type HSLString<T extends string, FnName extends 'hsl' | 'hsv'> =
   Trim<T> extends `${FnName}(${infer H},${infer S},${infer L})` ?
     true extends (
