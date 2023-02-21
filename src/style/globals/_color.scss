@@ -1,14 +1,31 @@
 @use 'style/color';
 
 :root {
-  @include color.define-hsl(--color-primary, 42, 84%, 52%);
-  @include color.define-hsl(--color-secondary, 201, 97%, 70%);
-  @include color.define-hsl(--color-tertiary, 154, 55%, 50%);
-  @include color.define-hsl(--color-error, 0, 59%, 49%);
-  @each $theme in (dark, light) {
+  $themes: (dark, light);
+  $colors: (primary, secondary, tertiary, error);
+  @each $theme in $themes {
     &[data-theme=#{$theme}] {
       $invert: $theme == light;
       @include color.define-shades($invert);
+      $on-white-shade: if($invert, 100, 900);
+      $on-black-shade: if($invert, 900, 100);
+      @each $color-name in $colors {
+        @include color.define-hsl(
+          --color-#{$color-name}-#{$on-white-shade}-contrast,
+          var(--color-#{$color-name}-on-white-h),
+          var(--color-#{$color-name}-on-white-s),
+          var(--color-#{$color-name}-on-white-l),
+        );
+        @include color.define-hsl(
+          --color-#{$color-name}-#{$on-black-shade}-contrast,
+          var(--color-#{$color-name}-on-black-h),
+          var(--color-#{$color-name}-on-black-s),
+          var(--color-#{$color-name}-on-black-l),
+        );
+      }
     }
+  }
+  @each $color-name in $colors {
+    @include color.define-color-shades(--color-#{$color-name});
   }
 }

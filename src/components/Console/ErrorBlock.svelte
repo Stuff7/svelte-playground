@@ -25,7 +25,7 @@
 
   .ErrorBlock {
     background: color.alpha(--color-error, 0.2);
-    color: color.shade(--color-error, 700);
+    color: var(--color-error-100-contrast);
     padding: var(--spacing-sm-100);
 
     &__title {

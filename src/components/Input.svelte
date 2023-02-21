@@ -91,7 +91,7 @@
       border: 1px solid var(--color-secondary-400);
       @include misc.border-radius;
       &:focus {
-        border-color: var(--color-primary);
+        border-color: var(--color-primary-100-contrast);
       }
       @include media.smaller-than(phone) {
         padding: var(--input__padding-small);

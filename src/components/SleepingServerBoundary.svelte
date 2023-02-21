@@ -46,13 +46,16 @@
   @use 'style/animation';
 
   button {
-    --icon-accent: #{color.shade(--color-primary, 600)};
+    --icon-accent: var(--color-primary-100-contrast);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
     background: transparent;
     border: 0;
-    color: var(--color-secondary-900);
+    color: var(--color-secondary-100-contrast);
+  }
+  strong {
+    color: var(--color-tertiary-100-contrast);
   }
 </style>

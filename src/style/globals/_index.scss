@@ -24,12 +24,12 @@
 }
 
 ::selection {
-  background: color.alpha(--color-primary, 0.5)
+  background: color.alpha(--color-primary-100-contrast, 0.5)
 }
 
 *, *::before, *::after {
   @include text.font-body;
-  @include misc.scrollbar(var(--color-primary));
+  @include misc.scrollbar(var(--color-primary-100-contrast));
   box-sizing: inherit;
   line-height: 1;
   margin: 0;

@@ -1,6 +1,6 @@
 import { clamp, toFixed } from 'utils/math';
 
-export type RGB = [r: number, g: number, b: number];
+export type RGB = [r: number, g: number, b: number] & { length: 3 };
 export type RGBString<T extends string> =
   Trim<T> extends `rgb(${infer R},${infer G},${infer B})` ?
     true extends IsNumber<R> & IsNumber<G> & IsNumber<B> ?
@@ -9,7 +9,7 @@ export type RGBString<T extends string> =
   never;
 
 export type HSV = [h: number, s: number, v: number];
-export type HSL = [h: number, s: number, l: number];
+export type HSL = [h: number, s: number, l: number] & { length: 3 };
 export type HSLString<T extends string, FnName extends 'hsl' | 'hsv'> =
   Trim<T> extends `${FnName}(${infer H},${infer S},${infer L})` ?
     true extends (
@@ -63,6 +63,11 @@ export function hexString(color: RGB) {
   return `#${paddedHex(r)}${paddedHex(g)}${paddedHex(b)}`;
 }
 
+export function rgbString(color: RGB) {
+  const [r, g, b] = color;
+  return `rgb(${r},${g},${b})`;
+}
+
 export function hslString(color: HSL) {
   const [h, s, l] = color;
   return `hsl(${h}deg, ${s}%, ${l}%)`;
@@ -77,8 +82,8 @@ export function toCssFn(color: RGB, fnName: CSSFnName = 'rgb') {
 }
 
 export function contrast(a: RGB, b = a, {
-  strength = 0.9,
-  minDifference = 0.7,
+  strength = 0.64,
+  minDifference = 0.45,
 } = {}): RGB {
   const brightnessA = brightness(a);
   const brightnessB = brightness(b);
@@ -87,7 +92,8 @@ export function contrast(a: RGB, b = a, {
     return b;
   }
 
-  return scaleBrightness(b, brightnessA <= 0.5009 ? strength : -strength);
+  const fixedContrast = scaleBrightness(b, brightnessA <= 0.5009 ? strength : -strength);
+  return fixedContrast;
 }
 
 export function scaleBrightness(color: RGB, percentage: number): RGB {
@@ -105,6 +111,31 @@ export function scaleBrightness(color: RGB, percentage: number): RGB {
 export function brightness(color: RGB) {
   const [r, g, b] = color;
   return (r * 2126 + g * 7152 + b * 722) / 10000 / 255;
+}
+
+export function rgbToHsl(color: RGB): HSL {
+  const r = color[0] / 255;
+  const g = color[1] / 255;
+  const b = color[2] / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = (max + min) / 2;
+  let s = (max + min) / 2;
+  const l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0;
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return [h * 360, s * 100, l * 100];
 }
 
 export function hslToRgb(color: HSL): RGB {

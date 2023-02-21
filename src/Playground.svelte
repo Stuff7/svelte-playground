@@ -69,6 +69,9 @@
       height: 100%;
       opacity: 0.3;
       --icon-size: min(45vw, 100vh);
+      --icon-accent: var(--color-primary-100-contrast);
+      --icon-accent-2: var(--color-secondary-100-contrast);
+      --icon-accent-3: var(--color-tertiary-100-contrast);
     }
 
     @include media.larger-than(tablet) {

@@ -86,7 +86,7 @@
       &.active {
         background: $button-active-bg;
         color: var(--color-primary-contrast);
-        border-color: #{color.shade(--color-primary, 600)};
+        border-color: var(--color-primary-100-contrast);
       }
     }
 
@@ -110,9 +110,9 @@
         display: block;
         font-weight: 800;
         text-transform: uppercase;
-        background: var(--color-tertiary);
-        color: var(--color-tertiary-contrast);
-        border-block: 4px double var(--color-tertiary-contrast);
+        background: var(--color-tertiary-100-contrast);
+        color: var(--color-tertiary-300);
+        border-block: 4px double var(--color-tertiary-300);
         padding: var(--spacing-sm-50) var(--spacing-sm-100);
       }
 

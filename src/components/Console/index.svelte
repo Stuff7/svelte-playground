@@ -20,7 +20,8 @@
     <p>{clampNumber(errorCount, 99)}</p>
   </button>
   <Modal
-    borderColor="hsl(var(--color-error-h), var(--color-error-s), var(--color-shade-700))"
+    borderColor="var(--color-error-100-contrast)"
+    disableClickOutClose
     bind:open
   >
     <h1 class="Console__title" slot="topbar-left">
@@ -60,18 +61,19 @@
     width: max-content;
     border-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100);
     overflow: hidden;
-    border-top: misc.rem(1) solid color.shade(--color-error, 700);
+    border-top: misc.rem(1) solid var(--color-error-100-contrast);
     gap: misc.rem(1);
 
     &__trash {
       --icon-size: #{misc.rem(12)};
+      color: var(--color-secondary-900);
       &:hover {
-        color: #{color.shade(--color-primary, 700)};
+        color: var(--color-primary-100-contrast);
       }
     }
     &__title {
       margin-left: var(--spacing-sm-100);
-      color: color.shade(--color-error, 700);
+      color: var(--color-error-100-contrast);
       font-size: var(--p-nm-100);
       cursor: initial;
     }
@@ -85,7 +87,8 @@
   }
 
   .ConsoleButton {
-    --icon-accent: #{color.shade(--color-primary, 400)};
+    color: var(--color-primary-100-contrast);
+    --icon-accent: var(--color-primary-100);
     --icon-size: var(--p-md-300);
     position: relative;
     p {

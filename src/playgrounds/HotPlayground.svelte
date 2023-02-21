@@ -116,6 +116,7 @@
   <Button
     background="var(--color-error)"
     color="var(--color-error-contrast)"
+    borderColor="var(--color-error-100-contrast)"
     on:click={throwError}
   >
     Trigger Error

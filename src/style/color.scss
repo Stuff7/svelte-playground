@@ -59,7 +59,9 @@ $max-brightness: brightness(#fff);
   #{$var-name}-s: $saturation;
   #{$var-name}-l: $lightness;
   #{$var-name}: var-hsl($var-name);
-  #{$var-name}-contrast: text-contrast(hsl($hue, $saturation, $lightness));
+}
+
+@mixin define-color-shades($var-name){
   $shade: 100;
   @while $shade < 1000 {
     #{$var-name}-#{$shade}: var-hsl($var-name, $s: 10%, $l: var(--color-shade-#{$shade}));
@@ -84,12 +86,8 @@ $max-brightness: brightness(#fff);
   @return hsla($h, $s, $l, $alpha);
 }
 
-@function shade($var-name, $shade, $s: var(#{$var-name}-s), $l: var(--color-shade-#{$shade}), $a: 1) {
+@function shade($var-name, $shade, $s: 10%, $l: var(--color-shade-#{$shade}), $a: 1) {
   @return var-hsl($var-name, $s: $s, $l: $l, $alpha: $a);
-}
-
-@function alpha-shade($var-name, $shade, $alpha: 1) {
-  @return var-hsl($var-name, $s: 10%, $l: var(--color-shade-#{$shade}), $alpha: $alpha);
 }
 
 @function abs($n) {

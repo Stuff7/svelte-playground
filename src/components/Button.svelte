@@ -11,8 +11,11 @@
   export let contentAlign: Option<string> = null;
   export let background: Option<string> = null;
   export let color: Option<string> = null;
+  export let border: Option<string> = null;
+  export let borderColor: Option<string> = null;
   export let minHeight: Option<string> = null;
   export let iconSize: Option<string> = null;
+  export let style: Option<string> = null;
 </script>
 
 <button
@@ -21,10 +24,13 @@
   data-tooltip-static={tooltipStatic || null}
   data-tooltip-position={tooltipPosition}
   {disabled}
+  {style}
   style:min-height={minHeight}
   style:--button-content-align={contentAlign}
   style:--button-background={background}
   style:--button-color={color}
+  style:--button-border={border}
+  style:--button-border-color={borderColor}
   style:--button-icon-size={iconSize}
   on:click
   use:tooltip
@@ -40,6 +46,8 @@
   button, :global([role=button]) {
     $button-background: var(--button-background, var(--color-primary));
     $button-color: var(--button-color, var(--color-primary-contrast));
+    $button-border: var(--button-border, misc.rem(1) solid);
+    $button-border-color: var(--button-border-color, var(--button-color, var(--color-primary-100-contrast)));
     --icon-size: var(--button-icon-size, var(--p-md-200));
     font-size: var(--h-nm-100);
     font-weight: 800;
@@ -48,7 +56,8 @@
     align-items: center;
     justify-content: var(--button-content-align, center);
     gap: var(--spacing-sm-50);
-    border: misc.rem(1) solid $button-color;
+    border: $button-border;
+    border-color: $button-border-color;
     border-radius: var(--button-radius, misc.rem(8));
     padding: var(--spacing-sm-50) var(--spacing-sm-100);
     font-family: inherit;

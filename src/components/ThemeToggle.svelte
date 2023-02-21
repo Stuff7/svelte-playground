@@ -74,7 +74,7 @@
       border: 2px solid #e4e7ec;
       border-radius: 10em;
       background-color: white;
-      box-shadow: 0px calc(var(--theme-toggle__width) * 0.005) calc(var(--theme-toggle__width) * 0.025) var(--color-primary);
+      box-shadow: 0px calc(var(--theme-toggle__width) * 0.005) calc(var(--theme-toggle__width) * 0.025) var(--color-primary-100-contrast);
       transition: background-color 250ms;
     }
 
@@ -85,8 +85,8 @@
       width: 32.5%;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
-      background-color: var(--color-primary);
-      box-shadow: inset 0px 0px 0px calc(var(--theme-toggle__width) * 0.0375) var(--color-primary);
+      background-color: var(--color-primary-100-contrast);
+      box-shadow: inset 0px 0px 0px calc(var(--theme-toggle__width) * 0.0375) var(--color-primary-100-contrast);
       transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
     }
 

@@ -20,7 +20,7 @@
 <style lang="scss">
   @use 'style/color';
   .DebugObject {
-    background: color.alpha-shade(--color-secondary, 300, 0.9);
+    background: color.shade(--color-secondary, 300, $a: 0.9);
     border: 1px solid var(--color-secondary-300);
     font-size: var(--p-md-100);
     border-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100);

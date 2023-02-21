@@ -31,7 +31,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    --icon-accent: #{color.shade(--color-primary, 600)};
+    --icon-accent: var(--color-primary-100-contrast);
 
     button {
       --icon-size: clamp(1.35rem, 2vw, 1.5rem);

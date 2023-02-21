@@ -3,11 +3,11 @@ import type { UserFile } from './models';
 export default function socketEvents(accessToken: string) {
   const url = `ws://localhost:5000/ws?token=${accessToken}`;
   const socket = new WebSocket(url);
-  return new Promise<Realtime>((resolve) => {
+  return new Promise<Realtime>((resolve, reject) => {
     socket.onopen = () => {
       socket.onmessage = ({ data }) => {
         const files = JSON.parse(data);
-        EVENTS['file-change'].forEach(handler => handler(files));
+        EVENTS['folder-change'].forEach(handler => handler(files));
       };
 
       const addSocketEvent = (eventName: EventName) => {
@@ -40,6 +40,7 @@ export default function socketEvents(accessToken: string) {
 
     socket.onerror = (error) => {
       console.error('Error in WebSocket', error);
+      reject(error);
     };
   });
 }
@@ -51,7 +52,7 @@ export type Realtime = {
 };
 
 const EVENTS = {
-  'file-change': [] as FileChangeEventHandler[],
+  'folder-change': [] as FileChangeEventHandler[],
 };
 
 const EVENT_NAMES = Object.keys(EVENTS) as EventName[];

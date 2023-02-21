@@ -123,13 +123,13 @@
       align-items: center;
       background: var(--slider-track-color, transparent);
       height: var(--slider__track-width);
-      border: 1px solid color.shade(--color-primary, 600);
+      border: 1px solid var(--color-primary-100-contrast);
       border-radius: var(--slider__track-radius);
       pointer-events: none;
       position: relative;
       &:before {
         content: "";
-        background: var(--slider-track-before-color, var(--color-primary));
+        background: var(--slider-track-before-color, var(--color-primary-100-contrast));
         width: var(--slider__percentage);
         height: 100%;
         border-radius: var(--slider__track-radius);
@@ -139,8 +139,8 @@
         position: absolute;
         @include misc.circle(var(--slider__thumb-radius));
         @include misc.shadow;
-        background: var(--slider-thumb-color, var(--color-primary));
-        border: 1px solid color.shade(--color-primary, 600);
+        background: var(--slider-thumb-color, var(--color-primary-100-contrast));
+        border: 1px solid var(--color-primary-100-contrast);
         left: var(--slider__percentage);
         transform: translateX(-50%);
       }

@@ -6,8 +6,8 @@ export interface ColorPreviewStore {
 }
 
 export const initialState: ColorPreviewStore = {
-  minimumLikeness: 0.5,
-  percentage: 1,
+  minimumLikeness: 0.25,
+  percentage: 0.6,
 };
 
 const colorPreview = writable(initialState);

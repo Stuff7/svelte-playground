@@ -77,13 +77,14 @@
 
     &__close {
       --icon-size: #{misc.rem(12)};
+      color: var(--modal-color, var(--color-secondary-900));
       width: var(--spacing-lg-100);
       display: flex;
       justify-content: center;
       align-items: center;
       aspect-ratio: 1 / 1;
       &:hover {
-        color: color.shade(--color-primary, 700);
+        color: var(--color-primary-100-contrast);
       }
     }
     &__topbar {

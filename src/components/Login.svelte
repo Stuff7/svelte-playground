@@ -33,14 +33,14 @@
     justify-content: center;
     align-items: center;
     gap: $spacing;
-    --icon-accent: #{color.shade(--color-primary, 600)};
+    --icon-accent: var(--color-primary-100-contrast);
 
     &, h3 {
       font-size: $font-size;
     }
 
     strong {
-      color: color.shade(--color-primary, 600);
+      color: var(--color-primary-100-contrast)
     }
 
     section {
@@ -55,7 +55,7 @@
       gap: $spacing;
       border-radius: 50%;
       overflow: hidden;
-      border-color: color.shade(--color-primary, 600);
+      border-color: var(--color-primary-100-contrast);
       aspect-ratio: 1 / 1;
       --icon-accent: var(--color-primary-contrast);
       --icon-size: calc(#{$font-size} * 5);

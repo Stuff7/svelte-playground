@@ -49,9 +49,12 @@
       display: flex;
       align-items: center;
       gap: var(--spacing-nm-100);
-      color: color.shade(--color-primary, 800);
+      color: var(--color-primary-100-contrast);
       font-weight: 800;
       --icon-size: var(--h-nm-200);
+      --icon-accent: var(--color-primary-100-contrast);
+      --icon-accent-2: var(--color-secondary-100-contrast);
+      --icon-accent-3: var(--color-tertiary-100-contrast);
     }
   }
 </style>

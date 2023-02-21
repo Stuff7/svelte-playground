@@ -20,7 +20,7 @@
   <FloatingDialog padding="0" bind:open={profileDialogOpen}>
     <section class="ProfileSettings__content">
       <h4 class="ProfileSettings__name">{user.name}</h4>
-      <Button icon="door-out" on:click={logout}>
+      <Button icon="door-out" on:click={logout} style="border-left: 0;border-right: 0; border-bottom: 0;">
         Log out
       </Button>
     </section>
@@ -33,7 +33,7 @@
 
   .ProfileSettings {
     &__name {
-      color: color.shade(--color-primary, 600);
+      color: var(--color-primary-100-contrast);
       font-size: var(--p-md-300);
     }
 
@@ -58,11 +58,9 @@
       & > * {
         padding: var(--spacing-sm-50);
       }
-      border: 1px solid var(--color-secondary-400);
+      border: 1px solid var(--color-primary-100-contrast);
       border-radius: var(--radius-nm-100);
       background: var(--color-secondary-300);
-      --button-background: #{color.shade(--color-primary, 600)};
-      --button-color: var(--color-primary-200);
       --button-radius: 0 0 var(--radius-nm-100) var(--radius-nm-100)
     }
   }

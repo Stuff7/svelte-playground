@@ -91,7 +91,7 @@
       position: absolute;
       background-color: var(--color-primary-300);
       --icon-size: calc(var(--area-sm-100) / 10);
-      --icon-color: #{color.shade(--color-primary, 600)};
+      --icon-color: var(--color-primary-100-contrast);
       border-radius: 50%;
       left: 50%;
       top: 50%;
@@ -103,7 +103,7 @@
     }
 
     a {
-      $folder-color: color.shade(--color-primary, 700);
+      $folder-color: var(--color-primary-100-contrast);
       $paper-color: var(--color-primary-200);
 
       display: flex;
@@ -123,7 +123,7 @@
       &:hover {
         --icon-transition-transform: rotate(-3deg) translate(-2%, -2%);
         --icon-transition-2-transform: translateY(4%);
-        --icon-accent: #{color.shade(--color-primary, 900)};
+        --icon-accent: var(--color-primary-800);
       }
 
       picture {
@@ -166,7 +166,7 @@
         border-color: var(--color-primary-500);
       }
       &:focus {
-        border-color: color.shade(--color-primary, 700);
+        border-color: var(--color-primary-100-contrast);
       }
     }
   }

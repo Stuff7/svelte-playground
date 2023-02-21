@@ -62,7 +62,7 @@
   @use 'style/misc';
 
   .TooltipFromAction {
-    $tooltip-bg: color.alpha-shade(--color-tertiary, 400, 0.85);
+    $tooltip-bg: color.shade(--color-tertiary, 400, $a: 0.85);
     background: $tooltip-bg;
     color: var(--color-tertiary-900);
     @include misc.shadow(var(--color-tertiary-300));

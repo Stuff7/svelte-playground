@@ -61,7 +61,7 @@
       display: flex;
       gap: 1rem;
       flex-direction: column;
-      border-top: 1px solid var(--color-primary);
+      border-top: 1px solid var(--color-primary-100-contrast);
     }
   }
 </style>

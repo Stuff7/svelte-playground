@@ -13,12 +13,12 @@
   export let realtime: Realtime;
 
   onMount(() => {
-    const onFilesChange = realtime.on('file-change', (change) => {
+    const onFilesChange = realtime.on('folder-change', (change) => {
       if (change.folderId === folder || (folder === 'root' && change.folderId === userId)) {
         files = change.files;
       }
     });
-    return () => realtime.off('file-change', onFilesChange);
+    return () => realtime.off('folder-change', onFilesChange);
   });
 
   let newFolderName: Option<string> = null;

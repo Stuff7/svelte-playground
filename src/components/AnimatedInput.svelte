@@ -141,7 +141,7 @@
       border: misc.rem(1) solid var(--color-secondary-400);
       @include misc.border-radius;
       &:focus {
-        border-color: var(--color-primary);
+        border-color: var(--color-primary-100-contrast);
       }
       color: var(--color-secondary-800);
       z-index: 1;
@@ -174,7 +174,7 @@
         color: transparent;
 
         &.selected {
-          background: color.alpha(--color-primary, 0.5);
+          background: color.alpha(--color-primary-100-contrast, 0.5);
         }
 
         &:not(.selected) {
