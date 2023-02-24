@@ -34,6 +34,7 @@
   .ThemeToggle {
     $component: &;
     --theme-toggle__width: var(--theme-toggle-width, 3rem);
+    --icon-size: var(--svg-sm-100);
 
     cursor: pointer;
     width: var(--theme-toggle__width);

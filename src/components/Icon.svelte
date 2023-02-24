@@ -69,6 +69,8 @@
 
   .Icon {
     display: var(--icon-display, flex);
+    height: max-content;
+    width: max-content;
 
     &--rotate {
       & :global(svg) {

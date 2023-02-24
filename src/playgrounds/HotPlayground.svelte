@@ -8,6 +8,7 @@
   import Tooltip from 'components/Tooltip.svelte';
   import DebugObject from 'components/DebugObject.svelte';
   import Button from 'components/Button.svelte';
+  import Checkbox from 'components/Checkbox.svelte';
 
   let hotPlaygroundElement: HTMLElement;
   let color1: HSL = [310, 100, 74];
@@ -79,6 +80,9 @@
       Option {i}
     </Button>
   {/each}
+  <Checkbox />
+  <Checkbox size="var(--area-nm-100)" />
+  <Checkbox>Checkbox with label Checkbox with label Checkbox with label Checkbox with label Checkbox with label Checkbox with label</Checkbox>
   <Button on:click={clearOutput}>Clear</Button>
   <div class="HotPlayground__output" on:dblclick={() => log('Hey')}>
     {#each output as msg}

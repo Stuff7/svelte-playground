@@ -1,7 +1,12 @@
-export let API_URL = 'http://localhost:5000';
+export let API_URL: string;
+export let WS_URL: string;
 
-if (import.meta.env.PROD) {
-  API_URL = 'https://playground-api-production.up.railway.app';
+if (import.meta.env.VITE_SOCKET_ADDRESS) {
+  API_URL = `http://${import.meta.env.VITE_SOCKET_ADDRESS}`;
+  WS_URL = `ws://${import.meta.env.VITE_SOCKET_ADDRESS}/ws`;
+} else {
+  API_URL = 'http://playground-api-production.up.railway.app';
+  WS_URL = 'ws://playground-api-production.up.railway.app/ws';
 }
 
 if (crypto && !('randomUUID' in crypto)) {

@@ -2,6 +2,7 @@
   import internalLink from 'actions/internalLink';
   import { updateFile } from 'api';
   import type { FileMetadata } from 'api/models';
+  import Checkbox from 'components/Checkbox.svelte';
   import Icon from 'components/Icon.svelte';
   import { createEventDispatcher, onMount } from 'svelte';
 
@@ -9,7 +10,6 @@
   export let name: string;
   export let metadata: FileMetadata;
   export let disableLink = false;
-  export let inSelectMode = false;
 
   onMount(() => {
     if (disableLink && nameInput) {
@@ -20,7 +20,7 @@
 
   const dispatch = createEventDispatcher<{ create: string, selectionchange: boolean }>();
 
-  let selected = false;
+  let checked = false;
   let nameInput: Option<HTMLInputElement>;
 
   async function changeName({ currentTarget }: FocusEvent) {
@@ -35,16 +35,18 @@
 
     await updateFile(id, { name: currentTarget.value });
   }
+
+  $: dispatch('selectionchange', checked);
 </script>
 
-<button
-  class:selecting={inSelectMode}
-  on:click={() => {
-    if (inSelectMode) { dispatch('selectionchange', selected = !selected); }
-  }}
->
+<button class:checked on:click={({ target, currentTarget }) => {
+  if (target === currentTarget) {
+    checked = !checked;
+  }
+}}>
+  <Checkbox bind:checked />
   <a
-    aria-disabled={disableLink || inSelectMode || null}
+    aria-disabled={disableLink || null}
     href="/fylvur/{metadata.type}/{metadata.type === 'video' ? metadata.playId : id}"
     use:internalLink
   >
@@ -65,12 +67,7 @@
       <Icon name="file" />
     {/if}
   </a>
-  <input value={name} disabled={inSelectMode} on:blur={changeName} bind:this={nameInput} />
-  {#if inSelectMode && selected}
-    <div role="img">
-      <Icon name="checkmark" />
-    </div>
-  {/if}
+  <input value={name} on:blur={changeName} bind:this={nameInput} />
 </button>
 
 <style lang="scss">
@@ -80,27 +77,32 @@
   button {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-sm-100);
+    align-items: center;
     position: relative;
+    cursor: default;
+    $padding: var(--spacing-sm-100);
+    $checkbox-size: var(--h-nm-200);
+    $checkbox-space: calc(var(--spacing-sm-50) + $padding + $checkbox-size);
+    padding: $checkbox-space $padding $padding $padding;
+    min-width: var(--area-nm-50);
+    min-height: 100%;
+    border-radius: var(--radius-nm-100);
 
-    &.selecting {
-      outline: 2px dashed var(--color-secondary-600);
+    &:hover {
+      background: color.alpha(--color-primary-100-contrast, 0.4);
     }
 
-    [role=img] {
-      pointer-events: none;
-      position: absolute;
-      background-color: var(--color-primary-300);
-      --icon-size: calc(var(--area-sm-100) / 10);
-      --icon-color: var(--color-primary-100-contrast);
-      border-radius: 50%;
-      left: 50%;
-      top: 50%;
-      padding: var(--spacing-sm-100);
-      transform: translate(-50%, -50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    &.checked {
+      background: color.alpha(--color-primary-100-contrast, 0.6);
     }
+
+    --checkbox-size: #{$checkbox-size};
+    --checkbox-position: absolute;
+    --checkbox-left: #{$padding};
+    --checkbox-top: #{$padding};
+    --checkbox-z-index: 1;
 
     a {
       $folder-color: var(--color-primary-100-contrast);
@@ -112,6 +114,9 @@
       background: transparent;
       border: 0;
       padding: 0;
+      max-width: 100%;
+      width: max-content;
+      height: max-content;
       color: var(--color-primary-800);
       aspect-ratio: 1 / 1;
       --icon-size: var(--area-sm-100);
@@ -162,6 +167,7 @@
       border: 1px solid var(--color-primary-400);
       border-radius: var(--spacing-sm-25);
       padding: var(--spacing-sm-25);
+      max-width: 100%;
       &:hover, &:focus {
         border-color: var(--color-primary-500);
       }

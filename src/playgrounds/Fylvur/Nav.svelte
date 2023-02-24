@@ -10,35 +10,31 @@
 
   export let fileCount: number;
   export let selectedFiles: Set<string>;
-  export let inSelectMode = false;
 
   let createDialogOpen = false;
 </script>
 
 <nav>
-  <p>{fileCount} items</p>
-  {#if selectedFiles.size}
-    <Button
-      icon="trash"
-      tooltip="Delete"
-      background="var(--color-error)"
-      color="var(--color-error-contrast)"
-      on:click={() => deleteFiles([...selectedFiles])}
-    />
-  {/if}
-  <Button
-    icon={inSelectMode ? 'x' : 'checkmark'}
-    iconSize="var(--p-nm-100)"
-    minHeight="100%"
-    background={inSelectMode ? 'var(--color-error)' : null}
-    color={inSelectMode ? 'var(--color-error-contrast)' : null}
-    on:click={() => inSelectMode = !inSelectMode}
-  >
-    {#if inSelectMode}Cancel{:else}Select{/if}
-  </Button>
-  <Button icon="add-file" on:click={() => createDialogOpen = !createDialogOpen}>
-    Create
-  </Button>
+  <p>
+    {fileCount} items
+    {#if selectedFiles.size}
+      | {selectedFiles.size} selected
+    {/if}
+  </p>
+  <section>
+    {#if selectedFiles.size}
+      <Button
+        icon="trash"
+        tooltip="Delete"
+        background="var(--color-error)"
+        color="var(--color-error-contrast)"
+        on:click={() => deleteFiles([...selectedFiles])}
+      />
+    {/if}
+    <Button icon="add-file" on:click={() => createDialogOpen = !createDialogOpen}>
+      Create
+    </Button>
+  </section>
   <FloatingDialog padding="0" bind:open={createDialogOpen}>
     <menu>
       <button on:click={() => dispatch('create-folder')}>
@@ -58,6 +54,7 @@
 
   nav {
     display: flex;
+    justify-content: space-between;
     gap: var(--spacing-nm-100);
     padding: var(--spacing-sm-100);
     align-items: center;
@@ -67,10 +64,10 @@
     @include misc.shadow();
     --floating-dialog-separation: 0px;
 
-    p {
-      margin-left: auto;
+    section {
+      display: flex;
+      gap: var(--spacing-nm-100);
     }
-
     menu {
       background: var(--color-secondary-500);
       border: 1px solid var(--color-secondary-500);

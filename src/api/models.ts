@@ -121,4 +121,19 @@ export function isApiErrorAndWarn(data: unknown): data is ApiError {
   return isError;
 }
 
+export function sortFiles(files: UserFile[]) {
+  return files.sort((a, b) => {
+    if (a.metadata.type === b.metadata.type) {
+      return a.name.localeCompare(b.name);
+    }
+    if (a.metadata.type === 'folder') {
+      return -1;
+    }
+    if (b.metadata.type === 'folder') {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 export type ApiResult<T> = T | ApiError;

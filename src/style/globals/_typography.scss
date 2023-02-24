@@ -23,6 +23,7 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --p-md-300: #{clamp(misc.rem(20), 2vw, misc.rem(24))};
 
   --svg-nm-100: #{clamp(misc.rem(16), 3vw, misc.rem(20))};
+  --svg-sm-100: #{clamp(misc.rem(10), 1.5vw, misc.rem(16))};
 
   --spacing-lg-200: #{clamp(misc.rem(32), 5vw, misc.rem(48))};
   --spacing-lg-100: #{clamp(misc.rem(28), 4vw, misc.rem(36))};
@@ -41,8 +42,12 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
 
   --area-md-100: #{clamp(misc.rem(180), 50vw, misc.rem(800))};
   --area-nm-100: #{clamp(misc.rem(150), 25vw, misc.rem(500))};
+  --area-nm-50: #{clamp(misc.rem(100), 15vw, misc.rem(320))};
   --area-sm-100: #{clamp(misc.rem(70), 10vw, misc.rem(300))};
   --area-sm-50: #{clamp(misc.rem(36), 7vw, misc.rem(150))};
+
+  --border-nm-100: #{clamp(misc.rem(1), 0.25vw, misc.rem(2))};
+  --border-sm-100: #{clamp(misc.rem(0.5), 0.15vw, misc.rem(0.75))};
 
   --font-title: 'Major Mono Display', #{$fallback-fonts};
   --font-body: 'Ubuntu Mono', #{$fallback-fonts};

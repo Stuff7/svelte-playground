@@ -1,7 +1,8 @@
+import { WS_URL } from '@Playground/config';
 import type { UserFile } from './models';
 
 export default function socketEvents(accessToken: string) {
-  const url = `ws://localhost:5000/ws?token=${accessToken}`;
+  const url = `${WS_URL}?token=${accessToken}`;
   const socket = new WebSocket(url);
   return new Promise<Realtime>((resolve, reject) => {
     socket.onopen = () => {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { UserFile } from 'api/models';
+  import { sortFiles, type UserFile } from 'api/models';
   import type { Realtime } from 'api/realtime';
   import { createFolder } from 'api';
   import { onMount } from 'svelte';
@@ -23,21 +23,17 @@
 
   let newFolderName: Option<string> = null;
   let videoDialogOpen = false;
-  let inSelectMode = false;
   let selectedFiles = new Set<string>();
+
+  $: files = sortFiles(files);
 </script>
 
 <section class="Explorer">
   <Nav
     fileCount={files.length}
     {selectedFiles}
-    bind:inSelectMode
-    on:create-folder={() => {
-      newFolderName = '';
-    }}
-    on:create-video={() => {
-      videoDialogOpen = true;
-    }}
+    on:create-folder={() => { newFolderName = ''; }}
+    on:create-video={() => { videoDialogOpen = true; }}
   />
   <div class="Explorer__list">
     {#each files as file (file._id) }
@@ -45,7 +41,6 @@
         id={file._id}
         metadata={file.metadata}
         name={file.name}
-        {inSelectMode}
         on:selectionchange={({ detail: selected }) => {
           selectedFiles[selected ? 'add' : 'delete'](file._id);
           selectedFiles = selectedFiles;
@@ -59,8 +54,8 @@
         metadata={{ type: 'folder' }}
         name={newFolderName}
         on:create={async ({ detail: name }) => {
-          await createFolder(name, folder);
           newFolderName = null;
+          await createFolder(name, folder);
         }}
       />
     {/if}
@@ -76,14 +71,17 @@
   .Explorer {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 
     &__list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, var(--area-sm-100));
-      grid-gap: 3.25rem 1.5rem;
+      grid-template-columns: repeat(auto-fill, var(--area-nm-50));
+      grid-auto-rows: minmax(var(--area-nm-50), auto);
+      grid-gap: var(--spacing-sm-100);
       justify-content: center;
       align-items: center;
+      padding: var(--spacing-nm-100) 0;
+      @include misc.scrollbar(var(--color-primary-100-contrast));
+      overflow: hidden auto;
     }
   }
 </style>
