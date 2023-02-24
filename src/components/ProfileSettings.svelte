@@ -46,6 +46,7 @@
 
     &__picture {
       border-radius: 50%;
+      max-height: 100%;
     }
 
     &__content {

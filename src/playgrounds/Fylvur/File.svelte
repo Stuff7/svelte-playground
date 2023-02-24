@@ -139,6 +139,11 @@
         border-radius: var(--radius-nm-100);
         position: relative;
         overflow: hidden;
+
+        img {
+          object-fit: contain;
+        }
+
         .File__play-icon {
           --icon-accent: #{$folder-color};
           --icon-shadow: var(--color-primary-400);
