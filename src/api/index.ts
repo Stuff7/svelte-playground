@@ -28,8 +28,8 @@ export async function getUser(): Promise<Option<User>> {
   return isApiErrorAndWarn(data) ? null : data;
 }
 
-export async function getUserFiles(folder: Option<string> = 'root'): Promise<UserFile[]> {
-  const query: UserFilesQuery = { folder };
+export async function getUserFiles(folderId = 'root'): Promise<UserFile[]> {
+  const query: UserFilesQuery = { folderId };
   const data = await apiRequest<UserFile[]>(`/files${queryParams(query)}`, {
     authorization: true,
   });

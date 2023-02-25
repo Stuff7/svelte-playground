@@ -46,9 +46,9 @@ export interface UserFile {
   metadata: FileMetadata,
 }
 
-export type UserFilesQuery = {
-  folder?: Option<string>,
-}
+export type UserFilesQuery = Omit<Partial<UserFile>, 'metadata'> & {
+  type?: Option<string>,
+};
 
 export type CreateFolderBody = {
   name: string,
