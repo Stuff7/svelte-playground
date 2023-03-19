@@ -40,8 +40,10 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --radius-nm-200: #{clamp(misc.rem(8), 0.5vw, misc.rem(12))};
   --radius-md-100: #{clamp(misc.rem(18), 1vw, misc.rem(28))};
 
-  --area-md-100: #{clamp(misc.rem(180), 50vw, misc.rem(800))};
-  --area-nm-100: #{clamp(misc.rem(150), 25vw, misc.rem(500))};
+  --area-lg-200: #{clamp(misc.rem(420), 90vw, misc.rem(550))};
+  --area-lg-100: #{clamp(misc.rem(320), 75vw, misc.rem(500))};
+  --area-md-100: #{clamp(misc.rem(180), 50vw, misc.rem(400))};
+  --area-nm-100: #{clamp(misc.rem(150), 25vw, misc.rem(360))};
   --area-nm-50: #{clamp(misc.rem(100), 15vw, misc.rem(320))};
   --area-sm-100: #{clamp(misc.rem(70), 10vw, misc.rem(300))};
   --area-sm-50: #{clamp(misc.rem(36), 7vw, misc.rem(150))};

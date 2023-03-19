@@ -38,7 +38,7 @@ export interface Folder {
 export type FileMetadata = Video | Folder;
 export type FileType = FileMetadata['type'];
 
-export interface UserFile {
+export interface File {
   _id: string,
   folderId: string,
   userId: string,
@@ -46,7 +46,9 @@ export interface UserFile {
   metadata: FileMetadata,
 }
 
-export type UserFilesQuery = Omit<Partial<UserFile>, 'metadata'> & {
+export type BasicFileInfo = Omit<File, 'metadata'>;
+
+export type FilesQuery = Partial<BasicFileInfo> & {
   type?: Option<string>,
 };
 
@@ -60,12 +62,26 @@ export type UpdateFileBody = {
   folder?: string,
 }
 
+export type MoveFilesBody = {
+  files: string[],
+  folder: string,
+}
+
+export type MoveFilesResponse = {
+  movedCount: number,
+}
+
 export type DeleteFilesQuery = {
   id: string[],
 }
 
 export type DeleteFilesResponse = {
   deleted: number,
+}
+
+export type FolderChildrenAndAncestors = BasicFileInfo & {
+  ancestors: BasicFileInfo[],
+  children: BasicFileInfo[],
 }
 
 export function queryParams<T extends Record<string, unknown>>(query: T): string {
@@ -89,7 +105,10 @@ export interface ApiErrorResponse {
   message: string,
 }
 
-export type ApiResource = User | UserFile[] | UserFile | VideoMetadata | DeleteFilesResponse;
+export type ApiResource = (
+  User | File[] | File | VideoMetadata |
+  DeleteFilesResponse | FolderChildrenAndAncestors | MoveFilesResponse
+);
 
 export class ApiError extends Error {
   response: Option<Response>;
@@ -121,7 +140,7 @@ export function isApiErrorAndWarn(data: unknown): data is ApiError {
   return isError;
 }
 
-export function sortFiles(files: UserFile[]) {
+export function sortFiles(files: File[]) {
   return files.sort((a, b) => {
     if (a.metadata.type === b.metadata.type) {
       return a.name.localeCompare(b.name);

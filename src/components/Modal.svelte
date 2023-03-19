@@ -93,6 +93,7 @@
       align-items: center;
       background: var(--modal-topbar-background, var(--modal-background));
       border-radius: var(--radius-nm-100) var(--radius-nm-100) 0 0;
+      padding-left: var(--spacing-sm-100);
       & > * {
         display: flex;
         align-items: center;

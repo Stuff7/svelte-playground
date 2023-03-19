@@ -8,8 +8,8 @@ import {
   type ApiErrorResponse,
   type ApiResource,
   type ApiResult,
-  type UserFilesQuery,
-  type UserFile,
+  type FilesQuery,
+  type File,
   type User,
   type CreateFolderBody,
   type UpdateFileBody,
@@ -18,6 +18,9 @@ import {
   type CreateVideoBody,
   type DeleteFilesResponse,
   type DeleteFilesQuery,
+  type FolderChildrenAndAncestors,
+  type MoveFilesBody,
+  type MoveFilesResponse,
 } from './models';
 
 export async function getUser(): Promise<Option<User>> {
@@ -28,17 +31,23 @@ export async function getUser(): Promise<Option<User>> {
   return isApiErrorAndWarn(data) ? null : data;
 }
 
-export async function getUserFiles(folderId = 'root'): Promise<UserFile[]> {
-  const query: UserFilesQuery = { folderId };
-  const data = await apiRequest<UserFile[]>(`/files${queryParams(query)}`, {
+export async function getUserFiles(query: FilesQuery): Promise<File[]> {
+  const data = await apiRequest<File[]>(`/files${queryParams(query)}`, {
     authorization: true,
   });
   return isApiErrorAndWarn(data) ? [] : data;
 }
 
-export async function createFolder(name: string, folder: Option<string> = 'root'): Promise<Option<UserFile>> {
+export async function getFolderFamily(folderId: string): Promise<Option<FolderChildrenAndAncestors>> {
+  const data = await apiRequest<FolderChildrenAndAncestors>(`/files/folder/${folderId}`, {
+    authorization: true,
+  });
+  return isApiErrorAndWarn(data) ? null : data;
+}
+
+export async function createFolder(name: string, folder: Option<string> = 'root'): Promise<Option<File>> {
   const body: CreateFolderBody = { name, folder };
-  const data = await apiRequest<UserFile>('/files/folder', {
+  const data = await apiRequest<File>('/files/folder', {
     authorization: true,
     method: 'POST',
     body,
@@ -49,9 +58,9 @@ export async function createFolder(name: string, folder: Option<string> = 'root'
 export async function updateFile(
   fileId: string,
   { name, folder }: { name?: string, folder?: string },
-): Promise<Option<UserFile>> {
+): Promise<Option<File>> {
   const body: UpdateFileBody = { name, folder };
-  const data = await apiRequest<UserFile>(`/files/${fileId}`, {
+  const data = await apiRequest<File>(`/files/${fileId}`, {
     authorization: true,
     method: 'PATCH',
     body,
@@ -68,8 +77,18 @@ export async function deleteFiles(ids: string[]): Promise<Option<DeleteFilesResp
   return isApiErrorAndWarn(data) ? null : data;
 }
 
-export async function createVideo(videoId: string, body: CreateVideoBody): Promise<Option<UserFile>> {
-  const data = await apiRequest<UserFile>(`/files/video/${videoId}`, {
+export async function moveFiles(folder: string, files: string[]): Promise<number> {
+  const body: MoveFilesBody = { folder, files };
+  const data = await apiRequest<MoveFilesResponse>('/files/folder/move', {
+    authorization: true,
+    method: 'PUT',
+    body,
+  });
+  return isApiErrorAndWarn(data) ? 0 : data.movedCount;
+}
+
+export async function createVideo(videoId: string, body: CreateVideoBody): Promise<Option<File>> {
+  const data = await apiRequest<File>(`/files/video/${videoId}`, {
     authorization: true,
     method: 'POST',
     body,

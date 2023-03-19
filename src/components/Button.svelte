@@ -13,6 +13,7 @@
   export let color: Option<string> = null;
   export let border: Option<string> = null;
   export let borderColor: Option<string> = null;
+  export let radius: Option<string> = null;
   export let minHeight: Option<string> = null;
   export let iconSize: Option<string> = null;
   export let style: Option<string> = null;
@@ -31,6 +32,7 @@
   style:--button-color={color}
   style:--button-border={border}
   style:--button-border-color={borderColor}
+  style:--button-radius={radius}
   style:--button-icon-size={iconSize}
   on:click
   use:tooltip
@@ -63,6 +65,7 @@
     font-family: inherit;
     background: $button-background;
     color: $button-color;
+    width: var(--button-width, auto);
     --icon-accent: #{$button-color};
     cursor: pointer;
     transition: background 0.1s, color 0.1s, border-color 0.1s;

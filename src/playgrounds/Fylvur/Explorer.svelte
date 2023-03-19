@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sortFiles, type UserFile } from 'api/models';
+  import { sortFiles, type File as FileType } from 'api/models';
   import type { Realtime } from 'api/realtime';
   import { createFolder } from 'api';
   import { onMount } from 'svelte';
@@ -9,13 +9,13 @@
 
   export let userId: string;
   export let folder: string;
-  export let files: UserFile[];
+  export let files: FileType[];
   export let realtime: Realtime;
 
   onMount(() => {
     const onFilesChange = realtime.on('folder-change', (change) => {
-      if (change.folderId === folder || (folder === 'root' && change.folderId === userId)) {
-        files = change.files;
+      if (change._id === folder || (folder === 'root' && change._id === userId)) {
+        files = change.children;
       }
     });
     return () => realtime.off('folder-change', onFilesChange);
@@ -31,6 +31,7 @@
 <section class="Explorer">
   <Nav
     fileCount={files.length}
+    folderId={folder}
     {selectedFiles}
     on:create-folder={() => { newFolderName = ''; }}
     on:create-video={() => { videoDialogOpen = true; }}

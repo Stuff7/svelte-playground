@@ -4,14 +4,17 @@
   import FloatingDialog from 'components/FloatingDialog.svelte';
   import Icon from 'components/Icon.svelte';
   import { createEventDispatcher } from 'svelte';
+  import FolderSelection from './FolderSelection.svelte';
 
   type CreateEvent = 'create-folder' | 'create-video';
   const dispatch = createEventDispatcher<{[key in CreateEvent]: undefined }>();
 
   export let fileCount: number;
   export let selectedFiles: Set<string>;
+  export let folderId: string;
 
   let createDialogOpen = false;
+  let folderSelectionDialogOpen = false;
 </script>
 
 <nav>
@@ -24,11 +27,16 @@
   <section>
     {#if selectedFiles.size}
       <Button
+        icon="arrow-folder"
+        tooltip="Move"
+        on:click={() => folderSelectionDialogOpen = true}
+      />
+      <Button
         icon="trash"
         tooltip="Delete"
         background="var(--color-error)"
         color="var(--color-error-contrast)"
-        on:click={() => deleteFiles([...selectedFiles])}
+        on:click={() => deleteFiles(Array.from(selectedFiles))}
       />
     {/if}
     <Button icon="add-file" on:click={() => createDialogOpen = !createDialogOpen}>
@@ -47,6 +55,7 @@
       </button>
     </menu>
   </FloatingDialog>
+  <FolderSelection {folderId} {selectedFiles} bind:open={folderSelectionDialogOpen} />
 </nav>
 
 <style lang="scss">

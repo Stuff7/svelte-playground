@@ -30,7 +30,7 @@
   {#if videoId}
     <Video id={videoId} />
   {:else if currentFolder}
-    {#await getUserFiles(currentFolder)}
+    {#await getUserFiles({ folderId: currentFolder })}
       <Icon name="hdd" margin="auto" size="var(--area-nm-100)" spinning />
     {:then files}
       <Explorer folder={currentFolder} userId={user._id} {files} {realtime} />

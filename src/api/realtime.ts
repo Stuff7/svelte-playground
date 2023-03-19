@@ -1,5 +1,5 @@
 import { WS_URL } from '@Playground/config';
-import type { UserFile } from './models';
+import type { BasicFileInfo, File } from './models';
 
 export default function socketEvents(accessToken: string) {
   const url = `${WS_URL}?token=${accessToken}`;
@@ -61,10 +61,8 @@ const EVENT_NAMES = Object.keys(EVENTS) as EventName[];
 type EventName = keyof typeof EVENTS;
 type EventHandler<T extends EventName> = typeof EVENTS[T][number];
 
-type FileChangeEventHandler = (fileChange: FileChange) => unknown;
+type FileChangeEventHandler = (fileChange: FolderChildren) => unknown;
 
-export interface FileChange {
-  userId: string,
-  folderId: string,
-  files: UserFile[],
-}
+export type FolderChildren = BasicFileInfo & {
+  children: File[],
+};
