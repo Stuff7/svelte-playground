@@ -12,7 +12,7 @@
 <SleepingServerBoundary>
   {#if $accountStore.user}
     <ProfileSettings user={$accountStore.user} />
-  {:else}
+  {:else if $accountStore.userFetched && !$accountStore.user}
     <section>
       <button on:click={() => loginModalOpen = !loginModalOpen}>
         <Icon name="user" />
@@ -21,6 +21,8 @@
         <Login />
       </FloatingDialog>
     </section>
+  {:else}
+    <Icon name="loading" spinning />
   {/if}
 </SleepingServerBoundary>
 

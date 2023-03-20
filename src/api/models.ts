@@ -81,7 +81,7 @@ export type DeleteFilesResponse = {
 
 export type FolderChildrenAndAncestors = BasicFileInfo & {
   ancestors: BasicFileInfo[],
-  children: BasicFileInfo[],
+  children: File[],
 }
 
 export function queryParams<T extends Record<string, unknown>>(query: T): string {

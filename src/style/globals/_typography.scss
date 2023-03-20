@@ -14,6 +14,8 @@ $fallback-fonts: Consolas, Courier, Inter, Avenir, Helvetica, Arial, sans-serif;
   --h-md-100: #{clamp(misc.rem(22), 2.5vw, misc.rem(38))};
   --h-md-200: #{clamp(misc.rem(24), 3vw, misc.rem(40))};
   --h-lg-100: #{clamp(misc.rem(28), 4vw, misc.rem(42))};
+  --h-lg-200: #{clamp(misc.rem(34), 6vw, misc.rem(46))};
+  --h-xl-100: #{clamp(misc.rem(45), 12vw, misc.rem(60))};
 
   --p-sm-100: #{clamp(misc.rem(11), 0.75vw, misc.rem(13))};
   --p-nm-100: #{clamp(misc.rem(12), 1vw, misc.rem(16))};

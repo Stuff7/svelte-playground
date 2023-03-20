@@ -3,6 +3,7 @@
   import Icon from 'components/Icon.svelte';
   import Modal from 'components/Modal.svelte';
   import Button from 'components/Button.svelte';
+  import History from './History.svelte';
 
   export let folderId: string;
   export let open = false;
@@ -12,6 +13,7 @@
   let currentFolder = folderId;
   $: if (!open) { currentFolder = folderId; }
 
+  // 😔 https://github.com/sveltejs/svelte/issues/5604
   function updateFolderName(newName: string) {
     folderName = newName;
     return newName;
@@ -25,7 +27,6 @@
 </script>
 
 <Modal
-  disableClickOutClose
   topbarBackground="var(--color-secondary-300)"
   background="transparent"
   bind:open
@@ -37,19 +38,16 @@
     {:then folderFamily}
       {#if folderFamily}
         <header>
-          {#each folderFamily.ancestors as parent (parent._id)}
-            <button
-              on:click={() => currentFolder = parent._id}
-            >
-              {parent.name}
-            </button>
-            <p>/</p>
-          {/each}
-          <!-- 😔 https://github.com/sveltejs/svelte/issues/5604 -->
-          {updateFolderName(folderFamily.name)}
+          <History
+            on:navigation={({ detail: folder }) => currentFolder = folder}
+            ancestors={folderFamily.ancestors}
+            folder={updateFolderName(folderFamily.name)}
+          />
         </header>
         <menu>
-          {#each folderFamily.children as child (child._id)}
+          {#each folderFamily.children.filter(child => (
+            child.metadata.type === 'folder' && !selectedFiles.has(child._id)
+          )) as child (child._id)}
             <button
               on:click={() => currentFolder = child._id}
             >
@@ -95,20 +93,13 @@
     header {
       display: flex;
       gap: var(--spacing-sm-100);
-      padding: var(--spacing-sm-50) var(--spacing-nm-100);
+      padding: 0 var(--spacing-nm-100);
       overflow: auto hidden;
       background: var(--color-secondary-300);
       white-space: nowrap;
       border-width: 1px 0;
       border-style: solid;
       border-color: var(--color-secondary-400);
-
-      button {
-        text-decoration: underline;
-        color: var(--color-primary-100-contrast);
-        cursor: pointer;
-        font-weight: bold;
-      }
     }
 
     menu {
@@ -130,6 +121,11 @@
 
         &:hover {
           background: var(--color-primary-400);
+        }
+
+        p {
+          display: flex;
+          align-items: center;
         }
       }
     }

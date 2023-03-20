@@ -44,6 +44,10 @@
       aspect-ratio: 1 / 1;
     }
 
+    button {
+      width: 50px;
+    }
+
     &__picture {
       border-radius: 50%;
       max-height: 100%;

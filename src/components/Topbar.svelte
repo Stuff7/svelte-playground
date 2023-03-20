@@ -10,7 +10,7 @@
 
 <nav class="Topbar">
   <a class="Topbar__home" href="/" use:internalLink>
-    <Icon name="logo" />
+    <Icon name="playground" />
     JSPlayground
   </a>
   <PortalLayer

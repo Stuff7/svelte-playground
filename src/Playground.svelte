@@ -6,9 +6,9 @@
   import routes from '@Playground/routes';
   import Sidebar from 'components/Sidebar.svelte';
   import Topbar from 'components/Topbar.svelte';
-  import Icon from 'components/Icon.svelte';
   import ErrorBoundary from 'components/ErrorBoundary';
   import PortalLayer from 'components/PortalLayer.svelte';
+  import PlaygroundLogo from 'components/PlaygroundLogo.svelte';
 
   onMount(initPreferencesStore);
 
@@ -30,7 +30,7 @@
     </ErrorBoundary>
   {:else}
     <section class="Playground__default-content">
-      <Icon name="logo" />
+      <PlaygroundLogo />
     </section>
   {/if}
 </main>
@@ -40,6 +40,7 @@
 <style lang="scss">
   @use 'style/color';
   @use 'style/media';
+  @use 'style/text';
 
   .Playground {
     display: grid;
@@ -68,10 +69,7 @@
       align-items: center;
       height: 100%;
       opacity: 0.3;
-      --icon-size: min(45vw, 100vh);
-      --icon-accent: var(--color-primary-100-contrast);
-      --icon-accent-2: var(--color-secondary-100-contrast);
-      --icon-accent-3: var(--color-tertiary-100-contrast);
+      --icon-size: min(65vw, 75vh);
     }
 
     @include media.larger-than(tablet) {

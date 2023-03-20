@@ -96,6 +96,9 @@
 
     &.checked {
       background: color.alpha(--color-primary-100-contrast, 0.6);
+      input {
+        color: var(--color-primary-contrast);
+      }
     }
 
     --checkbox-size: #{$checkbox-size};
