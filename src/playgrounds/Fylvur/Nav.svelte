@@ -1,10 +1,13 @@
 <script lang="ts">
   import { deleteFiles } from 'api';
+  import type { BasicFileInfo } from 'api/models';
   import Button from 'components/Button.svelte';
   import FloatingDialog from 'components/FloatingDialog.svelte';
   import Icon from 'components/Icon.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { navigate } from 'store/router';
   import FolderSelection from './FolderSelection.svelte';
+  import History from './History.svelte';
 
   type CreateEvent = 'create-folder' | 'create-video';
   const dispatch = createEventDispatcher<{[key in CreateEvent]: undefined }>();
@@ -12,12 +15,19 @@
   export let fileCount: number;
   export let selectedFiles: Set<string>;
   export let folderId: string;
+  export let folderAncestors: BasicFileInfo[];
+  export let folderName: string;
 
   let createDialogOpen = false;
   let folderSelectionDialogOpen = false;
 </script>
 
 <nav>
+  <History
+    on:navigation={({ detail: folder }) => navigate(`/fylvur/folder/${folder}`)}
+    ancestors={folderAncestors}
+    folder={folderName}
+  />
   <p>
     {fileCount} items
     {#if selectedFiles.size}

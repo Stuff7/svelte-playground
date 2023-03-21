@@ -1,6 +1,6 @@
 <script lang="ts">
   import router from 'store/router';
-  import { getUserFiles } from 'api';
+  import { getFolderFamily } from 'api';
   import Video from 'components/Video.svelte';
   import AuthBoundary from 'components/AuthBoundary.svelte';
   import Icon from 'components/Icon.svelte';
@@ -30,10 +30,19 @@
   {#if videoId}
     <Video id={videoId} />
   {:else if currentFolder}
-    {#await getUserFiles({ folderId: currentFolder })}
+    {#await getFolderFamily(currentFolder)}
       <Icon name="hdd" margin="auto" size="var(--area-nm-100)" spinning />
-    {:then files}
-      <Explorer folder={currentFolder} userId={user._id} {files} {realtime} />
+    {:then folder}
+      {#if folder}
+        <Explorer
+          folder={currentFolder}
+          userId={user._id}
+          files={folder.children}
+          folderAncestors={folder.ancestors}
+          folderName={folder.name}
+          {realtime}
+        />
+      {/if}
     {/await}
   {/if}
 </AuthBoundary>
