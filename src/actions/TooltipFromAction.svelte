@@ -13,6 +13,7 @@
   export let id = '';
   export let position: Position = 'bottom';
   export let isStatic: boolean;
+  let className = ''; export { className as class };
 
   let calculatedPosition = { x: '1rem', y: '1rem' };
 
@@ -40,7 +41,7 @@
 </script>
 
 <div
-  class="TooltipFromAction {position}"
+  class="TooltipFromAction {position} {className}"
   class:static={isStatic}
   style:top="{y + offsetY}px"
   style:left="{x + offsetX}px"

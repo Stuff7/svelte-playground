@@ -42,6 +42,8 @@
           folderName={folder.name}
           {realtime}
         />
+        {:else}
+        <p>Folder not found 🤨</p>
       {/if}
     {/await}
   {/if}

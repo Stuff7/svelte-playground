@@ -9,9 +9,6 @@
 </script>
 
 <div class="Select">
-  {#if icon}<Icon name={icon} />{/if}
-  {#if placeholder}<p>{placeholder}</p>{/if}
-  <Icon name="chevron" style="rotate: 90deg" size="var(--p-sm-100)" />
   {#if options.length}
     <select bind:value>
       {#each options as option}
@@ -21,24 +18,34 @@
       {/each}
     </select>
   {/if}
+  <button>
+    {#if icon}<Icon name={icon} />{/if}
+    {#if placeholder}<p>{placeholder}</p>{/if}
+    <Icon name="chevron" size="var(--p-sm-100)" />
+  </button>
 </div>
 
 <style lang="scss">
   .Select {
-    --icon-size: var(--h-nm-100);
-    --icon-color: var(--color-secondary-100-contrast);
     position: relative;
-    background: var(--color-secondary-200);
-    border-radius: var(--radius-nm-100);
-    color: var(--color-secondary-900);
-    padding: var(--spacing-sm-100) var(--spacing-nm-100);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-nm-100);
-    font-size: var(--h-nm-100);
-    pointer-events: none;
+    button {
+      --icon-size: var(--h-nm-100);
+      --icon-color: var(--color-secondary-100-contrast);
+      background: var(--color-secondary-200);
+      border-radius: var(--radius-nm-100);
+      color: var(--color-secondary-900);
+      padding: var(--spacing-sm-100) var(--spacing-nm-100);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-nm-100);
+      font-size: var(--h-nm-100);
+      pointer-events: none;
+      & :global(.Icon:last-child) {
+        rotate: 90deg;
+      }
+    }
 
-    &:focus {
+    & select:focus + button {
       background: var(--color-secondary-100);
     }
 

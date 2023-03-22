@@ -45,12 +45,13 @@
 
     &__home {
       @include text.font-title;
-      font-size: var(--h-nm-100);
+      font-size: var(--p-sm-100);
       display: flex;
       align-items: center;
       gap: var(--spacing-nm-100);
       color: var(--color-primary-100-contrast);
       font-weight: 800;
+      --icon-color: var(--color-primary-900);
       --icon-size: var(--h-nm-200);
       --icon-accent: var(--color-primary-100-contrast);
       --icon-accent-2: var(--color-secondary-100-contrast);

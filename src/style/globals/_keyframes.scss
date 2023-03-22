@@ -28,3 +28,15 @@
     transform: translateY(-100%);
   }
 }
+
+@keyframes point-left {
+  0% {
+    transform: translateX(00%);
+  } 
+  50% {
+    transform: translateX(50%);
+  } 
+  100% {
+    transform: translateX(0%);
+  }
+}

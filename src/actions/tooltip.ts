@@ -30,6 +30,7 @@ export default function tooltip<T extends HTMLElement>(node: T) {
     const position = node.dataset.tooltipPosition as Position;
     const rect = node.getBoundingClientRect();
     const props: ComponentProps<Tooltip> = {
+      class: node.dataset.tooltipClass || '',
       id,
       isStatic,
       position,

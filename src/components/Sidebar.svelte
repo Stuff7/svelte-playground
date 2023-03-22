@@ -3,17 +3,35 @@
   import internalLink from 'actions/internalLink';
   import router from 'store/router';
   import Icon from 'components/Icon.svelte';
+  import tooltip from 'actions/tooltip';
+  import { capitalize } from 'utils/string';
+
+  let collapsed = false;
 </script>
 
-<aside class="Sidebar">
-  <h6 class="Sidebar__section-title">Playgrounds</h6>
+<aside class="Sidebar" class:collapsed>
+  <button
+    class="Sidebar__section-title"
+    on:click={() => collapsed = !collapsed}
+    data-tooltip={collapsed ? 'Expand' : 'Collapse'}
+    data-tooltip-class="Sidebar__tooltip"
+    use:tooltip
+  >
+    <p>Playgrounds</p>
+    <Icon name="chevron" />
+  </button>
   <section class="Sidebar__section">
     {#each routes as route}
       <a
         class="Sidebar__button"
         class:active={route.name === $router.playgroundKey}
         href={route.name === $router.playgroundKey ? '/' : route.name}
+        data-tooltip={collapsed ? `${capitalize(route.name)} Playground` : null}
+        data-tooltip-class="Sidebar__tooltip"
+        data-tooltip-static
+        data-tooltip-position="right"
         use:internalLink
+        use:tooltip
       >
         <Icon name={route.icon} />
         <p class="Sidebar__button-text">{route.name} Playground</p>
@@ -66,7 +84,8 @@
       justify-content: center;
       border-radius: var(--radius-nm-100);
       gap: var(--spacing-sm-100);
-      font-size: var(--p-sm-100);
+      font-size: var(--p-sm-50);
+      transition: font-size 0.5s;
       font-weight: 400;
       width: 100%;
       text-transform: capitalize;
@@ -90,6 +109,10 @@
       }
     }
 
+    &.collapsed #{$component}__button {
+      font-size: 0;
+    }
+
     @include media.smaller-than(phone) {
       &__button-text {
         display: none;
@@ -107,19 +130,51 @@
       }
 
       &__section-title {
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        --icon-size: var(--p-nm-100);
+        font-size: var(--p-nm-100);
+        transition: font-size 0.5s, justify-content 0.5s;
         font-weight: 800;
         text-transform: uppercase;
+        cursor: pointer;
         background: var(--color-tertiary-100-contrast);
         color: var(--color-tertiary-300);
         border-block: 4px double var(--color-tertiary-300);
         padding: var(--spacing-sm-50) var(--spacing-sm-100);
+
+        & > :global(.Icon) {
+          rotate: 180deg;
+          transition: rotate 1s;
+        }
+        &:hover {
+          background: var(--color-secondary-100-contrast);
+          color: var(--color-secondary-300);
+          & > :global(.Icon) {
+            animation: point-left 1s infinite;
+          }
+        }
+      }
+
+      &.collapsed #{$component}__section-title {
+        font-size: 0;
+        justify-content: center;
+        & > :global(.Icon) {
+          rotate: 0deg;
+        }
       }
 
       &__button {
         border-radius: var(--radius-nm-100) 0 0 var(--radius-nm-100);
         justify-content: start;
       }
+    }
+  }
+
+  @include media.smaller-than(tablet) {
+    :global(.Sidebar__tooltip) {
+      display: none;
     }
   }
 </style>
