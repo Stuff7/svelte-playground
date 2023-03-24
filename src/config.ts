@@ -1,7 +1,7 @@
 export let API_URL: string;
 export let WS_URL: string;
 
-if (import.meta.env.VITE_SOCKET_ADDRESS) {
+if (import.meta.env.VITE_SOCKET_ADDRESS && import.meta.env.DEV) {
   API_URL = `http://${import.meta.env.VITE_SOCKET_ADDRESS}`;
   WS_URL = `ws://${import.meta.env.VITE_SOCKET_ADDRESS}/ws`;
 } else {
