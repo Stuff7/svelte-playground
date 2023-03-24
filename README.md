@@ -1,2 +1,2 @@
-# Svelte Playground
-Just an svelte project to play around with svelte
+# JSPlayground
+A playground for projects in svelte
